@@ -49,7 +49,7 @@
     /* --- HERO SECTION --- */
     #hero { 
       padding-top: 70px; 
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Kk15vDQhijlQXkYvTe0HWt_1772631494000_na1fn_ZmFjdG9yeV9mcm9udF9maXhlZA.webp');
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('factory_bg.webp');
       background-size: cover;
       background-position: center;
       color: white;
@@ -72,8 +72,17 @@
     .hero-btn.btn-fb { background: var(--blue); }
     .hero-btn.btn-line { background: var(--green); }
     
-    .hero-img-box { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.3); }
-    .hero-img-box img { width: 100%; display: block; object-fit: cover; }
+    .hero-img-box { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.3); position: relative; }
+    .hero-carousel { position: relative; width: 100%; aspect-ratio: 4/3; }
+    .hero-carousel img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; }
+    .hero-carousel img.active { opacity: 1; }
+    .hero-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; }
+    .hero-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; }
+    .hero-dots span.active { background: #fff; transform: scale(1.3); }
+    .hero-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.4); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; }
+    .hero-nav:hover { background: rgba(0,0,0,0.7); }
+    .hero-nav.prev { left: 8px; }
+    .hero-nav.next { right: 8px; }
 
     /* --- FLOATING BUTTONS --- */
     .floating-btns { position: fixed; bottom: 25px; right: 20px; z-index: 1500; display: flex; flex-direction: column; gap: 12px; }
@@ -200,7 +209,7 @@
   <section id="hero">
     <div class="hero-container">
       <div class="hero-text-content">
-        <h1 class="hero-title">Four Motorbikes - บันไดขึ้นรถมอเตอร์ไซค์คุณภาพโรงงาน</h1>
+        <h1 class="hero-title">Four Motorbikes - โรงงานผลิตบันไดขึ้นรถมอเตอร์ไซค์</h1>
         <p class="hero-subtitle">ผลิตจากโรงงานชลบุรี มีประสบการณ์กว่า 15 ปี บันไดเหล็กคุณภาพสูง ทนทาน ปลอดภัย รับประกันความแข็งแรง ส่งด่วนทั่วประเทศ</p>
         <div class="hero-btn-group">
           <a href="#products" class="hero-btn btn-products">ดูสินค้า</a>
@@ -209,7 +218,12 @@
         </div>
       </div>
       <div class="hero-img-box">
-        <img src="474242832_1129368892085317_7217698560018563068_n.jpg" alt="Main Hero Image" />
+        <div class="hero-carousel" id="heroCarousel">
+          <img src="474242832_1129368892085317_7217698560018563068_n.jpg" alt="สินค้า" class="active" />
+        </div>
+        <button class="hero-nav prev" onclick="heroSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="hero-nav next" onclick="heroSlide(1)"><i class="fas fa-chevron-right"></i></button>
+        <div class="hero-dots" id="heroDots"></div>
       </div>
     </div>
   </section>
@@ -603,6 +617,62 @@
         allProducts = fallbackProducts;
       }
       renderProducts();
+      initHeroCarousel();
+    }
+
+    // ===== HERO CAROUSEL =====
+    let heroIndex = 0;
+    let heroTimer = null;
+
+    function initHeroCarousel() {
+      const carousel = document.getElementById('heroCarousel');
+      const dots = document.getElementById('heroDots');
+      // ดึงรูปจากสินค้าทั้งหมด (ไม่ซ้ำ, สูงสุด 8 รูป)
+      const seen = new Set();
+      const imgs = [];
+      for (const p of allProducts) {
+        if (p.img && !seen.has(p.img)) {
+          seen.add(p.img);
+          imgs.push({ src: p.img, name: p.name });
+          if (imgs.length >= 8) break;
+        }
+      }
+      if (imgs.length === 0) return;
+      // สร้าง img elements
+      carousel.innerHTML = imgs.map((im, i) =>
+        `<img src="${im.src}" alt="${im.name}" class="${i === 0 ? 'active' : ''}" />`
+      ).join('');
+      // สร้าง dots
+      dots.innerHTML = imgs.map((_, i) =>
+        `<span class="${i === 0 ? 'active' : ''}" onclick="heroGoTo(${i})"></span>`
+      ).join('');
+      heroIndex = 0;
+      startHeroTimer();
+    }
+
+    function heroGoTo(idx) {
+      const imgs = document.querySelectorAll('#heroCarousel img');
+      const dots = document.querySelectorAll('#heroDots span');
+      if (imgs.length === 0) return;
+      imgs.forEach(im => im.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      heroIndex = ((idx % imgs.length) + imgs.length) % imgs.length;
+      imgs[heroIndex].classList.add('active');
+      dots[heroIndex].classList.add('active');
+      startHeroTimer();
+    }
+
+    function heroSlide(dir) {
+      const imgs = document.querySelectorAll('#heroCarousel img');
+      heroGoTo(heroIndex + dir);
+    }
+
+    function startHeroTimer() {
+      if (heroTimer) clearInterval(heroTimer);
+      heroTimer = setInterval(() => {
+        const imgs = document.querySelectorAll('#heroCarousel img');
+        if (imgs.length > 0) heroGoTo(heroIndex + 1);
+      }, 4000);
     }
 
     // ===== INIT =====

@@ -449,8 +449,12 @@
   </div>
 
   <script>
-    // ===== ข้อมูลสินค้าทั้งหมด (Hardcoded จาก CSV) =====
-    const allProducts = [
+    // ===== ดึงข้อมูลสินค้าจาก Google Sheets อัตโนมัติ =====
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv';
+    let allProducts = [];
+
+    // Fallback data (ใช้กรณี fetch ล้มเหลว)
+    const fallbackProducts = [
       {"name":"ครึ่ง ยาว 120/150 กว้าง33","price":"1190","desc":"กว้าง33 ยาว150 ซม. ใช้พาดขึ้นบ้าน/ฟุตบาท","img":"https://down-th.img.susercontent.com/file/th-11134207-81zti-mjin8popacqp82.webp","category":"บันได 2 พับ","video":"","review":"2fold","type":"2fold","options":"","deposit":0},
       {"name":"2พับ","price":"1790","desc":"กว้าง33 ยาว230 ซม. สำหรับมอเตอร์ไซค์ขึ้นกระบะ พับเก็บง่าย","img":"https://down-th.img.susercontent.com/file/th-11134207-7ra0n-mdul11gskvr5a6.webp","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/sJjlF5MZYTk","review":"2fold","type":"2fold","options":"","deposit":0},
       {"name":"2พับตะแกรง","price":"2550","desc":"กว้าง33 ยาว230 ซม. พื้นตะแกรงกันลื่น ระบายน้ำดี เหมาะใช้งานกลางแจ้ง","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/951a7eae28b04590a37778c905f6c7d1~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/3Lsl6kDu9LM","review":"2fold","type":"2fold","options":"","deposit":0},
@@ -484,9 +488,124 @@
     let currentCategory = "ทั้งหมด";
     let currentOrderProduct = null;
 
+    // ===== PARSE CSV จาก Google Sheets =====
+    function* csvGenerator(text) {
+      const rows = text.split(/\r?\n/);
+      for (const row of rows) {
+        if (!row.trim()) continue;
+        const cells = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < row.length; i++) {
+          const ch = row[i];
+          if (ch === '"') {
+            if (inQuotes && row[i+1] === '"') { current += '"'; i++; }
+            else { inQuotes = !inQuotes; }
+          } else if (ch === ',' && !inQuotes) {
+            cells.push(current); current = '';
+          } else {
+            current += ch;
+          }
+        }
+        cells.push(current);
+        yield cells;
+      }
+    }
+
+    function parseSheetCSV(text) {
+      const gen = csvGenerator(text);
+      const header = gen.next().value; // skip header row
+      const products = [];
+      for (const row of gen) {
+        if (!row[0] || !row[0].trim()) continue; // skip empty rows
+        const name = (row[0] || '').trim();
+        const price = (row[1] || '').trim();
+        const desc = (row[2] || '').trim();
+        const img = (row[3] || '').trim();
+        const category = (row[4] || '').trim();
+        const video = (row[5] || '').trim();
+        const reviewGroup = (row[6] || '').trim();
+        const rawType = (row[7] || '').trim();
+        const deposit = parseInt(row[15] || '0') || 0;
+
+        // Parse review images (columns I-M = index 8-12)
+        const reviewImages = [];
+        for (let i = 8; i <= 12; i++) {
+          const url = (row[i] || '').trim();
+          if (url) reviewImages.push(url);
+        }
+
+        // Parse type and options from column H
+        let type = 'other';
+        let options = '';
+        if (rawType.startsWith('width:')) {
+          type = 'footstep';
+          // Extract sizes part and add "สูง" + "ซม." labels
+          const sizesMatch = rawType.match(/sizes:(.+)/);
+          if (sizesMatch) {
+            options = sizesMatch[1].replace(/\(([\d-]+)\)/g, '(สูง$1ซม.)');
+          }
+        } else if (rawType.startsWith('carmodel:')) {
+          type = '3fold';
+        } else if (rawType.startsWith('color:')) {
+          type = '2fold';
+        }
+
+        // Parse 3fold options (models, years, colors from rawType)
+        let models = [], yearStart = 2003, yearEnd = 2026, colors = [];
+        if (type === '3fold') {
+          const parts = rawType.split(';');
+          parts.forEach(part => {
+            if (part.startsWith('carmodel:')) models = part.replace('carmodel:', '').split('|');
+            else if (part.startsWith('year:')) {
+              const yp = part.replace('year:', '').split('-');
+              yearStart = parseInt(yp[0]) || 2003;
+              yearEnd = parseInt(yp[1]) || 2026;
+            }
+            else if (part.startsWith('color:')) colors = part.replace('color:', '').split('|');
+          });
+        }
+
+        // Parse 2fold colors
+        let colors2fold = [];
+        if (type === '2fold' && rawType.startsWith('color:')) {
+          colors2fold = rawType.replace('color:', '').split('-').map(c => c.trim()).filter(c => c);
+        }
+
+        products.push({
+          name, price, desc, img, category, video,
+          review: reviewGroup, type, options, deposit,
+          reviewImages, models, yearStart, yearEnd,
+          colors: type === '3fold' ? colors : colors2fold
+        });
+      }
+      return products;
+    }
+
+    // ===== FETCH DATA จาก SHEETS =====
+    async function loadProductsFromSheet() {
+      try {
+        document.getElementById('products-container').innerHTML = '<div class="loading"><div class="spinner"></div><p>กำลังโหลดสินค้า...</p></div>';
+        const resp = await fetch(SHEET_CSV_URL);
+        if (!resp.ok) throw new Error('Fetch failed');
+        const text = await resp.text();
+        const products = parseSheetCSV(text);
+        if (products.length > 0) {
+          allProducts = products;
+          console.log('Loaded ' + products.length + ' products from Google Sheets');
+        } else {
+          throw new Error('No products parsed');
+        }
+      } catch(err) {
+        console.warn('Failed to load from Sheets, using fallback:', err);
+        allProducts = fallbackProducts;
+      }
+      renderProducts();
+    }
+
     // ===== INIT =====
     document.addEventListener("DOMContentLoaded", function() {
-      renderProducts();
+      loadProductsFromSheet();
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           // ลบ active ทั้งหมด (ทั้งบนและล่าง)
@@ -550,20 +669,25 @@
     }
     function closeVideoModal() { document.getElementById('videoModal').classList.remove('active'); document.getElementById('videoContainer').innerHTML = ''; }
 
-    // ===== REVIEW (รองรับ 1-5 รูป) =====
+    // ===== REVIEW (ดึงรูปจาก Google Sheets อัตโนมัติ) =====
     function openReview(name) {
       const p = allProducts.find(x => x.name === name);
       if (!p) return;
       document.getElementById('reviewTitle').textContent = 'รีวิว: ' + name;
       const grid = document.getElementById('reviewImagesGrid');
       
-      // Placeholder สำหรับรีวิว - รองรับ 1-5 รูปต่อสินค้า
-      grid.innerHTML = `
-        <div class="review-placeholder">
-          <i class="fas fa-camera"></i>
-          <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">รูปรีวิวจากลูกค้า</p>
-          <p style="font-size: 14px;">รูปรีวิวจะถูกเพิ่มเร็วๆ นี้<br>(รองรับ 1-5 รูปต่อสินค้า)</p>
-        </div>`;
+      // ดึงรูปรีวิวจาก product.reviewImages (จากชีต)
+      const imgs = p.reviewImages || [];
+      if (imgs.length > 0) {
+        grid.innerHTML = imgs.map(url => `<img src="${url}" alt="รีวิว ${name}" onclick="window.open('${url}', '_blank')" onerror="this.style.display='none'">`).join('');
+      } else {
+        grid.innerHTML = `
+          <div class="review-placeholder">
+            <i class="fas fa-camera"></i>
+            <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">ยังไม่มีรูปรีวิว</p>
+            <p style="font-size: 14px;">รูปรีวิวจะถูกเพิ่มเร็วๆ นี้</p>
+          </div>`;
+      }
       
       document.getElementById('reviewModal').classList.add('active');
     }
@@ -578,16 +702,20 @@
       const opts = document.getElementById('productOptions');
       opts.innerHTML = '';
       
-      // สร้าง options ตามประเภทสินค้า
+      // สร้าง options ตามประเภทสินค้า (ดึงจากชีตอัตโนมัติ)
       if (p.type === '3fold') {
-        const models = ['Tiger', 'Isuzu', 'Toyota', 'Ford', 'Mitsubishi', 'Nissan', 'Mazda', 'Chevrolet', 'Mg', 'Riddara'];
-        const colors = ['ดำ', 'บลอน', 'แดง', 'เขียว', 'เหลือง', 'ฟ้า', 'ส้ม'];
+        const models = (p.models && p.models.length > 0) ? p.models : ['Tiger', 'Isuzu', 'Toyota', 'Ford', 'Mitsubishi', 'Nissan', 'Mazda', 'Chevrolet', 'Mg', 'Riddara'];
+        const colors = (p.colors && p.colors.length > 0) ? p.colors : ['ดำ', 'บลอน', 'แดง', 'เขียว', 'เหลือง', 'ฟ้า', 'ส้ม'];
+        const yearStart = p.yearStart || 2003;
+        const yearEnd = p.yearEnd || 2026;
+        const yearCount = yearEnd - yearStart + 1;
         opts.innerHTML = `
           <div class="order-form-group"><label>รุ่นรถยนต์ *</label><select id="orderModel" required style="font-family:inherit;"><option value="">-- เลือกรุ่น --</option>${models.map(m => `<option>${m}</option>`).join('')}</select></div>
-          <div class="order-form-group"><label>ปีรถ *</label><select id="orderYear" required style="font-family:inherit;"><option value="">-- เลือกปี --</option>${Array.from({length: 24}, (_, i) => 2003 + i).map(y => `<option>${y}</option>`).join('')}</select></div>
+          <div class="order-form-group"><label>ปีรถ *</label><select id="orderYear" required style="font-family:inherit;"><option value="">-- เลือกปี --</option>${Array.from({length: yearCount}, (_, i) => yearStart + i).map(y => `<option>${y}</option>`).join('')}</select></div>
           <div class="order-form-group"><label>สี *</label><select id="orderColor" required style="font-family:inherit;"><option value="">-- เลือกสี --</option>${colors.map(c => `<option>${c}</option>`).join('')}</select></div>`;
       } else if (p.type === '2fold') {
-        opts.innerHTML = `<div class="order-form-group"><label>สี *</label><select id="orderColor" required style="font-family:inherit;"><option value="">-- เลือกสี --</option><option>ดำ</option><option>บลอน</option></select></div>`;
+        const colors2 = (p.colors && p.colors.length > 0) ? p.colors : ['ดำ', 'บลอน'];
+        opts.innerHTML = `<div class="order-form-group"><label>สี *</label><select id="orderColor" required style="font-family:inherit;"><option value="">-- เลือกสี --</option>${colors2.map(c => `<option>${c}</option>`).join('')}</select></div>`;
       } else if (p.type === 'footstep' && p.options) {
         const sizes = p.options.split('|');
         if (sizes.length > 0 && sizes[0] !== '') {

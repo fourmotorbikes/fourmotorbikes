@@ -48,12 +48,14 @@
 
     /* --- HERO SECTION --- */
     #hero { 
-      padding-top: 70px; 
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('factory_bg.webp');
+      margin-top: 70px;
+      padding: 40px 0;
+      background: #1a1a2e;
+      background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('factory_bg.webp');
       background-size: cover;
       background-position: center;
       color: white;
-      min-height: 500px;
+      min-height: 420px;
       display: flex;
       align-items: center;
     }
@@ -83,6 +85,14 @@
     .hero-nav:hover { background: rgba(0,0,0,0.7); }
     .hero-nav.prev { left: 8px; }
     .hero-nav.next { right: 8px; }
+
+    @media (max-width: 768px) {
+      #hero { min-height: auto; padding: 30px 0; }
+      .hero-container { gap: 25px; padding: 20px 0; }
+      .hero-title { font-size: 26px; }
+      .hero-subtitle { font-size: 14px; margin-bottom: 20px; }
+      .hero-carousel { aspect-ratio: 16/10; }
+    }
 
     /* --- FLOATING BUTTONS --- */
     .floating-btns { position: fixed; bottom: 25px; right: 20px; z-index: 1500; display: flex; flex-direction: column; gap: 12px; }
@@ -588,10 +598,13 @@
           colors2fold = rawType.replace('color:', '').split('-').map(c => c.trim()).filter(c => c);
         }
 
+        // Parse slide_img (column N = index 13)
+        const slideImg = (row[13] || '').trim();
+
         products.push({
           name, price, desc, img, category, video,
           review: reviewGroup, type, options, deposit,
-          reviewImages, models, yearStart, yearEnd,
+          reviewImages, slideImg, models, yearStart, yearEnd,
           colors: type === '3fold' ? colors : colors2fold
         });
       }
@@ -627,14 +640,25 @@
     function initHeroCarousel() {
       const carousel = document.getElementById('heroCarousel');
       const dots = document.getElementById('heroDots');
-      // ดึงรูปจากสินค้าทั้งหมด (ไม่ซ้ำ, สูงสุด 8 รูป)
-      const seen = new Set();
-      const imgs = [];
+      // ดึงรูปจากคอลัมน์ slide_img ก่อน (ผู้ใช้เลือกเองในชีต)
+      const slideImgs = [];
+      const seenSlide = new Set();
       for (const p of allProducts) {
-        if (p.img && !seen.has(p.img)) {
-          seen.add(p.img);
-          imgs.push({ src: p.img, name: p.name });
-          if (imgs.length >= 8) break;
+        if (p.slideImg && !seenSlide.has(p.slideImg)) {
+          seenSlide.add(p.slideImg);
+          slideImgs.push({ src: p.slideImg, name: p.name });
+        }
+      }
+      // ถ้ามี slide_img ใช้เลย, ถ้าไม่มี fallback ใช้รูปสินค้า (ไม่ซ้ำ, สูงสุด 8 รูป)
+      let imgs = slideImgs;
+      if (imgs.length === 0) {
+        const seen = new Set();
+        for (const p of allProducts) {
+          if (p.img && !seen.has(p.img)) {
+            seen.add(p.img);
+            imgs.push({ src: p.img, name: p.name });
+            if (imgs.length >= 8) break;
+          }
         }
       }
       if (imgs.length === 0) return;

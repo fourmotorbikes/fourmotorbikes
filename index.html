@@ -25,7 +25,7 @@
       --border: #dee2e6;
     }
 
-    /* --- HEADER (V39 ORIGINAL STYLE) --- */
+    /* --- HEADER --- */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       background: var(--white);
@@ -46,7 +46,7 @@
     
     .nav-btn-order { background: var(--red); color: var(--white); padding: 10px 25px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 700; transition: 0.3s; }
 
-    /* --- HERO SECTION (V39 GRID LAYOUT) --- */
+    /* --- HERO SECTION --- */
     #hero { 
       padding-top: 70px; 
       background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Kk15vDQhijlQXkYvTe0HWt_1772631494000_na1fn_ZmFjdG9yeV9mcm9udF9maXhlZA.webp');
@@ -83,60 +83,98 @@
     .float-btn.phone { background: var(--red); }
 
     section { padding: 50px 5%; }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-inner { max-width: 1400px; margin: 0 auto; }
     .section-title { font-size: 28px; font-weight: 800; color: var(--dark); margin-bottom: 10px; text-align: center; }
     .section-title .accent { color: var(--red); }
     .section-desc { font-size: 14px; color: var(--gray-dark); text-align: center; margin-bottom: 30px; }
 
-    /* --- PRODUCT GRID --- */
-    .tabs-container { margin-bottom: 30px; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
-    .tabs-list { display: flex; gap: 8px; list-style: none; justify-content: flex-start; }
-    .tab-btn { background: var(--white); border: 1px solid var(--border); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--gray-dark); }
+    /* --- PRODUCT GRID (ขยายรูปและตัวหนังสือ) --- */
+    .tabs-container { margin-bottom: 30px; padding-bottom: 10px; }
+    .tabs-list { display: flex; gap: 8px; list-style: none; justify-content: center; flex-wrap: wrap; }
+    .tab-btn { background: var(--white); border: 1px solid var(--border); padding: 10px 18px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--gray-dark); font-family: inherit; }
     .tab-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
 
-    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    @media (min-width: 992px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
+    .products-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    @media (min-width: 600px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 992px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1200px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
     
-    .product-card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06); display: flex; flex-direction: column; border: 1px solid #f0f0f0; }
-    .product-img { height: 180px; position: relative; background: #f9f9f9; display: flex; align-items: center; justify-content: center; }
-    .product-img img { width: 100%; height: 100%; object-fit: cover; }
-    .product-price { position: absolute; bottom: 8px; right: 8px; background: var(--red); color: white; padding: 4px 10px; font-weight: 800; font-size: 14px; border-radius: 4px; }
-    .product-body { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
-    .product-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 6px; line-height: 1.3; height: 36px; overflow: hidden; }
-    .product-info { font-size: 11px; color: var(--gray-dark); margin-bottom: 10px; line-height: 1.4; flex-grow: 1; height: 30px; overflow: hidden; }
-    .product-actions { display: flex; flex-wrap: wrap; gap: 5px; }
-    .btn-video, .btn-review { flex: 1; background: #f0f0f0; color: #444; border: none; padding: 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
-    .btn-order { width: 100%; background: var(--red); color: white; border: none; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+    .product-card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06); display: flex; flex-direction: column; border: 1px solid #f0f0f0; transition: transform 0.2s, box-shadow 0.2s; }
+    .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+    .product-img { height: 260px; position: relative; background: #f9f9f9; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; transition: transform 0.3s; }
+    .product-img img:hover { transform: scale(1.05); }
+    .product-price { position: absolute; bottom: 8px; right: 8px; background: var(--red); color: white; padding: 6px 14px; font-weight: 800; font-size: 16px; border-radius: 6px; }
+    .deposit-badge { position: absolute; top: 8px; left: 8px; background: #ff9800; color: white; padding: 4px 10px; font-size: 13px; font-weight: 700; border-radius: 4px; }
+    .product-body { padding: 14px; flex-grow: 1; display: flex; flex-direction: column; }
+    .product-title { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 8px; line-height: 1.3; min-height: 44px; }
+    .product-info { font-size: 14px; color: var(--gray-dark); margin-bottom: 12px; line-height: 1.4; flex-grow: 1; }
+    .product-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .btn-video, .btn-review { flex: 1; background: #f0f0f0; color: #444; border: none; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; min-width: 70px; font-family: inherit; }
+    .btn-video:hover, .btn-review:hover { background: #e0e0e0; }
+    .btn-order { width: 100%; background: var(--red); color: white; border: none; padding: 14px; border-radius: 6px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 6px; font-family: inherit; transition: background 0.2s; }
+    .btn-order:hover { background: var(--red-dk); }
 
     /* --- MODALS --- */
     .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 15px; }
     .modal.active { display: flex; }
     .modal-content { width: 100%; max-width: 600px; background: #fff; border-radius: 12px; overflow: hidden; position: relative; max-height: 90vh; display: flex; flex-direction: column; }
-    .modal-close { position: absolute; top: 12px; right: 15px; font-size: 28px; cursor: pointer; color: #333; z-index: 10; }
+    .modal-close { position: absolute; top: 12px; right: 15px; font-size: 28px; cursor: pointer; color: #333; z-index: 10; background: none; border: none; }
     .modal-header { padding: 15px 20px; border-bottom: 1px solid #eee; }
     .modal-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
+    
+    /* --- REVIEW IMAGES --- */
     .review-images-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .review-images-grid img { width: 100%; border-radius: 8px; }
+    .review-images-grid img { width: 100%; border-radius: 8px; cursor: pointer; }
+    .review-placeholder { text-align: center; padding: 40px 20px; color: #999; }
+    .review-placeholder i { font-size: 48px; margin-bottom: 15px; display: block; color: #ddd; }
 
     /* --- ORDER FORM --- */
     .order-form-group { margin-bottom: 15px; }
-    .order-form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; color: #444; }
-    .order-form-group input, .order-form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; }
-    .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .order-submit-btn { width: 100%; background: var(--red); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 800; cursor: pointer; }
+    .order-form-group label { display: block; font-size: 15px; font-weight: 700; margin-bottom: 5px; color: #444; }
+    .order-form-group input, .order-form-group select, .order-form-group textarea { 
+      width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 16px; 
+    }
+    .order-form-group input:focus, .order-form-group select:focus, .order-form-group textarea:focus {
+      outline: none; border-color: var(--red);
+    }
+    .order-form-group textarea { resize: vertical; min-height: 100px; }
+    .order-submit-btn { width: 100%; background: var(--red); color: white; border: none; padding: 16px; border-radius: 8px; font-size: 18px; font-weight: 800; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+    .order-submit-btn:hover { background: var(--red-dk); }
+    .order-submit-btn:disabled { background: #ccc; cursor: not-allowed; }
     
     .deposit-box { background: #fff5f5; border: 1px dashed var(--red); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
-    .deposit-box h4 { color: var(--red); font-size: 14px; margin-bottom: 10px; }
-    .qr-img { width: 200px; margin: 0 auto; display: block; border: 1px solid #eee; }
+    .deposit-box h4 { color: var(--red); font-size: 16px; margin-bottom: 5px; }
+    .deposit-amount { font-size: 24px; font-weight: 800; color: var(--red); margin-bottom: 10px; }
+    .qr-img { width: 250px; margin: 0 auto; display: block; border: 1px solid #eee; border-radius: 8px; }
+
+    /* --- SLIP UPLOAD --- */
+    .slip-upload-area { margin-top: 15px; margin-bottom: 15px; }
+    .slip-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border: 2px dashed #ccc; border-radius: 8px; background: #fafafa; cursor: pointer; font-size: 15px; font-weight: 600; color: #666; transition: 0.3s; font-family: inherit; }
+    .slip-upload-btn:hover { border-color: var(--red); color: var(--red); }
+    .slip-upload-btn i { font-size: 20px; }
+    .slip-preview { margin-top: 10px; text-align: center; display: none; }
+    .slip-preview img { max-width: 200px; border-radius: 8px; border: 1px solid #ddd; }
+    .slip-preview .slip-name { font-size: 13px; color: #666; margin-top: 5px; }
+    .slip-remove { background: var(--red); color: white; border: none; padding: 5px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; margin-top: 5px; font-family: inherit; }
 
     .loading { grid-column: 1 / -1; text-align: center; padding: 50px; }
     .spinner { width: 30px; height: 30px; border: 3px solid #f3f3f3; border-top: 3px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* --- MOBILE RESPONSIVE --- */
+    @media (max-width: 480px) {
+      .product-img { height: 220px; }
+      .product-title { font-size: 15px; min-height: 40px; }
+      .product-info { font-size: 13px; }
+      .product-price { font-size: 14px; padding: 5px 10px; }
+      .btn-order { font-size: 14px; padding: 12px; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- HEADER (V39 ORIGINAL STYLE) -->
+  <!-- HEADER -->
   <nav>
     <a href="#" class="nav-left">
       <img src="S__26664984.jpg" alt="Logo" />
@@ -153,7 +191,7 @@
     <a href="#products" class="nav-btn-order">สั่งซื้อเลย</a>
   </nav>
 
-  <!-- HERO SECTION (V39 GRID LAYOUT) -->
+  <!-- HERO SECTION -->
   <section id="hero">
     <div class="hero-container">
       <div class="hero-text-content">
@@ -182,24 +220,121 @@
           <li><button class="tab-btn active" data-category="ทั้งหมด">ทั้งหมด</button></li>
           <li><button class="tab-btn" data-category="บันได 2 พับ">บันได 2 พับ</button></li>
           <li><button class="tab-btn" data-category="บันได 3 พับกั้นคอก">บันได 3 พับกั้นคอก</button></li>
-          <li><button class="tab-btn" data-category="บันไดขึ้นฟุตบาท">บันไดขึ้นฟุตบาท</button></li>
+          <li><button class="tab-btn" data-category="บันไดขึ้นฟุตบาท">ฟุตบาท</button></li>
           <li><button class="tab-btn" data-category="แรมป์ขึ้นล้อรถยนต์">แรมป์ขึ้นล้อรถยนต์</button></li>
           <li><button class="tab-btn" data-category="ฝาท่อ">ฝาท่อ</button></li>
         </ul>
       </div>
 
-      <div id="products-container" class="products-grid">
-        <div class="loading"><div class="spinner"></div><p>กำลังโหลดสินค้า...</p></div>
+      <div id="products-container" class="products-grid"></div>
+
+      <!-- แถบหมวดหมู่ด้านล่าง -->
+      <div class="tabs-container" style="margin-top: 30px;">
+        <ul class="tabs-list" id="tabs-bottom">
+          <li><button class="tab-btn active" data-category="ทั้งหมด">ทั้งหมด</button></li>
+          <li><button class="tab-btn" data-category="บันได 2 พับ">บันได 2 พับ</button></li>
+          <li><button class="tab-btn" data-category="บันได 3 พับกั้นคอก">บันได 3 พับกั้นคอก</button></li>
+          <li><button class="tab-btn" data-category="บันไดขึ้นฟุตบาท">ฟุตบาท</button></li>
+          <li><button class="tab-btn" data-category="แรมป์ขึ้นล้อรถยนต์">แรมป์ขึ้นล้อรถยนต์</button></li>
+          <li><button class="tab-btn" data-category="ฝาท่อ">ฝาท่อ</button></li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" style="background: #f9f9f9; text-align: center; padding-bottom: 100px;">
-    <h3 style="margin-bottom: 15px;">ติดต่อสอบถามเพิ่มเติม</h3>
-    <p style="color: #666; font-size: 14px;">โทร: 092-2563892</p>
-    <div style="margin-top: 20px; border-radius: 15px; overflow: hidden; width: 90%; max-width: 800px; margin-left: auto; margin-right: auto;">
-      <img src="fb_cover.webp" style="width: 100%; display: block;" alt="Cover" />
+  <!-- CONTACT & FOOTER -->
+  <section id="contact" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: #fff; padding: 60px 0 30px;">
+    <div class="container">
+      <!-- หัวข้อ -->
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 8px;">โรงงานผลิต <span style="color: var(--red);">Four Motorbikes</span></h2>
+        <p style="color: #adb5bd; font-size: 15px;">บริษัท ทองนพคุณ เอ็นจิเนียริ่ง จำกัด | ผลิตและจำหน่ายบันไดขึ้นรถมอเตอร์ไซค์คุณภาพ</p>
+      </div>
+
+      <!-- Grid 3 คอลัมน์ -->
+      <div style="display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 40px;">
+
+        <!-- คอลัมน์ 1: ข้อมูลติดต่อ -->
+        <div style="background: rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; backdrop-filter: blur(10px);">
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #fff;"><i class="fas fa-address-card" style="color: var(--red); margin-right: 8px;"></i>ข้อมูลติดต่อ</h3>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 40px; height: 40px; background: var(--red); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-phone-alt" style="color: #fff;"></i></div>
+              <div>
+                <div style="font-size: 12px; color: #adb5bd;">โทรศัพท์</div>
+                <a href="tel:0922563892" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 16px;">092-256-3892</a>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 40px; height: 40px; background: #25D366; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fab fa-line" style="color: #fff;"></i></div>
+              <div>
+                <div style="font-size: 12px; color: #adb5bd;">Line</div>
+                <a href="https://line.me/ti/p/PWUPzNlcjF" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 16px;">@fourmotorbikes</a>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 40px; height: 40px; background: #1877F2; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fab fa-facebook-f" style="color: #fff;"></i></div>
+              <div>
+                <div style="font-size: 12px; color: #adb5bd;">Facebook</div>
+                <a href="https://www.facebook.com/fourmotorbikes2" style="color: #fff; text-decoration: none; font-weight: 700; font-size: 16px;">Four Motorbikes</a>
+              </div>
+            </div>
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <div style="width: 40px; height: 40px; background: #ff6b35; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-map-marker-alt" style="color: #fff;"></i></div>
+              <div>
+                <div style="font-size: 12px; color: #adb5bd;">ที่อยู่โรงงาน</div>
+                <p style="color: #e0e0e0; font-size: 14px; line-height: 1.5; margin: 0;">9/9 หมู่ 4 ต.หนองสำนัก<br>อ.บ้านบึง จ.ชลบุรี 20170</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- คอลัมน์ 2: จุดเด่น -->
+        <div style="background: rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; backdrop-filter: blur(10px);">
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #fff;"><i class="fas fa-shield-alt" style="color: var(--red); margin-right: 8px;"></i>ทำไมต้องเลือกเรา</h3>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; background: rgba(229,57,53,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-industry" style="color: var(--red); font-size: 14px;"></i></div>
+              <div style="font-size: 14px; color: #e0e0e0;"><strong style="color: #fff;">โรงงานผลิตเอง</strong> ไม่ผ่านคนกลาง ราคาถูกกว่า</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; background: rgba(229,57,53,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-award" style="color: var(--red); font-size: 14px;"></i></div>
+              <div style="font-size: 14px; color: #e0e0e0;"><strong style="color: #fff;">ประสบการณ์ 15+ ปี</strong> เชี่ยวชาญงานเหล็กคุณภาพ</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; background: rgba(229,57,53,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-truck" style="color: var(--red); font-size: 14px;"></i></div>
+              <div style="font-size: 14px; color: #e0e0e0;"><strong style="color: #fff;">ส่งด่วนทั่วประเทศ</strong> เก็บเงินปลายทาง/โอนได้</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; background: rgba(229,57,53,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-tools" style="color: var(--red); font-size: 14px;"></i></div>
+              <div style="font-size: 14px; color: #e0e0e0;"><strong style="color: #fff;">รับประกันคุณภาพ</strong> เหล็กหนา แข็งแรง ทนทาน</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; background: rgba(229,57,53,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-star" style="color: var(--red); font-size: 14px;"></i></div>
+              <div style="font-size: 14px; color: #e0e0e0;"><strong style="color: #fff;">รีวิว 4.3/5</strong> จากลูกค้าจริงบน Google Maps</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- คอลัมน์ 3: แผนที่ -->
+        <div style="background: rgba(255,255,255,0.08); border-radius: 16px; padding: 28px; backdrop-filter: blur(10px);">
+          <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #fff;"><i class="fas fa-map-marked-alt" style="color: var(--red); margin-right: 8px;"></i>แผนที่โรงงาน</h3>
+          <div style="border-radius: 12px; overflow: hidden; border: 2px solid rgba(255,255,255,0.1);">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3880.5!2d101.0520054!3d13.3552915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311d3315f139a7fb%3A0x39c9669c2c9c8fa4!2z4Lia4Lij4Li04Lip4Lix4LiXIOC4l-C4reC4h-C4meC4nuC4hOC4uOC4kyDguYDguK3guYfguJnguIjguLTguYDguJnguLXguKLguKPguLTguYjguIcg4LiI4Liz4LiB4Lix4LiU!5e0!3m2!1sth!2sth!4v1709700000000" width="100%" height="280" style="border:0; display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <a href="https://maps.app.goo.gl/pYX5SDj693zvP3x6A" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; background: var(--red); color: #fff; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px;"><i class="fas fa-directions"></i> นำทางไปโรงงาน</a>
+        </div>
+      </div>
+
+      <!-- เส้นคั่น -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
+          <img src="logo.webp" style="height: 40px; border-radius: 8px;" alt="Logo" onerror="this.style.display='none'" />
+          <span style="font-weight: 800; font-size: 18px;">Four Motorbikes</span>
+        </div>
+        <p style="color: #adb5bd; font-size: 13px; margin-bottom: 8px;">บริษัท ทองนพคุณ เอ็นจิเนียริ่ง จำกัด | เลขที่จดทะเบียน: ชลบุรี</p>
+        <p style="color: #6c757d; font-size: 12px;">&copy; 2024-2026 Four Motorbikes. All rights reserved.</p>
+      </div>
     </div>
   </section>
 
@@ -213,7 +348,7 @@
   <!-- VIDEO MODAL -->
   <div id="videoModal" class="modal">
     <div class="modal-content" style="background: #000; max-width: 800px;">
-      <span class="modal-close" onclick="closeVideoModal()" style="color: white;">&times;</span>
+      <button class="modal-close" onclick="closeVideoModal()" style="color: white;">&times;</button>
       <div id="videoContainer" style="width: 100%; aspect-ratio: 16/9;"></div>
     </div>
   </div>
@@ -221,9 +356,9 @@
   <!-- REVIEW MODAL -->
   <div id="reviewModal" class="modal">
     <div class="modal-content">
-      <span class="modal-close" onclick="closeReviewModal()">&times;</span>
+      <button class="modal-close" onclick="closeReviewModal()">&times;</button>
       <div class="modal-header">
-        <h3 id="reviewTitle" style="font-size: 16px;">ดูรีวิวสินค้า</h3>
+        <h3 id="reviewTitle" style="font-size: 18px;">ดูรีวิวสินค้า</h3>
       </div>
       <div class="modal-body">
         <div id="reviewImagesGrid" class="review-images-grid"></div>
@@ -234,250 +369,370 @@
   <!-- ORDER MODAL -->
   <div id="orderModal" class="modal">
     <div class="modal-content">
-      <span class="modal-close" onclick="closeOrderModal()">&times;</span>
+      <button class="modal-close" onclick="closeOrderModal()">&times;</button>
       <div class="modal-header">
-        <h3 style="font-size: 16px;">สั่งซื้อ: <span id="orderProductName" style="color: var(--red);"></span></h3>
+        <h3 style="font-size: 18px;">สั่งซื้อ: <span id="orderProductName" style="color: var(--red);"></span></h3>
       </div>
       <div class="modal-body">
         <form id="orderForm" onsubmit="submitOrder(event)">
           <div id="productOptions"></div>
-          <div id="depositArea" class="deposit-box" style="display: none;">
-            <h4>โปรดโอนเงินตามจำนวนด้านล่าง</h4>
-            <img src="promptpay_qr.jpg" alt="PromptPay QR Code" class="qr-img" />
-          </div>
           
           <div class="order-form-group">
             <label>ชื่อ-นามสกุล *</label>
             <input type="text" id="orderName" placeholder="ระบุชื่อผู้รับ" required />
           </div>
           <div class="order-form-group">
-            <label>เบอร์โทรศัพท์ *</label>
-            <input type="tel" id="orderPhone" placeholder="เบอร์โทรติดต่อ" required />
+            <label>เบอร์โทรศัพท์ * (10 หลัก)</label>
+            <input type="tel" id="orderPhone" placeholder="0XX-XXX-XXXX" required maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+            <div id="phoneError" style="color:var(--red);font-size:13px;margin-top:4px;display:none;">กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก (ตัวเลขเท่านั้น)</div>
           </div>
           <div class="order-form-group">
             <label>ที่อยู่จัดส่ง *</label>
-            <textarea id="orderAddress" placeholder="บ้านเลขที่, หมู่บ้าน/ซอย, ถนน, ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์" rows="4" required></textarea>
+            <textarea id="orderAddress" placeholder="บ้านเลขที่, หมู่บ้าน/ซอย, ถนน, ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์" rows="4" style="min-height: 100px;" required></textarea>
           </div>
           
           <div class="order-form-group">
             <label>ช่องทางการชำระเงิน *</label>
-            <select id="orderPayment" required onchange="updatePaymentDisplay()">
-              <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง</option>
-              <option value="โอนเงิน">โอนเงิน</option>
+            <select id="orderPayment" required onchange="updatePaymentDisplay()" style="font-family:inherit;">
+              <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง (COD)</option>
+              <option value="โอนเงิน">โอนเงินเต็มจำนวน</option>
               <option value="มัดจำ">มัดจำ</option>
             </select>
           </div>
 
-          <button type="submit" class="order-submit-btn">ยืนยันการสั่งซื้อ</button>
+          <div id="depositArea" class="deposit-box" style="display: none;">
+            <h4 id="depositTitle">โปรดโอนเงินตามจำนวนด้านล่าง</h4>
+            <div class="deposit-amount" id="depositAmountText"></div>
+            <img src="S__22544394.jpg" alt="PromptPay QR Code" class="qr-img" />
+            <p style="font-size: 13px; color: #666; margin-top: 10px;">ชื่อบัญชี: นายปัญญา ทองนพคุณ</p>
+          </div>
+          
+          <div id="slipUploadArea" class="slip-upload-area" style="display: none;">
+            <label class="slip-upload-btn" for="slipFile">
+              <i class="fas fa-camera"></i> แนบสลิปโอนเงิน
+            </label>
+            <input type="file" id="slipFile" accept="image/*" style="display: none;" onchange="previewSlip(this)" />
+            <div class="slip-preview" id="slipPreview">
+              <img id="slipPreviewImg" src="" alt="สลิป" />
+              <p class="slip-name" id="slipFileName"></p>
+              <button type="button" class="slip-remove" onclick="removeSlip()">ลบสลิป</button>
+            </div>
+          </div>
+
+          <button type="submit" class="order-submit-btn" id="submitBtn">ยืนยันการสั่งซื้อ</button>
         </form>
       </div>
     </div>
   </div>
 
   <script>
-    const csvUrl = "https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv";
-    let allProducts = [];
-    let currentCategory = "ทั้งหมด";
-    
-    // Address Data
-    const provinces = ["ชลบุรี", "กรุงเทพมหานคร", "ระยอง", "ฉะเชิงเทรา", "สมุทรปราการ", "อื่นๆ"];
-    const districts = {
-      "ชลบุรี": ["เมืองชลบุรี", "ศรีราชา", "บางละมุง", "พานทอง", "บ้านบึง", "พนักนิคม", "สัตหีบ", "บ่อทอง", "เกาะจันทร์", "หนองใหญ่"],
-      "กรุงเทพมหานคร": ["บางนา", "ห้วยขวาง", "ลาดพร้าว", "ประเวศ", "ลาดกระบัง", "อื่นๆ"],
-      "ระยอง": ["เมืองระยอง", "ปลวกแดง", "บ้านค่าย", "นิคมพัฒนา", "บ้านฉาง", "อื่นๆ"],
-      "ฉะเชิงเทรา": ["เมืองฉะเชิงเทรา", "บางปะกง", "บ้านโพธิ์", "พนมสารคาม", "อื่นๆ"],
-      "สมุทรปราการ": ["เมืองสมุทรปราการ", "บางพลี", "บางบ่อ", "พระประแดง", "อื่นๆ"],
-      "อื่นๆ": ["ระบุในที่อยู่"]
-    };
+    // ===== ข้อมูลสินค้าทั้งหมด (Hardcoded จาก CSV) =====
+    const allProducts = [
+      {"name":"ครึ่ง ยาว 120/150 กว้าง33","price":"1190","desc":"กว้าง33 ยาว150 ซม. ใช้พาดขึ้นบ้าน/ฟุตบาท","img":"https://down-th.img.susercontent.com/file/th-11134207-81zti-mjin8popacqp82.webp","category":"บันได 2 พับ","video":"","review":"2fold","type":"2fold","options":"","deposit":0},
+      {"name":"2พับ","price":"1790","desc":"กว้าง33 ยาว230 ซม. สำหรับมอเตอร์ไซค์ขึ้นกระบะ พับเก็บง่าย","img":"https://down-th.img.susercontent.com/file/th-11134207-7ra0n-mdul11gskvr5a6.webp","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/sJjlF5MZYTk","review":"2fold","type":"2fold","options":"","deposit":0},
+      {"name":"2พับตะแกรง","price":"2550","desc":"กว้าง33 ยาว230 ซม. พื้นตะแกรงกันลื่น ระบายน้ำดี เหมาะใช้งานกลางแจ้ง","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/951a7eae28b04590a37778c905f6c7d1~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/3Lsl6kDu9LM","review":"2fold","type":"2fold","options":"","deposit":0},
+      {"name":"2พับตะแกรง ขั้นถี่","price":"2750","desc":"กว้าง33 ยาว230 ซม. ตะแกรงถี่ กันล้อจม/ล้อเล็กผ่านง่าย กันลื่น","img":"https://files.manuscdn.com/user_upload_by_module/session_file/310519663401706985/XwqVsTORjsxWHzGx.webp","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/SFTN7FtGjmQ","review":"2fold","type":"2fold","options":"","deposit":0},
+      {"name":"2พับตะแกรง47","price":"3550","desc":"กว้าง47 ยาว230 ซม. หน้ากว้างขึ้น เข็นง่าย เหมาะบิ๊กไบค์/รถหนัก","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/bf4ce8a31ed6438bab3d06ee01e7fd08~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/GvN_wo7hRO0","review":"2fold","type":"2fold","options":"","deposit":0},
+      {"name":"2พับ3เมตร","price":"2750","desc":"กว้าง33 ยาว300 ซม. ชันน้อยขึ้น เหมาะรถกระบะสูง","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/a6c0608f66b34f1fb49876af0ce048a2~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/KLAemzmgvoQ","review":"2fold","type":"2fold","options":"","deposit":0},
+      {"name":"2พับ3เมตร ขั้นถี่","price":"3150","desc":"กว้าง33 ยาว300 ซม. ตะแกรงถี่ กันลื่น ชันน้อย เหมาะรถกระบะสูง","img":"https://files.manuscdn.com/user_upload_by_module/session_file/310519663401706985/ifUnOkSmHZkFrILm.jpg","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/CQKOZvzIpDo","review":"2fold","type":"2fold","options":"","deposit":0},
+      {"name":"2พับ กว้าง80","price":"4190","desc":"กว้าง80 ยาว230 ซม. ทางขึ้นกว้าง รับน้ำหนักได้ 500kg ขี่ขึ้นได้สบาย","img":"https://files.manuscdn.com/user_upload_by_module/session_file/310519663401706985/NeVRRxqJQjHYhWAj.jpg","category":"บันได 2 พับ","video":"https://youtube.com/shorts/ji9jsaxl9v4?si=0z12NEc2WMlOmOGn","review":"2fold","type":"2fold","options":"","deposit":500},
+      {"name":"2พับตะแกรง80","price":"4990","desc":"กว้าง80 ยาว230 ซม.","img":"https://down-th.img.susercontent.com/file/th-11134207-81ztq-mjfveoa5rbic95.webp","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/RpDej2-_3u4","review":"2fold","type":"2fold","options":"","deposit":500},
+      {"name":"2พับตะแกรง80 ยาว260","price":"5590","desc":"กว้าง80 ยาว260 ซม.","img":"https://files.manuscdn.com/user_upload_by_module/session_file/310519663401706985/dNpglcsmyKZVfhLO.png","category":"บันได 2 พับ","video":"https://www.youtube.com/shorts/Q7EezZytLk8","review":"2fold","type":"2fold","options":"","deposit":500},
+      {"name":"2พับตะแกรง100 ขั้นถี่ ยาว230","price":"6190","desc":"กว้าง100 ยาว230 ซม.","img":"https://files.manuscdn.com/user_upload_by_module/session_file/310519663401706985/pvTnpZnFaPQNRiNF.png","category":"บันได 2 พับ","video":"","review":"2fold","type":"2fold","options":"","deposit":500},
+      {"name":"3พับ","price":"2750","desc":"กว้าง47 ยาว230 ซม.","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/72473f4e8f064bdba59bbbe9181011b1~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันได 3 พับกั้นคอก","video":"https://www.youtube.com/shorts/UV7ECFH6gm0","review":"3fold","type":"3fold","options":"","deposit":0},
+      {"name":"3พับตะแกรง","price":"3550","desc":"กว้าง47 ยาว230 ซม.","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/8095edc076a848f0b6653930161b1240~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันได 3 พับกั้นคอก","video":"https://www.youtube.com/shorts/Gm-jgUcDzUc","review":"3fold","type":"3fold","options":"","deposit":0},
+      {"name":"3พับ60","price":"3490","desc":"กว้าง60 ยาว230 ซม.","img":"https://down-th.img.susercontent.com/file/th-11134207-81ztc-mley6gb0zsp0a2.webp","category":"บันได 3 พับกั้นคอก","video":"","review":"3fold","type":"3fold","options":"","deposit":500},
+      {"name":"3พับตะแกรง60","price":"4590","desc":"กว้าง60 ยาว230 ซม.","img":"https://via.placeholder.com/400x300?text=3พับตะแกรง60","category":"บันได 3 พับกั้นคอก","video":"https://www.youtube.com/shorts/H0kuslJeX7w","review":"3fold","type":"3fold","options":"","deposit":500},
+      {"name":"3พับ80","price":"4590","desc":"กว้าง80 ยาว230 ซม.","img":"https://via.placeholder.com/400x300?text=3พับ80","category":"บันได 3 พับกั้นคอก","video":"","review":"3fold","type":"3fold","options":"","deposit":500},
+      {"name":"3พับตะแกรง80","price":"5490","desc":"กว้าง80 ยาว230 ซม.","img":"https://down-th.img.susercontent.com/file/th-11134207-81ztg-mjfvh5pto6ip5b.webp","category":"บันได 3 พับกั้นคอก","video":"https://www.youtube.com/shorts/o2fIXP1u_ww","review":"3fold","type":"3fold","options":"","deposit":500},
+      {"name":"แรมป์","price":"3550","desc":"กว้าง35 ยาว150 ซม.","img":"https://files.manuscdn.com/user_upload_by_module/session_file/310519663401706985/DBzfNhXcLwDPCqie.jpeg","category":"แรมป์ขึ้นล้อรถยนต์","video":"https://www.youtube.com/shorts/94nsJL_jWJw","review":"ramp","type":"other","options":"","deposit":500},
+      {"name":"ฝาท่อ","price":"1700","desc":"กว้าง65 ยาว65 ซม.","img":"https://files.manuscdn.com/user_upload_by_module/session_file/310519663401706985/AxwYiqMCgyRZZInt.jpg","category":"ฝาท่อ","video":"https://www.youtube.com/shorts/XKCjoQOnQX4","review":"","type":"other","options":"","deposit":500},
+      {"name":"ฟุตบาท กว้าง35","price":"เริ่มต้น 999","desc":"กว้าง35 ซม. เลือกขนาดได้","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/e6141e874d5943b38345fad04ceb53d5~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/-3j5omzCT5A","review":"footstep","type":"footstep","options":"35*40*(สูง1-20ซม.):999|35*50*(สูง21-25ซม.):1190|35*60*(สูง26-30ซม.):1390|35*70*(สูง31-35ซม.):1590|35*80*(สูง36-40ซม.):1790","deposit":500},
+      {"name":"ฟุตบาท กว้าง50","price":"เริ่มต้น 1,600","desc":"กว้าง50 ซม. เลือกขนาดได้","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/fd04e68aaba74f3f8d5621c594dbaf75~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/1MDfvr2FFu4","review":"footstep","type":"footstep","options":"50*50*(สูง1-20ซม.):1600|50*60*(สูง21-25ซม.):1800|50*70*(สูง26-30ซม.):2000|50*80*(สูง31-40ซม.):2200","deposit":500},
+      {"name":"ฟุตบาท กว้าง60","price":"เริ่มต้น 1,900","desc":"กว้าง60 ซม. เลือกขนาดได้","img":"https://down-th.img.susercontent.com/file/th-11134207-81ztj-mi5xbxnt35kxcc.webp","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/ryG1r3iQDaQ","review":"footstep","type":"footstep","options":"60*50*(สูง1-20ซม.):1900|60*60*(สูง21-25ซม.):2100|60*70*(สูง26-30ซม.):2300|60*80*(สูง31-40ซม.):2500","deposit":500},
+      {"name":"ฟุตบาท กว้าง70","price":"เริ่มต้น 2,000","desc":"กว้าง70 ซม. เลือกขนาดได้","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/ed113aa562354847b8859ac1d5e5e99c~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/3rIrTwhK64s","review":"footstep","type":"footstep","options":"70*50*(สูง1-20ซม.):2000|70*60*(สูง21-25ซม.):2200|70*70*(สูง26-30ซม.):2400|70*80*(สูง31-40ซม.):2600","deposit":500},
+      {"name":"ฟุตบาท กว้าง80","price":"เริ่มต้น 2,700","desc":"กว้าง80 ซม. เลือกขนาดได้","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/3baf676a49a0403d953d686aaf052ed5~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/d7venCSn1ns","review":"footstep","type":"footstep","options":"80*80*(สูง1-20ซม.):2700|80*90*(สูง21-30ซม.):3000|80*100*(สูง31-40ซม.):3300|80*110*(สูง41-50ซม.):3600","deposit":500},
+      {"name":"ฟุตบาท กว้าง90","price":"เริ่มต้น 3,400","desc":"กว้าง90 ซม. เลือกขนาดได้","img":"https://down-th.img.susercontent.com/file/th-11134207-81zti-mi5yf86onm6e21.webp","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/BBc04uPGzWs","review":"footstep","type":"footstep","options":"90*80*(สูง1-20ซม.):3400|90*90*(สูง21-30ซม.):3700|90*100*(สูง31-40ซม.):4000|90*110*(สูง41-50ซม.):4300","deposit":1000},
+      {"name":"ฟุตบาท กว้าง100","price":"เริ่มต้น 4,100","desc":"กว้าง100 ซม. เลือกขนาดได้","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/87668c92525f43139e63649f5a99fd5c~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/2QYh-lnf0bE","review":"footstep","type":"footstep","options":"100*120*(สูง1-20ซม.):4100|100*130*(สูง21-30ซม.):4400|100*140*(สูง31-40ซม.):4700|100*150*(สูง41-50ซม.):5000","deposit":1000},
+      {"name":"ฟุตบาท กว้าง110","price":"เริ่มต้น 4,450","desc":"กว้าง110 ซม. เลือกขนาดได้","img":"https://down-th.img.susercontent.com/file/th-11134207-81zto-mi5z8p4qyhoob0.webp","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/UPZ25j4JW7g","review":"footstep","type":"footstep","options":"110*120*(สูง1-20ซม.):4450|110*130*(สูง21-30ซม.):4750|110*140*(สูง31-40ซม.):5050|110*150*(สูง41-50ซม.):5350","deposit":1000},
+      {"name":"ฟุตบาท กว้าง120","price":"เริ่มต้น 4,800","desc":"กว้าง120 ซม. เลือกขนาดได้","img":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/bdabad5c3bcb4593948837e477451265~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","category":"บันไดขึ้นฟุตบาท","video":"https://www.youtube.com/shorts/O1keFyv7uVU","review":"footstep","type":"footstep","options":"120*120*(สูง1-20ซม.):4800|120*130*(สูง21-30ซม.):5100|120*140*(สูง31-40ซม.):5400|120*150*(สูง41-50ซม.):5700","deposit":1000}
+    ];
 
+    let currentCategory = "ทั้งหมด";
+    let currentOrderProduct = null;
+
+    // ===== INIT =====
     document.addEventListener("DOMContentLoaded", function() {
-      loadProducts();
-      initAddress();
+      renderProducts();
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          document.querySelector('.tab-btn.active').classList.remove('active');
-          btn.classList.add('active');
-          currentCategory = btn.getAttribute('data-category');
+          // ลบ active ทั้งหมด (ทั้งบนและล่าง)
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          // เพิ่ม active ให้ทุกปุ่มที่มี category เดียวกัน
+          const cat = btn.getAttribute('data-category');
+          document.querySelectorAll('.tab-btn').forEach(b => {
+            if (b.getAttribute('data-category') === cat) b.classList.add('active');
+          });
+          currentCategory = cat;
           renderProducts();
+          // เลื่อนขึ้นไปด้านบนสุดของสินค้า
+          document.getElementById('products-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
       });
     });
 
-    function initAddress() {
-      const provSelect = document.getElementById('orderProv');
-      provinces.forEach(p => provSelect.add(new Option(p, p)));
-    }
-    function handleProvChange() {
-      const prov = document.getElementById('orderProv').value;
-      const distSelect = document.getElementById('orderDist');
-      distSelect.innerHTML = '<option value="">-- อำเภอ --</option>';
-      if (districts[prov]) districts[prov].forEach(d => distSelect.add(new Option(d, d)));
-      handleDistChange();
-    }
-    function handleDistChange() {
-      const subSelect = document.getElementById('orderSub');
-      subSelect.innerHTML = '<option value="">-- ตำบล --</option>';
-      const dist = document.getElementById('orderDist').value;
-      if (dist) subSelect.add(new Option("ระบุในช่องที่อยู่ด้านบน", "ระบุในที่อยู่"));
-    }
-
-    function loadProducts() {
-      fetch(csvUrl).then(res => res.text()).then(data => {
-        allProducts = parseCSV(data);
-        renderProducts();
-      }).catch(err => console.log("Load error"));
-    }
-
-    function parseCSV(csv) {
-      const lines = csv.split('\n');
-      const result = [];
-      for (let i = 1; i < lines.length; i++) {
-        const row = lines[i];
-        if (!row) continue;
-        const parts = [];
-        let inQuotes = false, current = "";
-        for (let char of row) {
-          if (char === '"') inQuotes = !inQuotes;
-          else if (char === ',' && !inQuotes) { parts.push(current); current = ""; }
-          else current += char;
-        }
-        parts.push(current);
-        if (parts.length < 5) continue;
-
-        let review = parts[6] ? parts[6].trim() : "";
-        let type = parts[7] ? parts[7].trim() : "other";
-        let opts = parts[8] ? parts[8].trim() : "";
-
-        if (["2fold", "3fold", "footstep", "ramp"].includes(review)) {
-          type = review;
-          opts = parts[7] ? parts[7].trim() : "";
-          review = "";
-        }
-
-        result.push({
-          name: parts[0]?.trim() || "",
-          price: parts[1]?.trim() || "",
-          info: parts[2]?.trim() || "",
-          image: parts[3]?.trim() || "",
-          category: parts[4]?.trim() || "",
-          video: parts[5]?.trim() || "",
-          review: review,
-          type: type,
-          options: opts
-        });
-      }
-      return result;
-    }
-
+    // ===== RENDER PRODUCTS =====
     function renderProducts() {
       const container = document.getElementById('products-container');
       const filtered = currentCategory === "ทั้งหมด" ? allProducts : allProducts.filter(p => p.category === currentCategory);
       
-      container.innerHTML = filtered.map(p => `
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="text-align:center;padding:40px;color:#999;grid-column:1/-1;">ไม่พบสินค้าในหมวดหมู่นี้</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map((p, idx) => {
+        const depositBadge = p.deposit > 0 ? `<span class="deposit-badge">มัดจำ ฿${p.deposit.toLocaleString()}</span>` : '';
+        const priceDisplay = p.price.includes('เริ่มต้น') ? p.price : '฿' + Number(p.price).toLocaleString();
+        const safeName = p.name.replace(/'/g, "\\'");
+        
+        return `
         <div class="product-card">
           <div class="product-img">
-            <img src="${p.image}" alt="${p.name}" onclick="window.open('${p.image}', '_blank')">
-            <div class="product-price">${p.price.includes('เริ่มต้น') ? p.price : '฿' + p.price}</div>
+            ${depositBadge}
+            <img src="${p.img}" alt="${p.name}" onclick="window.open('${p.img}', '_blank')" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+            <div class="product-price">${priceDisplay}</div>
           </div>
           <div class="product-body">
             <h3 class="product-title">${p.name}</h3>
-            <p class="product-info">${p.info}</p>
+            <p class="product-info">${p.desc}</p>
             <div class="product-actions">
-              ${p.video ? `<button class="btn-video" onclick="playVideo('${p.video}')">วิดีโอ</button>` : ''}
-              ${p.review ? `<button class="btn-review" onclick="openReview('${p.name.replace(/'/g, "\\'")}')">ดูรีวิว</button>` : ''}
-              <button class="btn-order" onclick="openOrder('${p.name.replace(/'/g, "\\'")}')">สั่งซื้อ</button>
+              ${p.video ? `<button class="btn-video" onclick="playVideo('${p.video}')"><i class="fas fa-play"></i> วิดีโอ</button>` : ''}
+              <button class="btn-review" onclick="openReview('${safeName}')"><i class="fas fa-images"></i> รีวิว</button>
+              <button class="btn-order" onclick="openOrder('${safeName}')">สั่งซื้อ</button>
             </div>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
     }
 
+    // ===== VIDEO =====
     function playVideo(url) {
       let embed = url;
       if (url.includes('youtu.be/')) embed = 'https://www.youtube.com/embed/' + url.split('youtu.be/')[1].split('?')[0];
-      else if (url.includes('shorts/')) embed = 'https://www.youtube.com/embed/' + url.split('shorts/')[1];
+      else if (url.includes('shorts/')) embed = 'https://www.youtube.com/embed/' + url.split('shorts/')[1].split('?')[0];
       else if (url.includes('v=')) embed = 'https://www.youtube.com/embed/' + url.split('v=')[1].split('&')[0];
-      document.getElementById('videoContainer').innerHTML = `<iframe src="${embed}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>`;
+      document.getElementById('videoContainer').innerHTML = `<iframe src="${embed}?autoplay=1" width="100%" height="100%" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
       document.getElementById('videoModal').classList.add('active');
     }
     function closeVideoModal() { document.getElementById('videoModal').classList.remove('active'); document.getElementById('videoContainer').innerHTML = ''; }
 
+    // ===== REVIEW (รองรับ 1-5 รูป) =====
     function openReview(name) {
       const p = allProducts.find(x => x.name === name);
-      if (!p || !p.review) return;
+      if (!p) return;
       document.getElementById('reviewTitle').textContent = 'รีวิว: ' + name;
-      document.getElementById('reviewImagesGrid').innerHTML = p.review.split('|').map(img => `<img src="${img.trim()}">`).join('');
+      const grid = document.getElementById('reviewImagesGrid');
+      
+      // Placeholder สำหรับรีวิว - รองรับ 1-5 รูปต่อสินค้า
+      grid.innerHTML = `
+        <div class="review-placeholder">
+          <i class="fas fa-camera"></i>
+          <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">รูปรีวิวจากลูกค้า</p>
+          <p style="font-size: 14px;">รูปรีวิวจะถูกเพิ่มเร็วๆ นี้<br>(รองรับ 1-5 รูปต่อสินค้า)</p>
+        </div>`;
+      
       document.getElementById('reviewModal').classList.add('active');
     }
     function closeReviewModal() { document.getElementById('reviewModal').classList.remove('active'); }
 
-    function updatePaymentDisplay() {
-      const payment = document.getElementById('orderPayment').value;
-      const depositArea = document.getElementById('depositArea');
-      if (payment === 'โอนเงิน' || payment === 'มัดจำ') {
-        depositArea.style.display = 'block';
-      } else {
-        depositArea.style.display = 'none';
-      }
-    }
-
+    // ===== ORDER =====
     function openOrder(name) {
       const p = allProducts.find(x => x.name === name);
       if (!p) return;
+      currentOrderProduct = p;
       document.getElementById('orderProductName').textContent = name;
       const opts = document.getElementById('productOptions');
       opts.innerHTML = '';
       
+      // สร้าง options ตามประเภทสินค้า
       if (p.type === '3fold') {
         const models = ['Tiger', 'Isuzu', 'Toyota', 'Ford', 'Mitsubishi', 'Nissan', 'Mazda', 'Chevrolet', 'Mg', 'Riddara'];
         const colors = ['ดำ', 'บลอน', 'แดง', 'เขียว', 'เหลือง', 'ฟ้า', 'ส้ม'];
-        opts.innerHTML = `<div class="order-form-group"><label>รุ่นรถยนต์ *</label><select id="orderModel" required><option value="">-- เลือกรุ่น --</option>${models.map(m => `<option>${m}</option>`).join('')}</select></div>
-          <div class="order-form-group"><label>ปีรถ *</label><select id="orderYear" required><option value="">-- เลือกปี --</option>${Array.from({length: 24}, (_, i) => 2003 + i).map(y => `<option>${y}</option>`).join('')}</select></div>
-          <div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option>${colors.map(c => `<option>${c}</option>`).join('')}</select></div>`;
+        opts.innerHTML = `
+          <div class="order-form-group"><label>รุ่นรถยนต์ *</label><select id="orderModel" required style="font-family:inherit;"><option value="">-- เลือกรุ่น --</option>${models.map(m => `<option>${m}</option>`).join('')}</select></div>
+          <div class="order-form-group"><label>ปีรถ *</label><select id="orderYear" required style="font-family:inherit;"><option value="">-- เลือกปี --</option>${Array.from({length: 24}, (_, i) => 2003 + i).map(y => `<option>${y}</option>`).join('')}</select></div>
+          <div class="order-form-group"><label>สี *</label><select id="orderColor" required style="font-family:inherit;"><option value="">-- เลือกสี --</option>${colors.map(c => `<option>${c}</option>`).join('')}</select></div>`;
       } else if (p.type === '2fold') {
-        opts.innerHTML = `<div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option><option>ดำ</option><option>บลอน</option></select></div>`;
-      } else if (p.type === 'footstep') {
-        const sizes = p.options.match(/sizes:([^;]+)/)?.[1].split('|') || [];
-        opts.innerHTML = `<div class="order-form-group"><label>ขนาด *</label><select id="orderSize" required><option value="">-- เลือกขนาด --</option>${sizes.map(s => `<option value="${s.split(':')[1]}">${s.split(':')[0]}</option>`).join('')}</select></div>`;
+        opts.innerHTML = `<div class="order-form-group"><label>สี *</label><select id="orderColor" required style="font-family:inherit;"><option value="">-- เลือกสี --</option><option>ดำ</option><option>บลอน</option></select></div>`;
+      } else if (p.type === 'footstep' && p.options) {
+        const sizes = p.options.split('|');
+        if (sizes.length > 0 && sizes[0] !== '') {
+          opts.innerHTML = `<div class="order-form-group"><label>ขนาด *</label><select id="orderSize" required style="font-family:inherit;"><option value="">-- เลือกขนาด --</option>${sizes.map(s => {
+            const parts = s.split(':');
+            const label = parts[0];
+            const price = parts[1] ? ' - ฿' + Number(parts[1]).toLocaleString() : '';
+            return `<option value="${s}">${label}${price}</option>`;
+          }).join('')}</select></div>`;
+        }
+      }
+
+      // ตั้งค่าช่องทางชำระเงิน: ถ้ามีมัดจำ ให้เลือก "มัดจำ" อัตโนมัติ
+      const paymentSelect = document.getElementById('orderPayment');
+      if (p.deposit > 0) {
+        paymentSelect.value = 'มัดจำ';
+      } else {
+        paymentSelect.value = 'เก็บเงินปลายทาง';
       }
       
-      updatePaymentDisplay();
+      // รีเซ็ตสลิป
+      document.getElementById('slipFile').value = '';
+      document.getElementById('slipPreview').style.display = 'none';
       
-
+      // รีเซ็ต phone error
+      document.getElementById('phoneError').style.display = 'none';
+      
+      updatePaymentDisplay();
       document.getElementById('orderModal').classList.add('active');
     }
     function closeOrderModal() { document.getElementById('orderModal').classList.remove('active'); }
 
+    // ===== PAYMENT DISPLAY =====
+    function updatePaymentDisplay() {
+      const payment = document.getElementById('orderPayment').value;
+      const depositArea = document.getElementById('depositArea');
+      const slipArea = document.getElementById('slipUploadArea');
+      
+      if (payment === 'มัดจำ') {
+        const deposit = currentOrderProduct ? currentOrderProduct.deposit : 0;
+        depositArea.style.display = 'block';
+        document.getElementById('depositTitle').textContent = 'มัดจำสินค้า';
+        document.getElementById('depositAmountText').textContent = deposit > 0 ? '฿' + deposit.toLocaleString() : 'ตามราคาสินค้า';
+        slipArea.style.display = 'block';
+      } else if (payment === 'โอนเงิน') {
+        depositArea.style.display = 'block';
+        document.getElementById('depositTitle').textContent = 'โอนเงินเต็มจำนวน';
+        document.getElementById('depositAmountText').textContent = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
+        slipArea.style.display = 'block';
+      } else {
+        depositArea.style.display = 'none';
+        slipArea.style.display = 'none';
+      }
+    }
+
+    // ===== SLIP UPLOAD =====
+    function previewSlip(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        if (file.size > 10 * 1024 * 1024) {
+          alert('ไฟล์ใหญ่เกินไป (สูงสุด 10MB)');
+          input.value = '';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('slipPreviewImg').src = e.target.result;
+          document.getElementById('slipFileName').textContent = file.name;
+          document.getElementById('slipPreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    function removeSlip() {
+      document.getElementById('slipFile').value = '';
+      document.getElementById('slipPreview').style.display = 'none';
+    }
+
+    // ===== SUBMIT ORDER =====
     function submitOrder(e) {
       e.preventDefault();
-      const btn = e.target.querySelector('button');
-      btn.disabled = true; btn.textContent = 'กำลังส่ง...';
+      const btn = document.getElementById('submitBtn');
       
-      const phone = document.getElementById('orderPhone').value;
+      // Validate phone
+      const phone = document.getElementById('orderPhone').value.trim();
       if (!/^\d{10}$/.test(phone)) {
-        alert('เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 ตัวเท่านั้น');
+        document.getElementById('phoneError').style.display = 'block';
+        document.getElementById('orderPhone').focus();
         return;
       }
+      document.getElementById('phoneError').style.display = 'none';
+
+      // Validate address
+      const address = document.getElementById('orderAddress').value.trim();
+      if (address.length < 10) {
+        alert('กรุณากรอกที่อยู่จัดส่งให้ครบถ้วน');
+        document.getElementById('orderAddress').focus();
+        return;
+      }
+
+      const payment = document.getElementById('orderPayment').value;
+
+      // Validate slip for bank transfer / deposit
+      const slipFile = document.getElementById('slipFile').files[0];
+      if ((payment === 'โอนเงิน' || payment === 'มัดจำ') && !slipFile) {
+        alert('กรุณาแนบสลิปโอนเงินก่อนยืนยันการสั่งซื้อ');
+        return;
+      }
+
+      btn.disabled = true; 
+      btn.textContent = 'กำลังส่ง...';
       
       const data = {
         product: document.getElementById('orderProductName').textContent,
         name: document.getElementById('orderName').value,
         phone: phone,
-        address: document.getElementById('orderAddress').value,
-        payment: document.getElementById('orderPayment').value,
+        address: address,
+        payment: payment,
+        deposit_amount: (payment === 'มัดจำ' && currentOrderProduct) ? currentOrderProduct.deposit : 0,
         model: document.getElementById('orderModel')?.value || '',
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
         size: document.getElementById('orderSize')?.value || '',
-        deposit: document.getElementById('orderPayment').value === 'มัดจำ' ? 'yes' : 'no',
         time: new Date().toLocaleString('th-TH')
       };
 
+      // ถ้ามีสลิป ให้แปลงเป็น base64 แล้วส่งไปด้วย
+      if (slipFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          data.slip_image = e.target.result;
+          data.slip_filename = slipFile.name;
+          sendOrder(data, btn);
+        };
+        reader.readAsDataURL(slipFile);
+      } else {
+        sendOrder(data, btn);
+      }
+    }
+
+    function sendOrder(data, btn) {
       fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-      }).then(() => { alert('สั่งซื้อสำเร็จ! เราจะติดต่อกลับเพื่อยืนยันออเดอร์ครับ'); closeOrderModal(); }).catch(() => alert('ผิดพลาด!'))
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data)
+      })
+      .then(res => { 
+        alert('สั่งซื้อสำเร็จ! เราจะติดต่อกลับเพื่อยืนยันออเดอร์ครับ'); 
+        closeOrderModal();
+        document.getElementById('orderForm').reset();
+      })
+      .catch(err => {
+        console.error('Order error:', err);
+        alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง หรือติดต่อทาง Line');
+      })
       .finally(() => { btn.disabled = false; btn.textContent = 'ยืนยันการสั่งซื้อ'; });
     }
+
+    // ===== CLOSE MODALS ON BACKDROP CLICK =====
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal') && e.target.classList.contains('active')) {
+        e.target.classList.remove('active');
+        // Stop video if video modal
+        if (e.target.id === 'videoModal') {
+          document.getElementById('videoContainer').innerHTML = '';
+        }
+      }
+    });
   </script>
 </body>
 </html>

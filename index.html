@@ -87,11 +87,13 @@
     .hero-nav.next { right: 8px; }
 
     @media (max-width: 768px) {
-      #hero { min-height: auto; padding: 30px 0; }
-      .hero-container { gap: 25px; padding: 20px 0; }
-      .hero-title { font-size: 26px; }
-      .hero-subtitle { font-size: 14px; margin-bottom: 20px; }
-      .hero-carousel { aspect-ratio: 16/10; }
+      #hero { min-height: auto; padding: 15px 0; }
+      .hero-container { gap: 15px; padding: 10px 0; }
+      .hero-title { font-size: 22px; margin-bottom: 10px; }
+      .hero-subtitle { font-size: 13px; margin-bottom: 12px; }
+      .hero-btn { padding: 10px 18px; font-size: 13px; min-width: 90px; }
+      .hero-carousel { aspect-ratio: 9/14; max-height: 65vh; }
+      .hero-img-box { border-radius: 10px; }
     }
 
     /* --- FLOATING BUTTONS --- */
@@ -251,7 +253,7 @@
       </div>
       <div class="hero-img-box">
         <div class="hero-carousel" id="heroCarousel">
-          <img src="474242832_1129368892085317_7217698560018563068_n.jpg" alt="สินค้า" class="hero-slide active" />
+          <!-- วิดีโอจะถูกโหลดจาก Google Sheet อัตโนมัติ -->
         </div>
         <button class="hero-nav prev" onclick="heroSlide(-1)"><i class="fas fa-chevron-left"></i></button>
         <button class="hero-nav next" onclick="heroSlide(1)"><i class="fas fa-chevron-right"></i></button>

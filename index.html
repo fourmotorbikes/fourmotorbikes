@@ -593,7 +593,8 @@
             const label = parts[0];
             const price = parts[1] ? ' - ฿' + Number(parts[1]).toLocaleString() : '';
             return `<option value="${s}">${label}${price}</option>`;
-          }).join('')}</select></div>`;
+          }).join('')}</select></div>
+          <div class="order-form-group"><label>ความสูงฟุตบาท (ซม.) *</label><input type="number" id="orderFootstepHeight" min="1" max="100" required placeholder="กรุณาวัดความสูงฟุตบาทแล้วกรอกเป็น ซม." style="font-family:inherit; width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:16px;"><p style="color:#e74c3c; font-size:13px; margin-top:4px;">* กรุณาวัดความสูงฟุตบาทจริงก่อนสั่งซื้อ</p></div>`;
         }
       }
 
@@ -708,6 +709,17 @@
 
       const payment = document.getElementById('orderPayment').value;
 
+      // Validate ความสูงฟุตบาท (ถ้าเป็นสินค้าฟุตบาท)
+      const footstepHeightEl = document.getElementById('orderFootstepHeight');
+      if (currentOrderProduct && currentOrderProduct.type === 'footstep' && footstepHeightEl) {
+        const heightVal = footstepHeightEl.value.trim();
+        if (!heightVal || Number(heightVal) < 1) {
+          alert('กรุณากรอกความสูงฟุตบาท (ซม.) ก่อนสั่งซื้อ');
+          footstepHeightEl.focus();
+          return;
+        }
+      }
+
       // Validate slip มัดจำ (ถ้าสินค้ามีมัดจำ)
       const autoSlipFile = document.getElementById('autoSlipFile')?.files[0];
       if (currentOrderProduct && currentOrderProduct.deposit > 0 && !autoSlipFile) {
@@ -736,6 +748,7 @@
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
         size: document.getElementById('orderSize')?.value || '',
+        footstep_height: document.getElementById('orderFootstepHeight')?.value ? document.getElementById('orderFootstepHeight').value + ' ซม.' : '',
         time: new Date().toLocaleString('th-TH'),
         deposit_slip_url: '',
         slip_url: ''

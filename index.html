@@ -241,7 +241,10 @@
       <div class="modal-body">
         <form id="orderForm" onsubmit="submitOrder(event)">
           <div id="productOptions"></div>
-          <div id="depositArea"></div>
+          <div id="depositArea" class="deposit-box" style="display: none;">
+            <h4>โปรดโอนเงินตามจำนวนด้านล่าง</h4>
+            <img src="promptpay_qr.jpg" alt="PromptPay QR Code" class="qr-img" />
+          </div>
           
           <div class="order-form-group">
             <label>ชื่อ-นามสกุล *</label>
@@ -253,24 +256,15 @@
           </div>
           <div class="order-form-group">
             <label>ที่อยู่จัดส่ง *</label>
-            <div class="order-form-group">
-              <input type="text" id="orderHouse" placeholder="บ้านเลขที่/หมู่บ้าน/ซอย" required />
-            </div>
-            <div class="address-grid">
-              <select id="orderProv" required onchange="handleProvChange()"><option value="">-- จังหวัด --</option></select>
-              <select id="orderDist" required onchange="handleDistChange()"><option value="">-- อำเภอ --</option></select>
-            </div>
-            <div class="address-grid" style="margin-top: 8px;">
-              <select id="orderSub" required><option value="">-- ตำบล --</option></select>
-              <input type="text" id="orderZip" placeholder="รหัสไปรษณีย์" required />
-            </div>
+            <textarea id="orderAddress" placeholder="บ้านเลขที่, หมู่บ้าน/ซอย, ถนน, ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์" rows="4" required></textarea>
           </div>
           
           <div class="order-form-group">
             <label>ช่องทางการชำระเงิน *</label>
-            <select id="orderPayment" required>
+            <select id="orderPayment" required onchange="updatePaymentDisplay()">
               <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง</option>
               <option value="โอนเงิน">โอนเงิน</option>
+              <option value="มัดจำ">มัดจำ</option>
             </select>
           </div>
 
@@ -417,6 +411,16 @@
     }
     function closeReviewModal() { document.getElementById('reviewModal').classList.remove('active'); }
 
+    function updatePaymentDisplay() {
+      const payment = document.getElementById('orderPayment').value;
+      const depositArea = document.getElementById('depositArea');
+      if (payment === 'โอนเงิน' || payment === 'มัดจำ') {
+        depositArea.style.display = 'block';
+      } else {
+        depositArea.style.display = 'none';
+      }
+    }
+
     function openOrder(name) {
       const p = allProducts.find(x => x.name === name);
       if (!p) return;
@@ -437,13 +441,9 @@
         opts.innerHTML = `<div class="order-form-group"><label>ขนาด *</label><select id="orderSize" required><option value="">-- เลือกขนาด --</option>${sizes.map(s => `<option value="${s.split(':')[1]}">${s.split(':')[0]}</option>`).join('')}</select></div>`;
       }
       
-      const price = parseInt(p.price.replace(/[^0-9]/g, '')) || 0;
-      const depositArea = document.getElementById('depositArea');
-      if (price >= 4000) {
-        depositArea.innerHTML = `<div class="deposit-box"><h4>⚠️ สินค้านี้มัดจำ 500 บาท</h4><p style="font-size:12px; margin-bottom:10px;">กรุณาโอนมัดจำและแนบสลิปใน LINE หลังสั่งซื้อ</p><img src="qr_code.webp" class="qr-img" alt="QR Code"></div>`;
-      } else {
-        depositArea.innerHTML = '';
-      }
+      updatePaymentDisplay();
+      
+
       document.getElementById('orderModal').classList.add('active');
     }
     function closeOrderModal() { document.getElementById('orderModal').classList.remove('active'); }
@@ -453,16 +453,23 @@
       const btn = e.target.querySelector('button');
       btn.disabled = true; btn.textContent = 'กำลังส่ง...';
       
+      const phone = document.getElementById('orderPhone').value;
+      if (!/^\d{10}$/.test(phone)) {
+        alert('เบอร์โทรศัพท์ต้องเป็นตัวเลข 10 ตัวเท่านั้น');
+        return;
+      }
+      
       const data = {
         product: document.getElementById('orderProductName').textContent,
         name: document.getElementById('orderName').value,
-        phone: document.getElementById('orderPhone').value,
-        address: `${document.getElementById('orderHouse').value} ต.${document.getElementById('orderSub').value} อ.${document.getElementById('orderDist').value} จ.${document.getElementById('orderProv').value} ${document.getElementById('orderZip').value}`,
+        phone: phone,
+        address: document.getElementById('orderAddress').value,
         payment: document.getElementById('orderPayment').value,
         model: document.getElementById('orderModel')?.value || '',
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
         size: document.getElementById('orderSize')?.value || '',
+        deposit: document.getElementById('orderPayment').value === 'มัดจำ' ? 'yes' : 'no',
         time: new Date().toLocaleString('th-TH')
       };
 

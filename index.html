@@ -674,15 +674,13 @@
       loadReviewsFromSheet();
     }
 
-    // ===== REVIEW CAROUSEL (ดึงจากชีต tab "reviews" หรือคอลัมน์ Q+ ในชีตเดิม) =====
-    const REVIEW_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv&gid=0';
-
+    // ===== REVIEW CAROUSEL (ดึงจากชีตเดิม คอลัมน์ Q+) =====
     async function loadReviewsFromSheet() {
       const track = document.getElementById('reviewCarouselTrack');
       try {
         // ดึงจากชีตเดิม คอลัมน์ Q (index 16) = review_media_url, R (index 17) = review_caption
         // เริ่มอ่านจากแถวที่ 2 (ข้ามแถว header)
-        const resp = await fetch(REVIEW_SHEET_URL);
+        const resp = await fetch(SHEET_CSV_URL);
         if (!resp.ok) throw new Error('Fetch failed');
         const text = await resp.text();
         const gen = csvGenerator(text);

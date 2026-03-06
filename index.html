@@ -49,22 +49,22 @@
     /* --- HERO SECTION (V39 GRID LAYOUT) --- */
     #hero { 
       padding-top: 70px; 
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('Kk15vDQhijlQXkYvTe0HWt_1772631494000_na1fn_ZmFjdG9yeV9mcm9udF9maXhlZA.webp');
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('Kk15vDQhijlQXkYvTe0HWt_1772631494000_na1fn_ZmFjdG9yeV9mcm9udF9maXhlZA.webp');
       background-size: cover;
       background-position: center;
       color: white;
-      min-height: 500px;
+      min-height: 550px;
       display: flex;
       align-items: center;
     }
-    .hero-container { width: 90%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 50px; align-items: center; padding: 40px 0; }
+    .hero-container { width: 90%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; padding: 40px 0; }
     @media (min-width: 1024px) { .hero-container { grid-template-columns: 1.1fr 0.9fr; } }
     
     .hero-text-content { text-align: left; }
-    .hero-title { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-    @media (min-width: 1024px) { .hero-title { font-size: 44px; } }
+    .hero-title { font-size: 30px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    @media (min-width: 1024px) { .hero-title { font-size: 40px; } }
     
-    .hero-subtitle { font-size: 16px; font-weight: 400; margin-bottom: 30px; line-height: 1.5; color: rgba(255,255,255,0.9); }
+    .hero-subtitle { font-size: 15px; font-weight: 400; margin-bottom: 30px; line-height: 1.6; color: rgba(255,255,255,0.9); }
     
     .hero-btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
     .hero-btn { display: flex; align-items: center; justify-content: center; padding: 12px 25px; border-radius: 6px; text-decoration: none; color: white; font-weight: 700; font-size: 14px; min-width: 120px; }
@@ -82,55 +82,61 @@
     .float-btn.messenger { background: var(--blue); }
     .float-btn.phone { background: var(--red); }
 
-    section { padding: 50px 5%; }
+    section { padding: 60px 5%; }
     .section-inner { max-width: 1200px; margin: 0 auto; }
     .section-title { font-size: 28px; font-weight: 800; color: var(--dark); margin-bottom: 10px; text-align: center; }
     .section-title .accent { color: var(--red); }
-    .section-desc { font-size: 14px; color: var(--gray-dark); text-align: center; margin-bottom: 30px; }
+    .section-desc { font-size: 14px; color: var(--gray-dark); text-align: center; margin-bottom: 40px; }
 
     /* --- PRODUCT GRID --- */
     .tabs-container { margin-bottom: 30px; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
-    .tabs-list { display: flex; gap: 8px; list-style: none; justify-content: flex-start; }
-    .tab-btn { background: var(--white); border: 1px solid var(--border); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--gray-dark); }
-    .tab-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
+    .tabs-list { display: flex; gap: 10px; list-style: none; justify-content: center; }
+    @media (max-width: 768px) { .tabs-list { justify-content: flex-start; } }
+    .tab-btn { background: var(--white); border: 1px solid var(--border); padding: 10px 20px; border-radius: 25px; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--gray-dark); transition: 0.3s; }
+    .tab-btn.active { background: var(--red); color: var(--white); border-color: var(--red); box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); }
 
-    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
     @media (min-width: 992px) { .products-grid { grid-template-columns: repeat(4, 1fr); } }
     
-    .product-card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06); display: flex; flex-direction: column; border: 1px solid #f0f0f0; }
+    .product-card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06); display: flex; flex-direction: column; border: 1px solid #f0f0f0; transition: 0.3s; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
     .product-img { height: 180px; position: relative; background: #f9f9f9; display: flex; align-items: center; justify-content: center; }
     .product-img img { width: 100%; height: 100%; object-fit: cover; }
-    .product-price { position: absolute; bottom: 8px; right: 8px; background: var(--red); color: white; padding: 4px 10px; font-weight: 800; font-size: 14px; border-radius: 4px; }
-    .product-body { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
-    .product-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 6px; line-height: 1.3; height: 36px; overflow: hidden; }
-    .product-info { font-size: 11px; color: var(--gray-dark); margin-bottom: 10px; line-height: 1.4; flex-grow: 1; height: 30px; overflow: hidden; }
-    .product-actions { display: flex; flex-wrap: wrap; gap: 5px; }
-    .btn-video, .btn-review { flex: 1; background: #f0f0f0; color: #444; border: none; padding: 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
-    .btn-order { width: 100%; background: var(--red); color: white; border: none; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+    .product-price { position: absolute; bottom: 10px; right: 10px; background: var(--red); color: white; padding: 5px 12px; font-weight: 800; font-size: 14px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .product-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+    .product-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 8px; line-height: 1.4; height: 42px; overflow: hidden; }
+    .product-info { font-size: 12px; color: var(--gray-dark); margin-bottom: 15px; line-height: 1.5; flex-grow: 1; height: 36px; overflow: hidden; }
+    .product-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn-video, .btn-review { flex: 1; background: #f5f5f5; color: #555; border: 1px solid #eee; padding: 10px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .btn-video:hover, .btn-review:hover { background: #eee; }
+    .btn-order { width: 100%; background: var(--red); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 8px; transition: 0.3s; }
+    .btn-order:hover { background: var(--red-dk); }
 
     /* --- MODALS --- */
     .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 15px; }
     .modal.active { display: flex; }
-    .modal-content { width: 100%; max-width: 600px; background: #fff; border-radius: 12px; overflow: hidden; position: relative; max-height: 90vh; display: flex; flex-direction: column; }
-    .modal-close { position: absolute; top: 12px; right: 15px; font-size: 28px; cursor: pointer; color: #333; z-index: 10; }
-    .modal-header { padding: 15px 20px; border-bottom: 1px solid #eee; }
-    .modal-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
-    .review-images-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .review-images-grid img { width: 100%; border-radius: 8px; }
+    .modal-content { width: 100%; max-width: 600px; background: #fff; border-radius: 12px; overflow: hidden; position: relative; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+    .modal-close { position: absolute; top: 15px; right: 20px; font-size: 32px; cursor: pointer; color: #333; z-index: 10; line-height: 1; }
+    .modal-header { padding: 20px 25px; border-bottom: 1px solid #eee; background: #f8f9fa; }
+    .modal-body { padding: 25px; overflow-y: auto; flex-grow: 1; }
+    .review-images-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+    .review-images-grid img { width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
     /* --- ORDER FORM --- */
-    .order-form-group { margin-bottom: 15px; }
-    .order-form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; color: #444; }
-    .order-form-group input, .order-form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; }
-    .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .order-submit-btn { width: 100%; background: var(--red); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 800; cursor: pointer; }
+    .order-form-group { margin-bottom: 18px; }
+    .order-form-group label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #444; }
+    .order-form-group input, .order-form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; transition: 0.3s; }
+    .order-form-group input:focus, .order-form-group select:focus { border-color: var(--red); outline: none; box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1); }
+    .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .order-submit-btn { width: 100%; background: var(--red); color: white; border: none; padding: 16px; border-radius: 8px; font-size: 18px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+    .order-submit-btn:hover { background: var(--red-dk); transform: scale(1.02); }
     
-    .deposit-box { background: #fff5f5; border: 1px dashed var(--red); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
-    .deposit-box h4 { color: var(--red); font-size: 14px; margin-bottom: 10px; }
-    .qr-img { width: 200px; margin: 0 auto; display: block; border: 1px solid #eee; }
+    .deposit-box { background: #fff5f5; border: 2px dashed var(--red); padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: center; }
+    .deposit-box h4 { color: var(--red); font-size: 16px; margin-bottom: 12px; font-weight: 800; }
+    .qr-img { width: 220px; margin: 15px auto; display: block; border: 5px solid #fff; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
-    .loading { grid-column: 1 / -1; text-align: center; padding: 50px; }
-    .spinner { width: 30px; height: 30px; border: 3px solid #f3f3f3; border-top: 3px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+    .loading { grid-column: 1 / -1; text-align: center; padding: 80px; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
@@ -161,8 +167,8 @@
         <p class="hero-subtitle">ผลิตจากโรงงานชลบุรี มีประสบการณ์กว่า 15 ปี บันไดเหล็กคุณภาพสูง ทนทาน ปลอดภัย รับประกันความแข็งแรง ส่งด่วนทั่วประเทศ</p>
         <div class="hero-btn-group">
           <a href="#products" class="hero-btn btn-products">ดูสินค้า</a>
-          <a href="https://www.facebook.com/fourmotorbikes2" class="hero-btn btn-fb">Facebook</a>
-          <a href="https://line.me/ti/p/PWUPzNlcjF" class="hero-btn btn-line">Line</a>
+          <a href="https://www.facebook.com/fourmotorbikes2" target="_blank" class="hero-btn btn-fb">Facebook</a>
+          <a href="https://line.me/ti/p/PWUPzNlcjF" target="_blank" class="hero-btn btn-line">Line</a>
         </div>
       </div>
       <div class="hero-img-box">
@@ -175,7 +181,7 @@
   <section id="products">
     <div class="section-inner">
       <h2 class="section-title">สินค้า<span class="accent">ทั้งหมด</span></h2>
-      <p class="section-desc">เลือกสินค้าที่เหมาะกับรถของคุณ</p>
+      <p class="section-desc">เลือกสินค้าที่เหมาะกับรถของคุณ มั่นใจในคุณภาพ แข็งแรง ทนทาน</p>
       
       <div class="tabs-container">
         <ul class="tabs-list">
@@ -195,18 +201,18 @@
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" style="background: #f9f9f9; text-align: center; padding-bottom: 100px;">
-    <h3 style="margin-bottom: 15px;">ติดต่อสอบถามเพิ่มเติม</h3>
-    <p style="color: #666; font-size: 14px;">โทร: 092-2563892</p>
-    <div style="margin-top: 20px; border-radius: 15px; overflow: hidden; width: 90%; max-width: 800px; margin-left: auto; margin-right: auto;">
+  <section id="contact" style="background: #f9f9f9; text-align: center; padding-bottom: 120px;">
+    <h3 style="margin-bottom: 20px; font-size: 24px; font-weight: 800;">ติดต่อสอบถามเพิ่มเติม</h3>
+    <p style="color: #666; font-size: 16px; margin-bottom: 30px;">โทร: <a href="tel:0922563892" style="color: var(--red); font-weight: 800; text-decoration: none;">092-2563892</a></p>
+    <div style="margin-top: 20px; border-radius: 20px; overflow: hidden; width: 95%; max-width: 900px; margin-left: auto; margin-right: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
       <img src="fb_cover.webp" style="width: 100%; display: block;" alt="Cover" />
     </div>
   </section>
 
   <!-- FLOATING BUTTONS -->
   <div class="floating-btns">
-    <a href="https://line.me/ti/p/PWUPzNlcjF" class="float-btn line"><i class="fab fa-line"></i></a>
-    <a href="https://m.me/fourmotorbikes2" class="float-btn messenger"><i class="fab fa-facebook-messenger"></i></a>
+    <a href="https://line.me/ti/p/PWUPzNlcjF" target="_blank" class="float-btn line"><i class="fab fa-line"></i></a>
+    <a href="https://m.me/fourmotorbikes2" target="_blank" class="float-btn messenger"><i class="fab fa-facebook-messenger"></i></a>
     <a href="tel:0922563892" class="float-btn phone"><i class="fas fa-phone-alt"></i></a>
   </div>
 
@@ -223,7 +229,7 @@
     <div class="modal-content">
       <span class="modal-close" onclick="closeReviewModal()">&times;</span>
       <div class="modal-header">
-        <h3 id="reviewTitle" style="font-size: 16px;">ดูรีวิวสินค้า</h3>
+        <h3 id="reviewTitle" style="font-size: 18px; font-weight: 800;">ดูรีวิวสินค้า</h3>
       </div>
       <div class="modal-body">
         <div id="reviewImagesGrid" class="review-images-grid"></div>
@@ -236,7 +242,7 @@
     <div class="modal-content">
       <span class="modal-close" onclick="closeOrderModal()">&times;</span>
       <div class="modal-header">
-        <h3 style="font-size: 16px;">สั่งซื้อ: <span id="orderProductName" style="color: var(--red);"></span></h3>
+        <h3 style="font-size: 18px; font-weight: 800;">สั่งซื้อ: <span id="orderProductName" style="color: var(--red);"></span></h3>
       </div>
       <div class="modal-body">
         <form id="orderForm" onsubmit="submitOrder(event)">
@@ -254,15 +260,31 @@
           <div class="order-form-group">
             <label>ที่อยู่จัดส่ง *</label>
             <div class="order-form-group">
-              <input type="text" id="orderHouse" placeholder="บ้านเลขที่/หมู่บ้าน/ซอย" required />
+              <input type="text" id="orderHouse" placeholder="บ้านเลขที่ / หมู่บ้าน / ซอย" required />
             </div>
-            <div class="address-grid">
-              <select id="orderProv" required onchange="handleProvChange()"><option value="">-- จังหวัด --</option></select>
-              <select id="orderDist" required onchange="handleDistChange()"><option value="">-- อำเภอ --</option></select>
+            
+            <!-- THAILAND ADDRESS AUTOCOMPLETE DROPDOWNS -->
+            <div class="order-form-group">
+              <label>จังหวัด *</label>
+              <select id="orderProv" required onchange="onProvinceChange()">
+                <option value="">-- เลือกจังหวัด --</option>
+              </select>
             </div>
-            <div class="address-grid" style="margin-top: 8px;">
-              <select id="orderSub" required><option value="">-- ตำบล --</option></select>
-              <input type="text" id="orderZip" placeholder="รหัสไปรษณีย์" required />
+            <div class="order-form-group">
+              <label>อำเภอ / เขต *</label>
+              <select id="orderDist" required onchange="onDistrictChange()" disabled>
+                <option value="">-- เลือกอำเภอ --</option>
+              </select>
+            </div>
+            <div class="order-form-group">
+              <label>ตำบล / แขวง *</label>
+              <select id="orderSub" required onchange="onSubdistrictChange()" disabled>
+                <option value="">-- เลือกตำบล --</option>
+              </select>
+            </div>
+            <div class="order-form-group">
+              <label>รหัสไปรษณีย์ *</label>
+              <input type="text" id="orderZip" placeholder="รหัสไปรษณีย์" required readonly />
             </div>
           </div>
           
@@ -284,21 +306,11 @@
     const csvUrl = "https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv";
     let allProducts = [];
     let currentCategory = "ทั้งหมด";
+    let thailandData = null;
     
-    // Address Data
-    const provinces = ["ชลบุรี", "กรุงเทพมหานคร", "ระยอง", "ฉะเชิงเทรา", "สมุทรปราการ", "อื่นๆ"];
-    const districts = {
-      "ชลบุรี": ["เมืองชลบุรี", "ศรีราชา", "บางละมุง", "พานทอง", "บ้านบึง", "พนักนิคม", "สัตหีบ", "บ่อทอง", "เกาะจันทร์", "หนองใหญ่"],
-      "กรุงเทพมหานคร": ["บางนา", "ห้วยขวาง", "ลาดพร้าว", "ประเวศ", "ลาดกระบัง", "อื่นๆ"],
-      "ระยอง": ["เมืองระยอง", "ปลวกแดง", "บ้านค่าย", "นิคมพัฒนา", "บ้านฉาง", "อื่นๆ"],
-      "ฉะเชิงเทรา": ["เมืองฉะเชิงเทรา", "บางปะกง", "บ้านโพธิ์", "พนมสารคาม", "อื่นๆ"],
-      "สมุทรปราการ": ["เมืองสมุทรปราการ", "บางพลี", "บางบ่อ", "พระประแดง", "อื่นๆ"],
-      "อื่นๆ": ["ระบุในที่อยู่"]
-    };
-
     document.addEventListener("DOMContentLoaded", function() {
       loadProducts();
-      initAddress();
+      loadThailandData();
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelector('.tab-btn.active').classList.remove('active');
@@ -309,29 +321,96 @@
       });
     });
 
-    function initAddress() {
-      const provSelect = document.getElementById('orderProv');
-      provinces.forEach(p => provSelect.add(new Option(p, p)));
-    }
-    function handleProvChange() {
-      const prov = document.getElementById('orderProv').value;
-      const distSelect = document.getElementById('orderDist');
-      distSelect.innerHTML = '<option value="">-- อำเภอ --</option>';
-      if (districts[prov]) districts[prov].forEach(d => distSelect.add(new Option(d, d)));
-      handleDistChange();
-    }
-    function handleDistChange() {
-      const subSelect = document.getElementById('orderSub');
-      subSelect.innerHTML = '<option value="">-- ตำบล --</option>';
-      const dist = document.getElementById('orderDist').value;
-      if (dist) subSelect.add(new Option("ระบุในช่องที่อยู่ด้านบน", "ระบุในที่อยู่"));
+    // --- THAILAND ADDRESS AUTOCOMPLETE SYSTEM ---
+    async function loadThailandData() {
+      try {
+        const response = await fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json');
+        thailandData = await response.json();
+        initProvinces();
+      } catch (err) {
+        console.error("Failed to load Thailand data", err);
+      }
     }
 
+    function initProvinces() {
+      const provSelect = document.getElementById('orderProv');
+      provSelect.innerHTML = '<option value="">-- เลือกจังหวัด --</option>';
+      thailandData.sort((a, b) => a.name_th.localeCompare(b.name_th)).forEach(p => {
+        provSelect.add(new Option(p.name_th, p.id));
+      });
+    }
+
+    function onProvinceChange() {
+      const provId = document.getElementById('orderProv').value;
+      const distSelect = document.getElementById('orderDist');
+      const subSelect = document.getElementById('orderSub');
+      const zipInput = document.getElementById('orderZip');
+      
+      distSelect.innerHTML = '<option value="">-- เลือกอำเภอ --</option>';
+      subSelect.innerHTML = '<option value="">-- เลือกตำบล --</option>';
+      subSelect.disabled = true;
+      zipInput.value = '';
+      
+      if (!provId) {
+        distSelect.disabled = true;
+        return;
+      }
+      
+      const province = thailandData.find(p => p.id == provId);
+      province.amphure.sort((a, b) => a.name_th.localeCompare(b.name_th)).forEach(a => {
+        distSelect.add(new Option(a.name_th, a.id));
+      });
+      distSelect.disabled = false;
+    }
+
+    function onDistrictChange() {
+      const provId = document.getElementById('orderProv').value;
+      const distId = document.getElementById('orderDist').value;
+      const subSelect = document.getElementById('orderSub');
+      const zipInput = document.getElementById('orderZip');
+      
+      subSelect.innerHTML = '<option value="">-- เลือกตำบล --</option>';
+      zipInput.value = '';
+      
+      if (!distId) {
+        subSelect.disabled = true;
+        return;
+      }
+      
+      const province = thailandData.find(p => p.id == provId);
+      const district = province.amphure.find(a => a.id == distId);
+      district.tambon.sort((a, b) => a.name_th.localeCompare(b.name_th)).forEach(t => {
+        subSelect.add(new Option(t.name_th, t.id));
+      });
+      subSelect.disabled = false;
+    }
+
+    function onSubdistrictChange() {
+      const provId = document.getElementById('orderProv').value;
+      const distId = document.getElementById('orderDist').value;
+      const subId = document.getElementById('orderSub').value;
+      const zipInput = document.getElementById('orderZip');
+      
+      if (!subId) {
+        zipInput.value = '';
+        return;
+      }
+      
+      const province = thailandData.find(p => p.id == provId);
+      const district = province.amphure.find(a => a.id == distId);
+      const subdistrict = district.tambon.find(t => t.id == subId);
+      zipInput.value = subdistrict.zip_code;
+    }
+
+    // --- PRODUCT LOADING & RENDERING ---
     function loadProducts() {
       fetch(csvUrl).then(res => res.text()).then(data => {
         allProducts = parseCSV(data);
         renderProducts();
-      }).catch(err => console.log("Load error"));
+      }).catch(err => {
+        console.log("Load error", err);
+        document.getElementById('products-container').innerHTML = '<p style="text-align:center; grid-column:1/-1;">ไม่สามารถโหลดข้อมูลสินค้าได้ กรุณาลองใหม่อีกครั้ง</p>';
+      });
     }
 
     function parseCSV(csv) {
@@ -339,7 +418,7 @@
       const result = [];
       for (let i = 1; i < lines.length; i++) {
         const row = lines[i];
-        if (!row) continue;
+        if (!row || row.trim() === "") continue;
         const parts = [];
         let inQuotes = false, current = "";
         for (let char of row) {
@@ -379,10 +458,15 @@
       const container = document.getElementById('products-container');
       const filtered = currentCategory === "ทั้งหมด" ? allProducts : allProducts.filter(p => p.category === currentCategory);
       
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">ไม่มีสินค้าในหมวดนี้</p>';
+        return;
+      }
+
       container.innerHTML = filtered.map(p => `
         <div class="product-card">
           <div class="product-img">
-            <img src="${p.image}" alt="${p.name}" onclick="window.open('${p.image}', '_blank')">
+            <img src="${p.image}" alt="${p.name}" loading="lazy" onclick="window.open('${p.image}', '_blank')">
             <div class="product-price">${p.price.includes('เริ่มต้น') ? p.price : '฿' + p.price}</div>
           </div>
           <div class="product-body">
@@ -412,7 +496,7 @@
       const p = allProducts.find(x => x.name === name);
       if (!p || !p.review) return;
       document.getElementById('reviewTitle').textContent = 'รีวิว: ' + name;
-      document.getElementById('reviewImagesGrid').innerHTML = p.review.split('|').map(img => `<img src="${img.trim()}">`).join('');
+      document.getElementById('reviewImagesGrid').innerHTML = p.review.split('|').map(img => `<img src="${img.trim()}" loading="lazy">`).join('');
       document.getElementById('reviewModal').classList.add('active');
     }
     function closeReviewModal() { document.getElementById('reviewModal').classList.remove('active'); }
@@ -427,7 +511,8 @@
       if (p.type === '3fold') {
         const models = ['Tiger', 'Isuzu', 'Toyota', 'Ford', 'Mitsubishi', 'Nissan', 'Mazda', 'Chevrolet', 'Mg', 'Riddara'];
         const colors = ['ดำ', 'บลอน', 'แดง', 'เขียว', 'เหลือง', 'ฟ้า', 'ส้ม'];
-        opts.innerHTML = `<div class="order-form-group"><label>รุ่นรถยนต์ *</label><select id="orderModel" required><option value="">-- เลือกรุ่น --</option>${models.map(m => `<option>${m}</option>`).join('')}</select></div>
+        opts.innerHTML = `
+          <div class="order-form-group"><label>รุ่นรถยนต์ *</label><select id="orderModel" required><option value="">-- เลือกรุ่น --</option>${models.map(m => `<option>${m}</option>`).join('')}</select></div>
           <div class="order-form-group"><label>ปีรถ *</label><select id="orderYear" required><option value="">-- เลือกปี --</option>${Array.from({length: 24}, (_, i) => 2003 + i).map(y => `<option>${y}</option>`).join('')}</select></div>
           <div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option>${colors.map(c => `<option>${c}</option>`).join('')}</select></div>`;
       } else if (p.type === '2fold') {
@@ -440,7 +525,12 @@
       const price = parseInt(p.price.replace(/[^0-9]/g, '')) || 0;
       const depositArea = document.getElementById('depositArea');
       if (price >= 4000) {
-        depositArea.innerHTML = `<div class="deposit-box"><h4>⚠️ สินค้านี้มัดจำ 500 บาท</h4><p style="font-size:12px; margin-bottom:10px;">กรุณาโอนมัดจำและแนบสลิปใน LINE หลังสั่งซื้อ</p><img src="qr_code.webp" class="qr-img" alt="QR Code"></div>`;
+        depositArea.innerHTML = `
+          <div class="deposit-box">
+            <h4>⚠️ สินค้านี้มีมัดจำ 500 บาท</h4>
+            <p style="font-size:13px; margin-bottom:10px;">กรุณาโอนมัดจำและแนบสลิปใน LINE หลังสั่งซื้อ</p>
+            <img src="qr_code.webp" class="qr-img" alt="QR Code">
+          </div>`;
       } else {
         depositArea.innerHTML = '';
       }
@@ -451,25 +541,38 @@
     function submitOrder(e) {
       e.preventDefault();
       const btn = e.target.querySelector('button');
-      btn.disabled = true; btn.textContent = 'กำลังส่ง...';
+      btn.disabled = true; btn.textContent = 'กำลังส่งข้อมูล...';
+      
+      const provEl = document.getElementById('orderProv');
+      const distEl = document.getElementById('orderDist');
+      const subEl = document.getElementById('orderSub');
       
       const data = {
         product: document.getElementById('orderProductName').textContent,
         name: document.getElementById('orderName').value,
         phone: document.getElementById('orderPhone').value,
-        address: `${document.getElementById('orderHouse').value} ต.${document.getElementById('orderSub').value} อ.${document.getElementById('orderDist').value} จ.${document.getElementById('orderProv').value} ${document.getElementById('orderZip').value}`,
+        address: `${document.getElementById('orderHouse').value} ต.${subEl.options[subEl.selectedIndex].text} อ.${distEl.options[distEl.selectedIndex].text} จ.${provEl.options[provEl.selectedIndex].text} ${document.getElementById('orderZip').value}`,
         payment: document.getElementById('orderPayment').value,
-        model: document.getElementById('orderModel')?.value || '',
-        year: document.getElementById('orderYear')?.value || '',
-        color: document.getElementById('orderColor')?.value || '',
-        size: document.getElementById('orderSize')?.value || '',
+        model: document.getElementById('orderModel')?.value || '-',
+        year: document.getElementById('orderYear')?.value || '-',
+        color: document.getElementById('orderColor')?.value || '-',
+        size: document.getElementById('orderSize')?.value || '-',
         time: new Date().toLocaleString('th-TH')
       };
 
       fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-      }).then(() => { alert('สั่งซื้อสำเร็จ! เราจะติดต่อกลับเพื่อยืนยันออเดอร์ครับ'); closeOrderModal(); }).catch(() => alert('ผิดพลาด!'))
-      .finally(() => { btn.disabled = false; btn.textContent = 'ยืนยันการสั่งซื้อ'; });
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data)
+      }).then(() => { 
+        alert('สั่งซื้อสำเร็จ! เราจะติดต่อกลับเพื่อยืนยันออเดอร์ครับ'); 
+        closeOrderModal(); 
+      }).catch(err => {
+        alert('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาติดต่อทาง Line หรือ Facebook แทนครับ');
+      }).finally(() => { 
+        btn.disabled = false; 
+        btn.textContent = 'ยืนยันการสั่งซื้อ'; 
+      });
     }
   </script>
 </body>

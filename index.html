@@ -39,7 +39,6 @@
     .nav-logo-text span:last-child { font-size: 10px; color: var(--red); letter-spacing: 1px; font-weight: 600; }
     .nav-links { display: flex; gap: 30px; list-style: none; }
     .nav-links a { color: var(--dark); text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; }
-    .nav-links a { font-family: 'Sarabun', sans-serif; }
     .nav-links a:hover { color: var(--red); }
     .nav-cta { background: var(--red); color: var(--white); padding: 10px 24px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 700; transition: 0.3s; }
     .nav-cta:hover { background: var(--red-dk); }
@@ -50,38 +49,9 @@
     .section-title .accent { color: var(--red); }
     .section-desc { font-size: 15px; color: var(--gray-dark); text-align: center; max-width: 600px; margin: 0 auto 40px; line-height: 1.8; }
 
-    @media (max-width: 768px) {
-      #hero { min-height: auto; padding: 120px 5% 60px; }
-      .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 30px; }
-      .hero-btns { justify-content: center; flex-wrap: wrap; }
-      .hero-img { height: 300px; }
-      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-      .product-img { height: 180px; }
-      .product-title { font-size: 13px; }
-      .product-price { font-size: 14px; padding: 6px 10px; }
-      .product-body { padding: 12px; }
-      .product-info { font-size: 11px; }
-      .nav-links { display: none; }
-      .nav-cta { padding: 8px 16px; font-size: 11px; }
-      .section-title { font-size: 24px; }
-    }
     #hero { min-height: 80vh; display: flex; align-items: center; background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.3) 100%), url('https://fourmotorbikes.github.io/fourmotorbikes/factory.webp') center/cover no-repeat; padding-top: 100px; }
+    
     @media (max-width: 768px) {
-    @media (max-width: 768px) {
-      #hero { min-height: auto; padding: 120px 5% 60px; }
-      .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 30px; }
-      .hero-btns { justify-content: center; flex-wrap: wrap; }
-      .hero-img { height: 300px; }
-      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-      .product-img { height: 180px; }
-      .product-title { font-size: 13px; }
-      .product-price { font-size: 14px; padding: 6px 10px; }
-      .product-body { padding: 12px; }
-      .product-info { font-size: 11px; }
-      .nav-links { display: none; }
-      .nav-cta { padding: 8px 16px; font-size: 11px; }
-      .section-title { font-size: 24px; }
-    }
       #hero { min-height: auto; padding: 120px 5% 60px; }
       .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 30px; }
       .hero-btns { justify-content: center; flex-wrap: wrap; }
@@ -97,6 +67,7 @@
       .section-title { font-size: 24px; }
       .contact-container { grid-template-columns: 1fr; }
     }
+
     .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 50px; align-items: center; }
     .hero-badge { display: inline-block; background: rgba(255, 255, 255, 0.95); border: 2px solid var(--red); padding: 10px 20px; border-radius: 25px; font-size: 13px; color: var(--red); font-weight: 700; margin-bottom: 20px; letter-spacing: 0.5px; }
     .hero-title { font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.5); }
@@ -123,20 +94,30 @@
     .product-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
     .product-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
     .product-info { font-size: 12px; color: var(--gray-dark); margin-bottom: 12px; line-height: 1.6; flex-grow: 1; }
-    .product-actions { display: flex; gap: 10px; margin-top: 15px; }
-    .btn-video { flex: 1; background: #f8f9fa; color: #333; border: 1px solid #ddd; padding: 8px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.3s; }
-    .btn-video:hover { background: #eee; }
-    .btn-video i { color: var(--red); }
+    .product-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
     
-    .btn-order { flex: 1; background: var(--red); color: var(--white); border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .btn-video, .btn-review { flex: 1; background: #f8f9fa; color: #333; border: 1px solid #ddd; padding: 8px; border-radius: 4px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; transition: 0.3s; min-width: 80px; }
+    .btn-video:hover, .btn-review:hover { background: #eee; }
+    .btn-video i { color: var(--red); }
+    .btn-review i { color: #f1c40f; }
+    
+    .btn-order { width: 100%; background: var(--red); color: var(--white); border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 5px; }
     .btn-order:hover { background: var(--red-dk); }
 
     .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
     .modal.active { display: flex; }
     .modal-content { width: 100%; max-width: 900px; position: relative; background: #000; border-radius: 8px; overflow: hidden; }
-    .modal-close { position: absolute; top: -40px; right: 0; color: white; font-size: 30px; cursor: pointer; }
+    .modal-close { position: absolute; top: 15px; right: 15px; color: white; font-size: 30px; cursor: pointer; z-index: 10; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
     .video-container { width: 100%; aspect-ratio: 16/9; }
     .video-container iframe { width: 100%; height: 100%; }
+    
+    /* Review Modal Styles */
+    #reviewModal .modal-content { background: #fff; max-width: 600px; max-height: 90vh; display: flex; flex-direction: column; }
+    .review-header { padding: 20px; border-bottom: 1px solid #eee; }
+    .review-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
+    .review-images-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+    .review-img-item { width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
+    .review-img-item img { width: 100%; height: auto; display: block; }
     
     #orderModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
     #orderModal.active { display: flex; }
@@ -155,6 +136,65 @@
     .order-form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: 'Sarabun', sans-serif; font-size: 13px; transition: 0.3s; }
     .order-form-group select:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1); }
     
+    .order-submit-btn { width: 100%; background: var(--red); color: var(--white); border: none; padding: 15px; border-radius: 6px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+    .order-submit-btn:hover { background: var(--red-dk); }
+    .order-submit-btn:disabled { background: var(--gray-dark); cursor: not-allowed; }
+
+    .loading { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 0; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    #contact { background: var(--white); }
+    .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+    .contact-info h3 { font-size: 24px; font-weight: 700; margin-bottom: 20px; }
+    .contact-list { list-style: none; }
+    .contact-item { display: flex; gap: 15px; margin-bottom: 20px; }
+    .contact-icon { width: 45px; height: 45px; background: var(--gray-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--red); font-size: 18px; flex-shrink: 0; }
+    .contact-text h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .contact-text p { font-size: 14px; color: var(--gray-dark); }
+    .contact-social { display: flex; gap: 15px; margin-top: 30px; }
+    .social-btn { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); text-decoration: none; font-size: 20px; transition: 0.3s; }
+    .social-btn.fb { background: #1877f2; }
+    .social-btn.line { background: #06c755; }
+    .social-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">
+      <img src="https://fourmotorbikes.github.io/fourmotorbikes/fb_logo.webp" alt="Four Motorbikes Logo" />
+      <div class="nav-logo-text">
+        <span>FOUR MOTORBIKES</span>
+        <span>โรงงานผลิตชลบุรี</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero">หน้าแรก</a></li>
+      <li><a href="#products">สินค้า</a></li>
+      <li><a href="#contact">ติดต่อเรา</a></li>
+    </ul>
+    <a href="https://line.me/ti/p/PWUPzNlcjF" class="nav-cta">สั่งซื้อทาง LINE</a>
+  </nav>
+
+  <section id="hero">
+    <div class="section-inner">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <span class="hero-badge">โรงงานผลิตเอง ราคาถูกที่สุด</span>
+          <h1 class="hero-title">บันไดขึ้นรถมอเตอร์ไซค์ <br/><span style="color: #e74c3c;">คุณภาพมาตรฐาน</span></h1>
+          <p class="hero-desc">บันได 2 พับ, 3 พับกั้นคอก, บันไดขึ้นฟุตบาท และแรมป์รถยนต์ แข็งแรง ทนทาน รับประกันคุณภาพจากโรงงานชลบุรี</p>
+          <div class="hero-btns">
+            <a href="#products" class="btn-primary">ดูสินค้าทั้งหมด</a>
+            <a href="#contact" class="btn-primary" style="background: var(--white); color: var(--dark); border: 1px solid var(--border);">ติดต่อสอบถาม</a>
+          </div>
+        </div>
+        <div class="hero-img">
+          <img src="https://fourmotorbikes.github.io/fourmotorbikes/factory.webp" alt="โรงงาน Four Motorbikes" />
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="products">
     <div class="section-inner">
@@ -178,394 +218,234 @@
     </div>
   </section>
 
-  <section id="products-header" style="background: #fff; padding: 40px 5%; border-top: 3px solid #e74c3c;">
-    <div class="section-inner">
-      <h2 class="section-title" style="font-size: 32px; margin-bottom: 0;">สินค้า<span class="accent">ทั้งหมด</span></h2>
-      <p style="text-align: center; color: #666; margin-top: 8px; font-size: 14px;">ดูรายการสินค้าที่มีให้เลือกสรรด้านบน</p>
-    </div>
-  </section>
-
-  <section id="reviews" style="background: #f8f9fa;">
-    <div class="section-inner">
-      <h2 class="section-title">รีวิว<span class="accent">จากลูกค้า</span></h2>
-      <p class="section-desc">ความพึงพอใจจากลูกค้าจริงที่ใช้สินค้าของเรา</p>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px;">
-        <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-          <div style="display: flex; align-items: center; margin-bottom: 16px;">
-            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b6b, #ee5a6f); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; margin-right: 12px;">ส</div>
-            <div>
-              <p style="margin: 0; font-weight: 700; color: var(--dark);">สมชาย ใจดี</p>
-              <p style="margin: 4px 0 0 0; color: var(--gray-dark); font-size: 14px;">ผู้ประกอบการขนส่ง</p>
-            </div>
-          </div>
-          <div style="color: #ffc107; margin-bottom: 12px;">★★★★★</div>
-          <p style="color: var(--gray-dark); line-height: 1.6; margin: 0;">&quot;บันไดคุณภาพดี ทนทาน ใช้ได้นานมากกว่า 2 ปี ยังแข็งแรงเหมือนเดิม ราคาก็ถูกกว่าที่อื่น แนะนำเลย&quot;</p>
-        </div>
-        <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-          <div style="display: flex; align-items: center; margin-bottom: 16px;">
-            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #4ecdc4, #44a08d); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; margin-right: 12px;">ว</div>
-            <div>
-              <p style="margin: 0; font-weight: 700; color: var(--dark);">วิชัย ศรีสุข</p>
-              <p style="margin: 4px 0 0 0; color: var(--gray-dark); font-size: 14px;">เจ้าของร้านซ่อมรถ</p>
-            </div>
-          </div>
-          <div style="color: #ffc107; margin-bottom: 12px;">★★★★★</div>
-          <p style="color: var(--gray-dark); line-height: 1.6; margin: 0;">&quot;ติดต่อสั่งซื้องง่าย ส่งของเรียว บันไดแข็งแรง ลูกค้าของผมพอใจ ใช้มานานปีแล้ว ไม่มีปัญหา&quot;</p>
-        </div>
-        <div style="background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-          <div style="display: flex; align-items: center; margin-bottom: 16px;">
-            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; margin-right: 12px;">ก</div>
-            <div>
-              <p style="margin: 0; font-weight: 700; color: var(--dark);">กัญญา ใจบุญ</p>
-              <p style="margin: 4px 0 0 0; color: var(--gray-dark); font-size: 14px;">ผู้ประกอบการนำเข้าสินค้า</p>
-            </div>
-          </div>
-          <div style="color: #ffc107; margin-bottom: 12px;">★★★★★</div>
-          <p style="color: var(--gray-dark); line-height: 1.6; margin: 0;">&quot;บันไดเหล็กที่ดีที่สุดที่เคยใช้ ปลอดภัย ทนทาน ราคาเหมาะสม ขอบคุณ Four Motorbikes ครับ&quot;</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="contact">
     <div class="section-inner">
       <div class="contact-container">
         <div class="contact-info">
-          <h2>ติดต่อ<span class="accent">สอบถาม</span></h2>
-          <p>ยินดีให้คำปรึกษาเรื่องการเลือกขนาดบันไดให้เหมาะกับรถของคุณ ทักแชทหรือโทรหาเราได้ตลอด 24 ชม.</p>
-          <div class="contact-item"><i class="fas fa-phone"></i> 092-2563918 / 092-2563892</div>
-          <div class="contact-item"><i class="fab fa-line"></i> <a href="https://line.me/ti/p/PWUPzNlcjF" target="_blank" style="color: #00b900; text-decoration: none;">Line: Four Motorbikes</a></div>
-          <div class="contact-item"><i class="fab fa-facebook"></i> <a href="https://www.facebook.com/fourmotorbikes2" target="_blank" style="color: #0084ff; text-decoration: none;">Four Motorbikes ชลบุรี</a></div>
-          <div class="contact-item"><i class="fas fa-map-marker-alt"></i> ชลบุรี (มารับของเองที่โรงงานได้)</div>
+          <h2 class="section-title" style="text-align: left;">ติดต่อ<span class="accent">เรา</span></h2>
+          <p style="margin-bottom: 30px; color: var(--gray-dark);">สอบถามข้อมูลเพิ่มเติมหรือสั่งซื้อสินค้าได้ทุกช่องทางครับ</p>
+          
+          <ul class="contact-list">
+            <li class="contact-item">
+              <div class="contact-icon"><i class="fas fa-phone"></i></div>
+              <div class="contact-text">
+                <h4>เบอร์โทรศัพท์</h4>
+                <p>092-2563918 / 092-2563892</p>
+              </div>
+            </li>
+            <li class="contact-item">
+              <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="contact-text">
+                <h4>ที่อยู่โรงงาน</h4>
+                <p>จังหวัดชลบุรี (จัดส่งทั่วประเทศ)</p>
+              </div>
+            </li>
+          </ul>
+          
+          <div class="contact-social">
+            <a href="https://www.facebook.com/fourmotorbikes2" class="social-btn fb"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://line.me/ti/p/PWUPzNlcjF" class="social-btn line"><i class="fab fa-line"></i></a>
+          </div>
         </div>
-        <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 400px;">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3873.423!2d101.0!3d12.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311d3315f139a7fb%3A0x39c9669c2c9c8fa4!2sFour%20Motorbikes!5e0!3m2!1sth!2sth!4v1709539200000" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="contact-map" style="border-radius: 12px; overflow: hidden; height: 350px;">
+           <img src="https://fourmotorbikes.github.io/fourmotorbikes/fb_cover.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Contact Cover" />
         </div>
-        <form class="contact-form" onsubmit="handleSubmit(event)" style="margin-top: 30px;">
-          <div class="form-group">
-            <label>ชื่อ</label>
-            <input type="text" placeholder="ระบุชื่อ" required />
-          </div>
-          <div class="form-group">
-            <label>เบอร์โทรศัพท์</label>
-            <input type="tel" placeholder="0xx-xxx-xxxx" required />
-          </div>
-          <div class="form-group">
-            <label>สินค้าที่สนใจ</label>
-            <select id="product-select" required>
-              <option>-- เลือกสินค้า --</option>
-            </select>
-          </div>
-          <button type="submit" class="submit-btn">ส่งข้อมูล</button>
-        </form>
       </div>
     </div>
   </section>
 
-  <footer>
-    <p>&copy; 2026 Four Motorbikes ชลบุรี | บันไดขึ้นรถมอเตอร์ไซค์คุณภาพโรงงาน</p>
-  </footer>
-
-  <div class="floating-btns">
-    <a href="https://line.me/ti/p/PWUPzNlcjF" target="_blank" class="float-btn" style="background: #00b900;"><i class="fab fa-line"></i></a>
-    <a href="https://m.me/fourmotorbikes2" target="_blank" class="float-btn msg-btn"><i class="fab fa-facebook-messenger"></i></a>
-    <a href="tel:0922563918" class="float-btn phone-btn"><i class="fas fa-phone"></i></a>
-  </div>
-
-  <div id="reviewSubmitModal">
-    <div class="order-modal-content">
-      <button class="order-modal-close" onclick="closeReviewSubmitModal()">&times;</button>
-      <h2 class="order-form-title">📝 ส่งรีวิว</h2>
-      <p class="order-form-subtitle">แบ่งปันประสบการณ์การใช้สินค้าของคุณ</p>
-      <form id="reviewSubmitForm" onsubmit="submitReview(event)">
-        <div class="order-form-group">
-          <label>สินค้า</label>
-          <div class="product-info-display" id="reviewProductDisplay">--</div>
-        </div>
-        <div class="order-form-group">
-          <label>ชื่อของคุณ *</label>
-          <input type="text" id="reviewSubmitName" placeholder="เช่น สมชาย ใจดี" required />
-        </div>
-        <div class="order-form-group">
-          <label>อาชีพ/ธุรกิจ</label>
-          <input type="text" id="reviewSubmitOccupation" placeholder="เช่น ผู้ประกอบการขนส่ง" />
-        </div>
-        <div class="order-form-group">
-          <label>คะแนนดาว *</label>
-          <div class="star-rating" id="reviewStarRating">
-            <span class="star" data-value="1">★</span>
-            <span class="star" data-value="2">★</span>
-            <span class="star" data-value="3">★</span>
-            <span class="star" data-value="4">★</span>
-            <span class="star" data-value="5">★</span>
-          </div>
-          <input type="hidden" id="reviewSubmitRating" value="0" required />
-        </div>
-        <div class="order-form-group">
-          <label>ข้อความรีวิว *</label>
-          <textarea id="reviewSubmitText" placeholder="บอกให้เรารู้ว่าคุณคิดอย่างไรกับสินค้า..." required></textarea>
-        </div>
-        <div class="order-form-group">
-          <label>อัปโหลดรูปภาพ (ไม่บังคับ)</label>
-          <input type="file" id="reviewSubmitImage" accept="image/*" />
-          <small style="color: #666; display: block; margin-top: 4px;">ขนาดไม่เกิน 5 MB</small>
-        </div>
-        <button type="submit" class="order-submit-btn">ส่งรีวิว</button>
-      </form>
+  <!-- Video Modal -->
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeVideoModal()">&times;</span>
+      <div id="videoContainer" class="video-container"></div>
     </div>
   </div>
-
-  <div id="reviewModal">
-    <div class="review-modal-content">
-      <button class="review-modal-close" onclick="closeReviewModal()">&times;</button>
-      <div class="review-image-container">
-        <img id="reviewImage" src="" alt="Review" />
-        <button class="review-nav prev" onclick="prevReviewImage()" style="display:none;" id="prevBtn">&lt;</button>
-        <button class="review-nav next" onclick="nextReviewImage()" style="display:none;" id="nextBtn">&gt;</button>
-        <div class="review-counter" id="reviewCounter" style="display:none;"></div>
+  
+  <!-- Review Modal -->
+  <div id="reviewModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeReviewModal()" style="color: #333;">&times;</span>
+      <div class="review-header">
+        <h3 id="reviewProductName" style="font-size: 18px; color: var(--dark);">รีวิวสินค้า</h3>
+      </div>
+      <div class="review-body">
+        <div id="reviewImagesGrid" class="review-images-grid">
+          <!-- Images will be loaded here -->
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Order Modal -->
   <div id="orderModal">
     <div class="order-modal-content">
       <button class="order-modal-close" onclick="closeOrderModal()">&times;</button>
-      <h2 class="order-form-title">สั่งซื้อสินค้า</h2>
-      <p class="order-form-subtitle">กรุณากรอกข้อมูลของคุณเพื่อส่งคำสั่งซื้อ</p>
+      <h3 class="order-form-title">ยืนยันการสั่งซื้อ</h3>
+      <p class="order-form-subtitle">สินค้า: <span id="selectedProductDisplay" style="color: #e74c3c; font-weight: 700;"></span></p>
+      
       <form id="orderForm" onsubmit="submitOrder(event)">
-        <div class="order-form-group">
-          <label>สินค้าที่เลือก</label>
-          <div class="product-info-display" id="selectedProductDisplay">--</div>
-        </div>
+        <div id="productOptionsContainer"></div>
+        <div id="depositWarning"></div>
+
         <div class="order-form-group">
           <label>ชื่อ-นามสกุล *</label>
-          <input type="text" id="orderName" placeholder="เช่น สมชาย ใจดี" required />
+          <input type="text" id="orderName" placeholder="ระบุชื่อผู้รับ" required />
         </div>
         <div class="order-form-group">
           <label>เบอร์โทรศัพท์ *</label>
-          <input type="tel" id="orderPhone" placeholder="0xx-xxx-xxxx" pattern="[0-9\\-]{9,}" required />
+          <input type="tel" id="orderPhone" placeholder="ระบุเบอร์โทรที่ติดต่อได้" required />
         </div>
-        <div id="productOptionsContainer"></div>
-        <div id="depositWarning"></div>
-        <div class="order-form-group address-row full">
-          <label>บ้านเลขที่ / หมู่ / ซอย / ถนน *</label>
-          <input type="text" id="orderHouseNumber" placeholder="เช่น 123 หมู่ 4 ซอยเมนธรรม ถนนสุขุมวิท" required />
-        </div>
-        <div class="address-row">
-          <div class="order-form-group">
-            <label>ตำบล / แขวง *</label>
-            <input type="text" id="orderSubdistrict" placeholder="เช่น บ้านฉาง" required />
+        
+        <div class="order-form-group">
+          <label>ที่อยู่จัดส่ง *</label>
+          <div class="address-row">
+            <input type="text" id="orderHouseNumber" placeholder="บ้านเลขที่/หมู่/ซอย" required />
+            <input type="text" id="orderSubdistrict" placeholder="ตำบล" required />
           </div>
-          <div class="order-form-group">
-            <label>อำเภอ / เขต *</label>
-            <input type="text" id="orderDistrict" placeholder="เช่น บ้านฉาง" required />
+          <div class="address-row" style="margin-top: 10px;">
+            <input type="text" id="orderDistrict" placeholder="อำเภอ" required />
+            <input type="text" id="orderProvince" placeholder="จังหวัด" required />
           </div>
-        </div>
-        <div class="address-row">
-          <div class="order-form-group">
-            <label>จังหวัด *</label>
-            <select id="orderProvince" required>
-              <option value="">-- เลือกจังหวัด --</option>
-              <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
-              <option value="สมุทรปราการ">สมุทรปราการ</option>
-              <option value="นนทบุรี">นนทบุรี</option>
-              <option value="ปทุมธานี">ปทุมธานี</option>
-              <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา</option>
-              <option value="อ่างทอง">อ่างทอง</option>
-              <option value="ลพบุรี">ลพบุรี</option>
-              <option value="สิงห์บุรี">สิงห์บุรี</option>
-              <option value="ชัยนาท">ชัยนาท</option>
-              <option value="สระบุรี">สระบุรี</option>
-              <option value="ชลบุรี">ชลบุรี</option>
-              <option value="ระยอง">ระยอง</option>
-              <option value="จันทบุรี">จันทบุรี</option>
-              <option value="ตราด">ตราด</option>
-              <option value="ฉะเชิงเทรา">ฉะเชิงเทรา</option>
-              <option value="ปราจีนบุรี">ปราจีนบุรี</option>
-              <option value="นครนายก">นครนายก</option>
-              <option value="สระแก้ว">สระแก้ว</option>
-              <option value="นครราชสีมา">นครราชสีมา</option>
-              <option value="บุรีรัมย์">บุรีรัมย์</option>
-              <option value="สุรินทร์">สุรินทร์</option>
-              <option value="ศรีสะเกษ">ศรีสะเกษ</option>
-              <option value="อำนาจเจริญ">อำนาจเจริญ</option>
-              <option value="บึงกาฬ">บึงกาฬ
-              <option value="หนองบัวลำภู">หนองบัวลำภู</option>
-              <option value="ขอนแก่น">ขอนแก่น</option>
-              <option value="อุดรธานี">อุดรธานี</option>
-              <option value="เลย">เลย</option>
-              <option value="หนองคาย">หนองคาย</option>
-              <option value="มหาสารคาม">มหาสารคาม</option>
-              <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
-              <option value="กาฬสินธุ์">กาฬสินธุ์</option>
-              <option value="สกลนคร">สกลนคร</option>
-              <option value="นครพนม">นครพนม</option>
-              <option value="มุกดาหาร">มุกดาหาร</option>
-              <option value="เชียงใหม่">เชียงใหม่</option>
-              <option value="ลำพูน">ลำพูน</option>
-              <option value="ลำปาง">ลำปาง</option>
-              <option value="อุตรดิตถ์">อุตรดิตถ์</option>
-              <option value="แพร่">แพร่</option>
-              <option value="น่าน">น่าน</option>
-              <option value="พะเยา">พะเยา</option>
-              <option value="เชียงราย">เชียงราย</option>
-              <option value="พิษณุโลก">พิษณุโลก</option>
-              <option value="เพชรบูรณ์">เพชรบูรณ์</option>
-              <option value="สุโขทัย">สุโขทัย</option>
-              <option value="ตาก">ตาก</option>
-              <option value="กำแพงเพชร">กำแพงเพชร</option>
-              <option value="ราชบุรี">ราชบุรี</option>
-              <option value="เพชรบুรี">เพชรบุรี</option>
-              <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์</option>
-              <option value="ชุมพร">ชุมพร</option>
-              <option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option>
-              <option value="นครศรีธรรมราช">นครศรีธรรมราช</option>
-              <option value="กระบี่">กระบี่</option>
-              <option value="พังงา">พังงา</option>
-              <option value="ภูเก็ต">ภูเก็ต</option>
-              <option value="สตูล">สตูล</option>
-              <option value="สงขลา">สงขลา</option>
-              <option value="สตูล">สตูล</option>
-              <option value="ยะลา">ยะลา</option>
-              <option value="ปัตตานี">ปัตตานี</option>
-              <option value="นราธิวาส">นราธิวาส</option>
-            </select>
-          </div>
-          <div class="order-form-group">
-            <label>รหัสไปรษณีย์ *</label>
-            <input type="text" id="orderPostalCode" placeholder="12345" pattern="[0-9]{5}" maxlength="5" required />
+          <div class="address-row full" style="margin-top: 10px;">
+            <input type="text" id="orderPostalCode" placeholder="รหัสไปรษณีย์" required />
           </div>
         </div>
+
         <button type="submit" class="order-submit-btn">ยืนยันการสั่งซื้อ</button>
       </form>
     </div>
   </div>
 
-  <div id="videoModal" class="modal">
-    <div class="modal-content">
-      <span class="modal-close" onclick="closeVideoModal()">&times;</span>
-      <div class="video-container" id="videoContainer"></div>
-    </div>
-  </div>
-
   <script>
+    const csvUrl = "https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv";
     let allProducts = [];
-    let currentCategory = 'ทั้งหมด';
+    let currentCategory = "ทั้งหมด";
 
-    async function loadProducts() {
-      try {
-        const googleSheetsUrl = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv';
-        const response = await fetch(googleSheetsUrl);
-        const csvText = await response.text();
-        const lines = csvText.trim().split('\n');
-        
-        allProducts = [];
-        for (let i = 1; i < lines.length; i++) {
-          const row = parseCSVLine(lines[i]);
-          if (row[0]) {
-            allProducts.push({
-              name: row[0] || '',
-              price: row[1] || '',
-              info: row[2] || '',
-              image: row[3] || '',
-              category: row[4] || '',
-              videoLink: row[5] || '',
-              reviewImages: row[6] || '',
-              type: row[7] || 'other',
-              options: row[8] || ''
-            });
+    // Embedded data from CSV provided
+    const embeddedProducts = [
+      {"name":"ครึ่ง ยาว 120/150 กว้าง33","category":"บันได 2 พับ","price":"1,190","info":"กว้าง33 ยาว150 ซม. ใช้พาดขึ้นบ้าน/ฟุตบาท","image":"https://down-th.img.susercontent.com/file/th-11134207-81zti-mjin8popacqp82.webp","videoLink":"","reviewImages":"","type":"2fold","options":"color:บลอน-ดำ"},
+      {"name":"2พับ","category":"บันได 2 พับ","price":"1,790","info":"กว้าง33 ยาว230 ซม. สำหรับมอเตอร์ไซค์ขึ้นกระบะ พับเก็บง่าย","image":"https://down-th.img.susercontent.com/file/th-11134207-7ra0n-mdul11gskvr5a6.webp","videoLink":"https://www.youtube.com/shorts/sJjlF5MZYTk","reviewImages":"","type":"2fold","options":"color:บลอน-ดำ"},
+      {"name":"ฟุตบาท กว้าง35","category":"บันไดขึ้นฟุตบาท","price":"เริ่มต้น 999","info":"กว้าง35 แข็งแรง ทนทาน","image":"https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/e6141e874d5943b38345fad04ceb53d5~tplv-aphluv4xwc-origin-jpeg.jpeg?dr=15568&from=520841845&idc=my&ps=933b5bde&shcp=2c1af732&shp=1f0b6a75&t=555f072d","videoLink":"https://www.youtube.com/shorts/-3j5omzCT5A","reviewImages":"","type":"footstep","options":"width:35;sizes:35*40*(1-20):999|35*50*(21-25):1190|35*60*(26-30):1390|35*70*(31-35):1590|35*80*(36-40):1790"}
+    ];
+
+    document.addEventListener("DOMContentLoaded", function() {
+      allProducts = embeddedProducts;
+      renderProducts();
+      loadProducts();
+
+      document.querySelectorAll('.tab-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelector('.tab-btn.active').classList.remove('active');
+          btn.classList.add('active');
+          currentCategory = btn.getAttribute('data-category');
+          renderProducts();
+        });
+      });
+    });
+
+    function loadProducts() {
+      fetch(csvUrl, { signal: AbortSignal.timeout(5000) })
+        .then(function(response) { return response.text(); })
+        .then(function(data) {
+          var products = parseCSV(data);
+          if (products && products.length > 0) {
+            allProducts = products;
+            renderProducts();
           }
-        }
-        renderProducts();
-        populateProductSelect();
-      } catch (error) {
-        console.error('Error loading products:', error);
-        document.getElementById('products-container').innerHTML = '<p class="loading">⚠️ ไม่สามารถโหลดสินค้าได้</p>';
-      }
+        })
+        .catch(function(error) {
+          console.log("Using embedded data");
+        });
     }
 
-    function parseCSVLine(line) {
-      const values = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-          if (inQuotes && line[i + 1] === '"') {
-            current += '"';
-            i++;
+    function parseCSV(csv) {
+      var lines = csv.split('\n');
+      var result = [];
+      for (var i = 1; i < lines.length; i++) {
+        var row = lines[i];
+        if (!row) continue;
+        
+        // Handle CSV parsing with quotes correctly
+        var parts = [];
+        var inQuotes = false;
+        var currentPart = "";
+        for (var j = 0; j < row.length; j++) {
+          var char = row[j];
+          if (char === '"') inQuotes = !inQuotes;
+          else if (char === ',' && !inQuotes) {
+            parts.push(currentPart);
+            currentPart = "";
           } else {
-            inQuotes = !inQuotes;
+            currentPart += char;
           }
-        } else if (char === ',' && !inQuotes) {
-          values.push(current.trim());
-          current = '';
-        } else {
-          current += char;
         }
+        parts.push(currentPart);
+
+        if (parts.length < 5) continue;
+        
+        result.push({
+          name: parts[0] ? parts[0].trim() : "",
+          price: parts[1] ? parts[1].trim() : "",
+          info: parts[2] ? parts[2].trim() : "",
+          image: parts[3] ? parts[3].trim() : "",
+          category: parts[4] ? parts[4].trim() : "",
+          videoLink: parts[5] ? parts[5].trim() : "",
+          reviewImages: parts[6] ? parts[6].trim() : "",
+          type: parts[7] ? parts[7].trim() : "other",
+          options: parts[8] ? parts[8].trim() : ""
+        });
       }
-      values.push(current.trim());
-      return values;
+      return result;
     }
 
     function renderProducts() {
-      const container = document.getElementById('products-container');
-      const filtered = currentCategory === 'ทั้งหมด' 
+      var container = document.getElementById('products-container');
+      var filtered = currentCategory === "ทั้งหมด" 
         ? allProducts 
-        : allProducts.filter(p => p.category === currentCategory);
+        : allProducts.filter(function(p) { return p.category === currentCategory; });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<p class="loading">ไม่พบสินค้าในหมวดหมู่นี้</p>';
+        container.innerHTML = '<div class="loading"><p>ไม่พบสินค้าในหมวดนี้</p></div>';
         return;
       }
 
-      container.innerHTML = filtered.map(p => {
-        const hasVideo = p.videoLink && (p.videoLink.includes('youtube.com') || p.videoLink.includes('youtu.be') || p.videoLink.includes('shorts/'));
-        const hasReviews = p.reviewImages && p.reviewImages.trim().length > 0;
-        return `
-          <div class="product-card">
-            <div class="product-img">
-              <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/400x300?text=Four+Motorbikes'" />
-              <div class="product-price">${p.price}</div>
-            </div>
-            <div class="product-body">
-              <h3 class="product-title">${p.name}</h3>
-              <p class="product-info">${p.info}</p>
-              <div class="product-actions">
-                ${hasVideo ? `<button class="btn-video" onclick="playVideo('${p.videoLink}')"><i class="fas fa-play"></i> ดูวิดีโอ</button>` : ''}
-                <button class="btn-order" onclick="openOrderModal('${p.name.replace(/'/g, "\\'")}')"><i class="fas fa-shopping-cart"></i> สั่งซื้อ</button>
-              </div>
-            </div>
-          </div>
-        `;
+      container.innerHTML = filtered.map(function(p) {
+        var hasVideo = p.videoLink && p.videoLink.length > 5;
+        var hasReviews = p.reviewImages && p.reviewImages.length > 5;
+        
+        return '<div class="product-card">' +
+          '<div class="product-img">' +
+            '<img src="' + p.image + '" alt="' + p.name + '" onclick="window.open(\'' + p.image + '\', \'_blank\')" />' +
+            '<div class="product-price">' + (p.price.indexOf('เริ่มต้น') > -1 ? p.price : '฿' + p.price) + '</div>' +
+          '</div>' +
+          '<div class="product-body">' +
+            '<h3 class="product-title">' + p.name + '</h3>' +
+            '<p class="product-info">' + p.info + '</p>' +
+            '<div class="product-actions">' +
+              (hasVideo ? '<button class="btn-video" onclick="playVideo(\'' + p.videoLink + '\')"><i class="fas fa-play"></i> วิดีโอ</button>' : '') +
+              (hasReviews ? '<button class="btn-review" onclick="openReviewModal(\'' + p.name.replace(/'/g, "\\'") + '\')"><i class="fas fa-star"></i> รีวิว</button>' : '') +
+              '<button class="btn-order" onclick="openOrderModal(\'' + p.name.replace(/'/g, "\\'") + '\')"><i class="fas fa-shopping-cart"></i> สั่งซื้อ</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
       }).join('');
     }
 
-    function populateProductSelect() {
-      const select = document.getElementById('product-select');
-      const options = ['<option>-- เลือกสินค้า --</option>'];
-      allProducts.forEach(p => {
-        options.push(`<option>${p.name} (${p.price})</option>`);
-      });
-      select.innerHTML = options.join('');
-    }
-
     function playVideo(url) {
-      const videoContainer = document.getElementById('videoContainer');
-      let embedUrl = url;
-      
-      if (url.includes('youtu.be/')) {
-        const videoId = url.split('youtu.be/')[1].split('?')[0];
-        embedUrl = `https://www.youtube.com/embed/${videoId}`;
-      } else if (url.includes('youtube.com/shorts/')) {
-        const videoId = url.split('shorts/')[1];
-        embedUrl = `https://www.youtube.com/embed/${videoId}`;
-      } else if (url.includes('youtube.com/watch?v=')) {
-        const videoId = url.split('v=')[1].split('&')[0];
-        embedUrl = `https://www.youtube.com/embed/${videoId}`;
+      var videoContainer = document.getElementById('videoContainer');
+      var embedUrl = url;
+      if (url.indexOf('youtu.be/') > -1) {
+        var videoId = url.split('youtu.be/')[1].split('?')[0];
+        embedUrl = 'https://www.youtube.com/embed/' + videoId;
+      } else if (url.indexOf('youtube.com/shorts/') > -1) {
+        var videoId = url.split('shorts/')[1];
+        embedUrl = 'https://www.youtube.com/embed/' + videoId;
+      } else if (url.indexOf('youtube.com/watch?v=') > -1) {
+        var videoId = url.split('v=')[1].split('&')[0];
+        embedUrl = 'https://www.youtube.com/embed/' + videoId;
       }
-      
-      videoContainer.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
+      videoContainer.innerHTML = '<iframe src="' + embedUrl + '" frameborder="0" allowfullscreen></iframe>';
       document.getElementById('videoModal').classList.add('active');
     }
 
@@ -573,153 +453,70 @@
       document.getElementById('videoModal').classList.remove('active');
       document.getElementById('videoContainer').innerHTML = '';
     }
+    
+    function openReviewModal(productName) {
+      var product = allProducts.find(function(p) { return p.name === productName; });
+      if (!product || !product.reviewImages) return;
+      
+      document.getElementById('reviewProductName').textContent = 'รีวิวสินค้า: ' + productName;
+      var grid = document.getElementById('reviewImagesGrid');
+      grid.innerHTML = '';
+      
+      var images = product.reviewImages.split('|');
+      images.forEach(function(imgUrl) {
+        if (imgUrl.trim().length > 5) {
+          var item = document.createElement('div');
+          item.className = 'review-img-item';
+          item.innerHTML = '<img src="' + imgUrl.trim() + '" alt="Review" onclick="window.open(\'' + imgUrl.trim() + '\', \'_blank\')" />';
+          grid.appendChild(item);
+        }
+      });
+      
+      document.getElementById('reviewModal').classList.add('active');
+    }
+    
+    function closeReviewModal() {
+      document.getElementById('reviewModal').classList.remove('active');
+    }
+
     function openOrderModal(productName) {
       document.getElementById('selectedProductDisplay').textContent = productName;
       document.getElementById('orderModal').classList.add('active');
       document.getElementById('orderForm').reset();
-      
-      // Find product and show options
-      const product = allProducts.find(p => p.name === productName);
-      if (product) {
-        renderProductOptions(product);
-      }
+      var product = allProducts.find(function(p) { return p.name === productName; });
+      if (product) renderProductOptions(product);
     }
-    
+
     function renderProductOptions(product) {
-      const optionsContainer = document.getElementById('productOptionsContainer');
-      if (!optionsContainer) return;
-      
+      var optionsContainer = document.getElementById('productOptionsContainer');
       optionsContainer.innerHTML = '';
-      const productType = product.type || 'other';
-      const optionsStr = product.options || '';
+      var productType = product.type || 'other';
+      var optionsStr = product.options || '';
       
       if (productType === '3fold') {
-        // 3-fold ladder with car model, year, and color
-        optionsContainer.innerHTML = `
-          <div class="order-form-group">
-            <label>รุ่นรถยนต์ *</label>
-            <select id="orderCarModel" required>
-              <option>-- เลือกรุ่นรถ --</option>
-              <option>Tiger</option>
-              <option>Isuzu</option>
-              <option>Toyota</option>
-              <option>Ford</option>
-              <option>Mitsubishi</option>
-              <option>Nissan</option>
-              <option>Mazda</option>
-              <option>Chevrolet</option>
-              <option>Mg</option>
-              <option>Riddara</option>
-            </select>
-          </div>
-          <div class="order-form-group">
-            <label>ปีรถ *</label>
-            <select id="orderCarYear" required>
-              <option>-- เลือกปี --</option>
-            </select>
-          </div>
-          <div class="order-form-group">
-            <label>สี *</label>
-            <select id="orderColor" required>
-              <option>-- เลือกสี --</option>
-              <option>ดำ</option>
-              <option>บลอน</option>
-              <option>แดง</option>
-              <option>เขียว</option>
-              <option>เหลือง</option>
-              <option>ฟ้า</option>
-              <option>ส้ม</option>
-            </select>
-          </div>
-        `;
-        
-        // Populate years
-        const yearSelect = document.getElementById('orderCarYear');
-        for (let year = 2003; year <= 2026; year++) {
-          const option = document.createElement('option');
-          option.value = year;
-          option.textContent = year;
-          yearSelect.appendChild(option);
+        optionsContainer.innerHTML = '<div class="order-form-group"><label>รุ่นรถยนต์ *</label><select id="orderCarModel" required><option value="">-- เลือกรุ่นรถ --</option><option>Tiger</option><option>Isuzu</option><option>Toyota</option><option>Ford</option><option>Mitsubishi</option><option>Nissan</option><option>Mazda</option><option>Chevrolet</option><option>Mg</option><option>Riddara</option></select></div><div class="order-form-group"><label>ปีรถ *</label><select id="orderCarYear" required><option value="">-- เลือกปี --</option></select></div><div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option><option>ดำ</option><option>บลอน</option><option>แดง</option><option>เขียว</option><option>เหลือง</option><option>ฟ้า</option><option>ส้ม</option></select></div>';
+        var yearSelect = document.getElementById('orderCarYear');
+        for (var year = 2003; year <= 2026; year++) {
+          var opt = document.createElement('option');
+          opt.value = year;
+          opt.textContent = year;
+          yearSelect.appendChild(opt);
         }
       } else if (productType === '2fold') {
-        // 2-fold ladder with color only
-        optionsContainer.innerHTML = `
-          <div class="order-form-group">
-            <label>สี *</label>
-            <select id="orderColor" required>
-              <option>-- เลือกสี --</option>
-              <option>บลอน</option>
-              <option>ดำ</option>
-            </select>
-          </div>
-        `;
+        optionsContainer.innerHTML = '<div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option><option>บลอน</option><option>ดำ</option></select></div>';
       } else if (productType === 'footstep') {
-        // Footstep ladder with width, length, height options
-        const widthMatch = optionsStr.match(/width:(\d+)/);
-        const width = widthMatch ? widthMatch[1] : '35';
-        const sizesMatch = optionsStr.match(/sizes:([^;]+)/);
-        const sizes = sizesMatch ? sizesMatch[1].split('|') : [];
-        
-        let sizeOptions = '<option>-- เลือกขนาด --</option>';
-        sizes.forEach(size => {
-          const parts = size.split(':');
-          if (parts.length === 2) {
-            sizeOptions += `<option value="${parts[1]}">${parts[0]}</option>`;
-          }
+        var sizesMatch = optionsStr.match(/sizes:([^;]+)/);
+        var sizes = sizesMatch ? sizesMatch[1].split('|') : [];
+        var sizeOptions = '<option value="">-- เลือกขนาด --</option>';
+        sizes.forEach(function(size) {
+          var parts = size.split(':');
+          if (parts.length === 2) sizeOptions += '<option value="' + parts[1] + '">' + parts[0] + '</option>';
         });
-        
-        optionsContainer.innerHTML = `
-          <div class="order-form-group">
-            <label>ขนาด (กว้าง*ยาว*สูง) *</label>
-            <select id="orderSize" onchange="updatePrice()" required>
-              ${sizeOptions}
-            </select>
-          </div>
-        `;
-        
-        // Check if color option exists
-        if (optionsStr.includes('color:')) {
-          const colorMatch = optionsStr.match(/color:([^;]+)/);
-          if (colorMatch) {
-            const colors = colorMatch[1].split('-');
-            let colorOptions = '<option>-- เลือกสี --</option>';
-            colors.forEach(color => {
-              colorOptions += `<option>${color}</option>`;
-            });
-            optionsContainer.innerHTML += `
-              <div class="order-form-group">
-                <label>สี *</label>
-                <select id="orderColor" required>
-                  ${colorOptions}
-                </select>
-              </div>
-            `;
-          }
-        }
+        optionsContainer.innerHTML = '<div class="order-form-group"><label>ขนาด (กว้าง*ยาว*สูง) *</label><select id="orderSize" required>' + sizeOptions + '</select></div>';
       }
       
-      // Check if deposit is required
-      const priceStr = product.price.toString().replace(/[^0-9]/g, '');
-      const price = parseInt(priceStr) || 0;
-      if (price >= 4000) {
-        const depositContainer = document.getElementById('depositWarning');
-        if (depositContainer) {
-          depositContainer.innerHTML = '<div style="background: #ffe6e6; border-left: 4px solid #e74c3c; padding: 12px; margin: 15px 0; border-radius: 4px; color: #c0392b; font-weight: 600;">⚠️ สินค้านี้ต้องชำระมัดจำ 500 บาท</div>';
-        }
-      } else {
-        const depositContainer = document.getElementById('depositWarning');
-        if (depositContainer) {
-          depositContainer.innerHTML = '';
-        }
-      }
-    }
-    
-    function updatePrice() {
-      // This function can be used to update price dynamically
-      const sizeSelect = document.getElementById('orderSize');
-      if (sizeSelect && sizeSelect.value) {
-        console.log('Selected price:', sizeSelect.value);
-      }
+      var price = parseInt(product.price.toString().replace(/[^0-9]/g, '')) || 0;
+      document.getElementById('depositWarning').innerHTML = price >= 4000 ? '<div style="background: #ffe6e6; border-left: 4px solid #e74c3c; padding: 12px; margin: 15px 0; border-radius: 4px; color: #c0392b; font-weight: 600;">⚠️ สินค้านี้ต้องชำระมัดจำ 500 บาท</div>' : '';
     }
 
     function closeOrderModal() {
@@ -728,222 +525,41 @@
 
     function submitOrder(event) {
       event.preventDefault();
-      
-      const productName = document.getElementById('selectedProductDisplay').textContent;
-      const name = document.getElementById('orderName').value;
-      const phone = document.getElementById('orderPhone').value;
-      const houseNumber = document.getElementById('orderHouseNumber').value;
-      const subdistrict = document.getElementById('orderSubdistrict').value;
-      const district = document.getElementById('orderDistrict').value;
-      const province = document.getElementById('orderProvince').value;
-      const postalCode = document.getElementById('orderPostalCode').value;
-      
-      const carModel = document.getElementById('orderCarModel')?.value || '';
-      const carYear = document.getElementById('orderCarYear')?.value || '';
-      const color = document.getElementById('orderColor')?.value || '';
-      const size = document.getElementById('orderSize')?.value || '';
-      
-      // Construct full address
-      const fullAddress = `${houseNumber} ตำบล${subdistrict} อำเภอ${district} จังหวัด${province} ${postalCode}`;
-      
-      const submitBtn = document.querySelector('.order-submit-btn');
+      var productName = document.getElementById('selectedProductDisplay').textContent;
+      var submitBtn = document.querySelector('.order-submit-btn');
       submitBtn.disabled = true;
       submitBtn.textContent = 'กำลังส่งข้อมูล...';
       
-      const product = allProducts.find(p => p.name === productName);
-      const priceStr = product?.price.toString().replace(/[^0-9]/g, '') || '0';
-      const price = parseInt(priceStr) || 0;
-      const needsDeposit = price >= 4000 ? true : false;
-      const depositAmount = needsDeposit ? 500 : 0;
-      
-      const webhookData = {
-        type: 'order',
+      var webhookData = {
         product: productName,
-        carModel: carModel,
-        carYear: carYear,
-        color: color,
-        size: size,
-        name: name,
-        phone: phone,
-        houseNumber: houseNumber,
-        subdistrict: subdistrict,
-        district: district,
-        province: province,
-        postalCode: postalCode,
-        fullAddress: fullAddress,
-        price: price,
-        needsDeposit: needsDeposit,
-        depositAmount: depositAmount,
-        timestamp: new Date().toISOString()
+        name: document.getElementById('orderName').value,
+        phone: document.getElementById('orderPhone').value,
+        address: document.getElementById('orderHouseNumber').value + ' ต.' + document.getElementById('orderSubdistrict').value + ' อ.' + document.getElementById('orderDistrict').value + ' จ.' + document.getElementById('orderProvince').value + ' ' + document.getElementById('orderPostalCode').value,
+        carModel: document.getElementById('orderCarModel') ? document.getElementById('orderCarModel').value : '',
+        carYear: document.getElementById('orderCarYear') ? document.getElementById('orderCarYear').value : '',
+        color: document.getElementById('orderColor') ? document.getElementById('orderColor').value : '',
+        size: document.getElementById('orderSize') ? document.getElementById('orderSize').value : '',
+        timestamp: new Date().toLocaleString('th-TH')
       };
-      
-      // Send to Make.com webhook
+
       fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(webhookData)
-      })
-      .then(response => {
-        if (response.ok) {
-          alert('ขอบคุณสำหรับการสั่งซื้อ! เราจะติดต่อกลับโดยเร็วที่สุดครับ');
+      }).then(function(res) {
+        if (res.ok) {
+          alert('สั่งซื้อสำเร็จ! เราจะติดต่อกลับโดยเร็วที่สุด');
           closeOrderModal();
-          document.getElementById('orderForm').reset();
         } else {
-          throw new Error('Webhook failed');
+          throw new Error();
         }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
-      })
-      .finally(() => {
+      }).catch(function() {
+        alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
+      }).finally(function() {
         submitBtn.disabled = false;
         submitBtn.textContent = 'ยืนยันการสั่งซื้อ';
       });
     }
-
-    let currentReviewImages = [];
-    let currentReviewIndex = 0;
-
-
-
-    function displayReviewImage() {
-      if (currentReviewImages.length === 0) return;
-      
-      const img = document.getElementById('reviewImage');
-      img.src = currentReviewImages[currentReviewIndex];
-      
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const counter = document.getElementById('reviewCounter');
-      
-      if (currentReviewImages.length > 1) {
-        prevBtn.style.display = 'block';
-        nextBtn.style.display = 'block';
-        counter.style.display = 'block';
-        counter.textContent = (currentReviewIndex + 1) + ' / ' + currentReviewImages.length;
-      } else {
-        prevBtn.style.display = 'none';
-        nextBtn.style.display = 'none';
-        counter.style.display = 'none';
-      }
-    }
-
-
-
-    function handleSubmit(event) {
-      event.preventDefault();
-      alert('ขอบคุณสำหรับการติดต่อ! เราจะติดต่อกลับโดยเร็วที่สุดครับ');
-      event.target.reset();
-    }
-
-    function openReviewSubmitModal(productName) {
-      document.getElementById('reviewProductDisplay').textContent = productName;
-      document.getElementById('reviewSubmitForm').reset();
-      document.getElementById('reviewSubmitRating').value = '0';
-      document.querySelectorAll('#reviewStarRating .star').forEach(star => star.classList.remove('active'));
-      document.getElementById('reviewSubmitModal').classList.add('active');
-    }
-
-    function closeReviewSubmitModal() {
-      document.getElementById('reviewSubmitModal').classList.remove('active');
-    }
-
-      
-      const submitBtn = event.target.querySelector('.order-submit-btn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'กำลังส่งรีวิว...';
-      
-      // If there's an image, convert to base64
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          sendReviewToWebhook(productName, name, occupation, rating, text, e.target.result);
-        };
-        reader.readAsDataURL(imageFile);
-      } else {
-        sendReviewToWebhook(productName, name, occupation, rating, text, null);
-      }
-      
-      function sendReviewToWebhook(product, reviewName, reviewOccupation, reviewRating, reviewText, imageBase64) {
-        const webhookData = {
-          type: 'review',
-          product: product,
-          name: reviewName,
-          occupation: reviewOccupation,
-          rating: parseInt(reviewRating),
-          text: reviewText,
-          image: imageBase64,
-          timestamp: new Date().toISOString()
-        };
-        
-        fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(webhookData)
-        })
-        .then(response => {
-          if (response.ok) {
-            alert('ขอบคุณสำหรับรีวิว! เราจะนำรีวิวของคุณมาแสดงบนเว็บไซต์ครับ');
-            closeReviewSubmitModal();
-            document.getElementById('reviewSubmitForm').reset();
-          } else {
-            throw new Error('Webhook failed');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
-        })
-        .finally(() => {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'ส่งรีวิว';
-        });
-      }
-    }
-
-    // Star rating selection
-    document.addEventListener('DOMContentLoaded', function() {
-      loadProducts();
-      
-      // Add star rating click handlers
-      const stars = document.querySelectorAll('#reviewStarRating .star');
-      stars.forEach(star => {
-        star.addEventListener('click', function() {
-          const value = this.dataset.value;
-          document.getElementById('reviewSubmitRating').value = value;
-          stars.forEach(s => s.classList.remove('active'));
-          for (let i = 0; i < value; i++) {
-            stars[i].classList.add('active');
-          }
-        });
-      });
-    });
-
-    // Close modals when clicking outside
-    window.onclick = function(event) {
-      const videoModal = document.getElementById('videoModal');
-      const reviewSubmitModal = document.getElementById('reviewSubmitModal');
-      if (event.target === videoModal) {
-        videoModal.classList.remove('active');
-      }
-      if (event.target === reviewSubmitModal) {
-        reviewSubmitModal.classList.remove('active');
-      }
-    };
-
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        currentCategory = this.dataset.category;
-        renderProducts();
-      });
-    });
   </script>
 </body>
 </html>

@@ -396,8 +396,28 @@
             <select id="orderPayment" required onchange="updatePaymentDisplay()" style="font-family:inherit;">
               <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง (COD)</option>
               <option value="โอนเงิน">โอนเงินเต็มจำนวน</option>
-              <option value="มัดจำ">มัดจำ</option>
             </select>
+          </div>
+
+          <!-- มัดจำอัตโนมัติ (เด้งเองเมื่อสินค้ามีมัดจำ) -->
+          <div id="autoDepositArea" class="deposit-box" style="display: none;">
+            <h4 style="color: #ff9800; font-size: 16px;">⚠️ สินค้านี้ต้องมัดจำก่อนจัดส่ง</h4>
+            <div class="deposit-amount" id="autoDepositAmount" style="color: #ff9800;"></div>
+            <img src="S__22544394.jpg" alt="PromptPay QR Code" class="qr-img" />
+            <p style="font-size: 13px; color: #666; margin-top: 10px;">ชื่อบัญชี: นายปัญญา ทองนพคุณ</p>
+            <p style="font-size: 12px; color: #999; margin-top: 5px;">โอนมัดจำแล้วแนบสลิปด้านล่าง</p>
+          </div>
+
+          <div id="autoSlipArea" class="slip-upload-area" style="display: none;">
+            <label class="slip-upload-btn" for="autoSlipFile">
+              <i class="fas fa-camera"></i> แนบสลิปมัดจำ
+            </label>
+            <input type="file" id="autoSlipFile" accept="image/*" style="display: none;" onchange="previewAutoSlip(this)" />
+            <div class="slip-preview" id="autoSlipPreview">
+              <img id="autoSlipPreviewImg" src="" alt="สลิปมัดจำ" />
+              <p class="slip-name" id="autoSlipFileName"></p>
+              <button type="button" class="slip-remove" onclick="removeAutoSlip()">ลบสลิป</button>
+            </div>
           </div>
 
           <div id="depositArea" class="deposit-box" style="display: none;">
@@ -577,17 +597,25 @@
         }
       }
 
-      // ตั้งค่าช่องทางชำระเงิน: ถ้ามีมัดจำ ให้เลือก "มัดจำ" อัตโนมัติ
+      // ตั้งค่าช่องทางชำระเงิน
       const paymentSelect = document.getElementById('orderPayment');
+      paymentSelect.value = 'เก็บเงินปลายทาง';
+      
+      // แสดงมัดจำอัตโนมัติถ้าสินค้ามีมัดจำ
       if (p.deposit > 0) {
-        paymentSelect.value = 'มัดจำ';
+        document.getElementById('autoDepositArea').style.display = 'block';
+        document.getElementById('autoDepositAmount').textContent = '฿' + p.deposit.toLocaleString();
+        document.getElementById('autoSlipArea').style.display = 'block';
       } else {
-        paymentSelect.value = 'เก็บเงินปลายทาง';
+        document.getElementById('autoDepositArea').style.display = 'none';
+        document.getElementById('autoSlipArea').style.display = 'none';
       }
       
       // รีเซ็ตสลิป
       document.getElementById('slipFile').value = '';
       document.getElementById('slipPreview').style.display = 'none';
+      document.getElementById('autoSlipFile').value = '';
+      document.getElementById('autoSlipPreview').style.display = 'none';
       
       // รีเซ็ต phone error
       document.getElementById('phoneError').style.display = 'none';
@@ -603,13 +631,7 @@
       const depositArea = document.getElementById('depositArea');
       const slipArea = document.getElementById('slipUploadArea');
       
-      if (payment === 'มัดจำ') {
-        const deposit = currentOrderProduct ? currentOrderProduct.deposit : 0;
-        depositArea.style.display = 'block';
-        document.getElementById('depositTitle').textContent = 'มัดจำสินค้า';
-        document.getElementById('depositAmountText').textContent = deposit > 0 ? '฿' + deposit.toLocaleString() : 'ตามราคาสินค้า';
-        slipArea.style.display = 'block';
-      } else if (payment === 'โอนเงิน') {
+      if (payment === 'โอนเงิน') {
         depositArea.style.display = 'block';
         document.getElementById('depositTitle').textContent = 'โอนเงินเต็มจำนวน';
         document.getElementById('depositAmountText').textContent = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
@@ -618,6 +640,25 @@
         depositArea.style.display = 'none';
         slipArea.style.display = 'none';
       }
+    }
+
+    // ===== AUTO SLIP (มัดจำ) =====
+    function previewAutoSlip(input) {
+      const file = input.files[0];
+      if (file) {
+        if (file.size > 10 * 1024 * 1024) { alert('ไฟล์ใหญ่เกิน 10MB'); input.value = ''; return; }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('autoSlipPreviewImg').src = e.target.result;
+          document.getElementById('autoSlipFileName').textContent = file.name;
+          document.getElementById('autoSlipPreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+    function removeAutoSlip() {
+      document.getElementById('autoSlipFile').value = '';
+      document.getElementById('autoSlipPreview').style.display = 'none';
     }
 
     // ===== SLIP UPLOAD =====
@@ -667,9 +708,16 @@
 
       const payment = document.getElementById('orderPayment').value;
 
-      // Validate slip for bank transfer / deposit
+      // Validate slip มัดจำ (ถ้าสินค้ามีมัดจำ)
+      const autoSlipFile = document.getElementById('autoSlipFile')?.files[0];
+      if (currentOrderProduct && currentOrderProduct.deposit > 0 && !autoSlipFile) {
+        alert('กรุณาแนบสลิปมัดจำก่อนยืนยันการสั่งซื้อ');
+        return;
+      }
+
+      // Validate slip โอนเงินเต็มจำนวน
       const slipFile = document.getElementById('slipFile').files[0];
-      if ((payment === 'โอนเงิน' || payment === 'มัดจำ') && !slipFile) {
+      if (payment === 'โอนเงิน' && !slipFile) {
         alert('กรุณาแนบสลิปโอนเงินก่อนยืนยันการสั่งซื้อ');
         return;
       }
@@ -683,7 +731,7 @@
         phone: phone,
         address: address,
         payment: payment,
-        deposit_amount: (payment === 'มัดจำ' && currentOrderProduct) ? currentOrderProduct.deposit : 0,
+        deposit_amount: currentOrderProduct ? currentOrderProduct.deposit : 0,
         model: document.getElementById('orderModel')?.value || '',
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
@@ -691,18 +739,30 @@
         time: new Date().toLocaleString('th-TH')
       };
 
-      // ถ้ามีสลิป ให้แปลงเป็น base64 แล้วส่งไปด้วย
-      if (slipFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          data.slip_image = e.target.result;
+      // ฟังก์ชั่นอ่านไฟล์เป็น base64
+      function readFileAsBase64(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // รวมสลิปทั้งหมดแล้วส่ง
+      async function processAndSend() {
+        // สลิปมัดจำ
+        if (autoSlipFile) {
+          data.deposit_slip_image = await readFileAsBase64(autoSlipFile);
+          data.deposit_slip_filename = autoSlipFile.name;
+        }
+        // สลิปโอนเงินเต็มจำนวน
+        if (slipFile) {
+          data.slip_image = await readFileAsBase64(slipFile);
           data.slip_filename = slipFile.name;
-          sendOrder(data, btn);
-        };
-        reader.readAsDataURL(slipFile);
-      } else {
+        }
         sendOrder(data, btn);
       }
+      processAndSend();
     }
 
     function sendOrder(data, btn) {

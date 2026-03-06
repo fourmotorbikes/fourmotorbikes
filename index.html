@@ -736,30 +736,54 @@
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
         size: document.getElementById('orderSize')?.value || '',
-        time: new Date().toLocaleString('th-TH')
+        time: new Date().toLocaleString('th-TH'),
+        deposit_slip_url: '',
+        slip_url: ''
       };
 
-      // ฟังก์ชั่นอ่านไฟล์เป็น base64
-      function readFileAsBase64(file) {
-        return new Promise((resolve) => {
+      // ฟังก์ชั่นอัปโหลดรูปไป imgbb แล้วคืน URL
+      const IMGBB_API_KEY = 'ae41f12834e6ba9a2e58cca778293480';
+      async function uploadToImgbb(file) {
+        return new Promise((resolve, reject) => {
           const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target.result);
+          reader.onload = async (e) => {
+            try {
+              const base64 = e.target.result.split(',')[1];
+              const formData = new FormData();
+              formData.append('key', IMGBB_API_KEY);
+              formData.append('image', base64);
+              formData.append('name', 'slip_' + Date.now());
+              const resp = await fetch('https://api.imgbb.com/1/upload', {
+                method: 'POST',
+                body: formData
+              });
+              const result = await resp.json();
+              if (result.success) {
+                resolve(result.data.url);
+              } else {
+                resolve('อัปโหลดไม่สำเร็จ');
+              }
+            } catch(err) {
+              resolve('อัปโหลดไม่สำเร็จ');
+            }
+          };
           reader.readAsDataURL(file);
         });
       }
 
-      // รวมสลิปทั้งหมดแล้วส่ง
+      // รวมสลิปทั้งหมด อัปโหลดไป imgbb แล้วส่ง
       async function processAndSend() {
         // สลิปมัดจำ
         if (autoSlipFile) {
-          data.deposit_slip_image = await readFileAsBase64(autoSlipFile);
-          data.deposit_slip_filename = autoSlipFile.name;
+          btn.textContent = 'กำลังอัปโหลดสลิปมัดจำ...';
+          data.deposit_slip_url = await uploadToImgbb(autoSlipFile);
         }
         // สลิปโอนเงินเต็มจำนวน
         if (slipFile) {
-          data.slip_image = await readFileAsBase64(slipFile);
-          data.slip_filename = slipFile.name;
+          btn.textContent = 'กำลังอัปโหลดสลิปโอนเงิน...';
+          data.slip_url = await uploadToImgbb(slipFile);
         }
+        btn.textContent = 'กำลังส่งคำสั่งซื้อ...';
         sendOrder(data, btn);
       }
       processAndSend();

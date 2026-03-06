@@ -76,8 +76,8 @@
     
     .hero-img-box { width: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.3); position: relative; }
     .hero-carousel { position: relative; width: 100%; aspect-ratio: 4/3; }
-    .hero-carousel img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; }
-    .hero-carousel img.active { opacity: 1; }
+    .hero-carousel .hero-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease; border: none; }
+    .hero-carousel .hero-slide.active { opacity: 1; }
     .hero-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 5; }
     .hero-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.5); cursor: pointer; transition: 0.3s; }
     .hero-dots span.active { background: #fff; transform: scale(1.3); }
@@ -125,7 +125,7 @@
     .review-nav:hover { background: rgba(0,0,0,0.7); }
     .review-nav.prev { left: 10px; }
     .review-nav.next { right: 10px; }
-    @media (max-width: 768px) { .review-nav { display: none; } }
+    @media (max-width: 768px) { .review-nav { display: flex; width: 30px; height: 30px; font-size: 14px; } }
 
     /* --- PRODUCT GRID (ขยายรูปและตัวหนังสือ) --- */
     .tabs-container { margin-bottom: 20px; padding: 10px 8px; background: #fff; border-radius: 12px; }
@@ -251,7 +251,7 @@
       </div>
       <div class="hero-img-box">
         <div class="hero-carousel" id="heroCarousel">
-          <img src="474242832_1129368892085317_7217698560018563068_n.jpg" alt="สินค้า" class="active" />
+          <img src="474242832_1129368892085317_7217698560018563068_n.jpg" alt="สินค้า" class="hero-slide active" />
         </div>
         <button class="hero-nav prev" onclick="heroSlide(-1)"><i class="fas fa-chevron-left"></i></button>
         <button class="hero-nav next" onclick="heroSlide(1)"><i class="fas fa-chevron-right"></i></button>
@@ -720,9 +720,28 @@
 
     function scrollReviewCarousel(dir) {
       const track = document.getElementById('reviewCarouselTrack');
-      const scrollAmount = 280;
-      track.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' });
+      const cardWidth = track.querySelector('.review-card')?.offsetWidth || 280;
+      track.scrollBy({ left: dir * (cardWidth + 12), behavior: 'smooth' });
     }
+
+    // ===== TOUCH SWIPE SUPPORT =====
+    function addSwipe(el, onLeft, onRight) {
+      let startX = 0, startY = 0, distX = 0;
+      el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }, { passive: true });
+      el.addEventListener('touchmove', e => { distX = e.touches[0].clientX - startX; }, { passive: true });
+      el.addEventListener('touchend', () => {
+        if (Math.abs(distX) > 40) { distX < 0 ? onLeft() : onRight(); }
+        distX = 0;
+      });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero swipe
+      const heroEl = document.getElementById('heroCarousel');
+      if (heroEl) addSwipe(heroEl, () => heroSlide(1), () => heroSlide(-1));
+      // Review swipe (track already scrollable, but add extra nav)
+      const reviewEl = document.getElementById('reviewCarouselTrack');
+      if (reviewEl) addSwipe(reviewEl, () => scrollReviewCarousel(1), () => scrollReviewCarousel(-1));
+    });
 
     // ===== HERO CAROUSEL =====
     let heroIndex = 0;
@@ -750,37 +769,50 @@
     function initHeroCarousel() {
       const carousel = document.getElementById('heroCarousel');
       const dots = document.getElementById('heroDots');
-      let imgs = [];
+      let slides = [];
       if (heroSlides.length > 0) {
-        imgs = heroSlides.map(src => ({ src, name: 'Hero Slide' }));
+        slides = heroSlides.map(src => {
+          const isVideo = src.includes('youtube') || src.includes('youtu.be') || src.includes('shorts');
+          return { src, name: 'Hero Slide', isVideo };
+        });
       } else {
         const slideImgs = [];
         const seenSlide = new Set();
         for (const p of allProducts) {
           if (p.slideImg && !seenSlide.has(p.slideImg)) {
             seenSlide.add(p.slideImg);
-            slideImgs.push({ src: p.slideImg, name: p.name });
+            slideImgs.push({ src: p.slideImg, name: p.name, isVideo: false });
           }
         }
-        imgs = slideImgs;
-        if (imgs.length === 0) {
+        slides = slideImgs;
+        if (slides.length === 0) {
           const seen = new Set();
           for (const p of allProducts) {
             if (p.img && !seen.has(p.img)) {
               seen.add(p.img);
-              imgs.push({ src: p.img, name: p.name });
-              if (imgs.length >= 8) break;
+              slides.push({ src: p.img, name: p.name, isVideo: false });
+              if (slides.length >= 8) break;
             }
           }
         }
       }
-      if (imgs.length === 0) return;
-      // สร้าง img elements
-      carousel.innerHTML = imgs.map((im, i) =>
-        `<img src="${im.src}" alt="${im.name}" class="${i === 0 ? 'active' : ''}" />`
-      ).join('');
+      if (slides.length === 0) return;
+      // สร้าง slide elements (รองรับทั้ง img และ iframe YouTube)
+      carousel.innerHTML = slides.map((sl, i) => {
+        if (sl.isVideo) {
+          let embedUrl = sl.src;
+          const ytMatch = sl.src.match(/(?:youtube\.com\/(?:shorts\/|watch\?v=)|youtu\.be\/)([\w-]+)/);
+          if (ytMatch) {
+            const videoId = ytMatch[1];
+            embedUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId;
+          }
+          return `<iframe src="${embedUrl}" class="hero-slide ${i === 0 ? 'active' : ''}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        } else {
+          return `<img src="${sl.src}" alt="${sl.name}" class="hero-slide ${i === 0 ? 'active' : ''}" />`;
+        }
+      }).join('');
       // สร้าง dots
-      dots.innerHTML = imgs.map((_, i) =>
+      dots.innerHTML = slides.map((_, i) =>
         `<span class="${i === 0 ? 'active' : ''}" onclick="heroGoTo(${i})"></span>`
       ).join('');
       heroIndex = 0;
@@ -788,27 +820,26 @@
     }
 
     function heroGoTo(idx) {
-      const imgs = document.querySelectorAll('#heroCarousel img');
+      const allSlides = document.querySelectorAll('#heroCarousel .hero-slide');
       const dots = document.querySelectorAll('#heroDots span');
-      if (imgs.length === 0) return;
-      imgs.forEach(im => im.classList.remove('active'));
+      if (allSlides.length === 0) return;
+      allSlides.forEach(sl => sl.classList.remove('active'));
       dots.forEach(d => d.classList.remove('active'));
-      heroIndex = ((idx % imgs.length) + imgs.length) % imgs.length;
-      imgs[heroIndex].classList.add('active');
-      dots[heroIndex].classList.add('active');
+      heroIndex = ((idx % allSlides.length) + allSlides.length) % allSlides.length;
+      allSlides[heroIndex].classList.add('active');
+      if (dots[heroIndex]) dots[heroIndex].classList.add('active');
       startHeroTimer();
     }
 
     function heroSlide(dir) {
-      const imgs = document.querySelectorAll('#heroCarousel img');
       heroGoTo(heroIndex + dir);
     }
 
     function startHeroTimer() {
       if (heroTimer) clearInterval(heroTimer);
       heroTimer = setInterval(() => {
-        const imgs = document.querySelectorAll('#heroCarousel img');
-        if (imgs.length > 0) heroGoTo(heroIndex + 1);
+        const allSlides = document.querySelectorAll('#heroCarousel .hero-slide');
+        if (allSlides.length > 0) heroGoTo(heroIndex + 1);
       }, 4000);
     }
 

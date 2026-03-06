@@ -25,7 +25,7 @@
       --border: #dee2e6;
     }
 
-    /* --- HEADER (AS PER IMAGE) --- */
+    /* --- HEADER --- */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
       background: var(--white);
@@ -35,38 +35,38 @@
       height: 70px;
     }
     .nav-left { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-left img { width: 45px; height: 45px; border-radius: 50%; object-fit: contain; }
+    .nav-left img { width: 50px; height: 50px; object-fit: contain; }
     .nav-logo-text { display: flex; flex-direction: column; }
-    .nav-logo-text span:first-child { font-size: 15px; font-weight: 700; color: var(--dark); line-height: 1.2; }
+    .nav-logo-text span:first-child { font-size: 16px; font-weight: 700; color: var(--dark); line-height: 1.2; }
     .nav-logo-text span:last-child { font-size: 12px; color: var(--red); font-weight: 600; }
     .nav-btn-order { background: var(--red); color: var(--white); padding: 10px 25px; border-radius: 6px; text-decoration: none; font-size: 15px; font-weight: 700; transition: 0.3s; }
-    .nav-btn-order:hover { background: var(--red-dk); }
 
-    /* --- HERO (AS PER IMAGE) --- */
+    /* --- HERO (AS PER USER REQUEST) --- */
     #hero { 
       padding-top: 70px; 
-      background: #001f3f; 
+      background: linear-gradient(rgba(0,31,63,0.7), rgba(0,31,63,0.7)), url('Kk15vDQhijlQXkYvTe0HWt_1772631494000_na1fn_ZmFjdG9yeV9mcm9udF9maXhlZA.webp');
+      background-size: cover;
+      background-position: center;
       color: white;
       text-align: left;
     }
-    .hero-text-area { padding: 30px 5% 20px; }
-    .hero-subtitle { font-size: 16px; font-weight: 400; margin-bottom: 25px; line-height: 1.4; }
-    .hero-btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-    .hero-btn { display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 6px; text-decoration: none; color: white; font-weight: 600; font-size: 14px; }
+    .hero-text-area { padding: 40px 5% 20px; }
+    .hero-subtitle { font-size: 18px; font-weight: 500; margin-bottom: 25px; line-height: 1.4; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+    .hero-btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
+    .hero-btn { display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 6px; text-decoration: none; color: white; font-weight: 700; font-size: 14px; }
     .hero-btn.btn-products { background: var(--red); }
     .hero-btn.btn-fb { background: var(--blue); }
     .hero-btn.btn-line { background: var(--green); }
     
-    .hero-main-img { width: 90%; max-width: 600px; margin: 0 auto; display: block; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .hero-main-img { width: 90%; max-width: 600px; margin: 0 auto; display: block; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 3px solid white; }
     .hero-main-img img { width: 100%; display: block; }
 
-    /* --- FLOATING BUTTONS (AS PER IMAGE) --- */
+    /* --- FLOATING BUTTONS --- */
     .floating-btns { position: fixed; bottom: 25px; right: 20px; z-index: 1500; display: flex; flex-direction: column; gap: 12px; }
-    .float-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; border: none; cursor: pointer; }
+    .float-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: 0.3s; }
     .float-btn.line { background: var(--green); }
     .float-btn.messenger { background: var(--blue); }
     .float-btn.phone { background: var(--red); }
-    .float-btn:hover { transform: scale(1.1); }
 
     section { padding: 40px 5%; }
     .section-inner { max-width: 1200px; margin: 0 auto; }
@@ -75,9 +75,9 @@
     .section-desc { font-size: 14px; color: var(--gray-dark); text-align: center; margin-bottom: 30px; }
 
     /* --- PRODUCT GRID --- */
-    .tabs-container { margin-bottom: 30px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; padding-bottom: 10px; }
-    .tabs-list { display: flex; gap: 8px; list-style: none; justify-content: flex-start; }
-    .tab-btn { background: var(--white); border: 1px solid var(--border); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; color: var(--gray-dark); flex-shrink: 0; }
+    .tabs-container { margin-bottom: 30px; overflow-x: auto; white-space: nowrap; padding-bottom: 10px; }
+    .tabs-list { display: flex; gap: 8px; list-style: none; }
+    .tab-btn { background: var(--white); border: 1px solid var(--border); padding: 10px 18px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--gray-dark); }
     .tab-btn.active { background: var(--red); color: var(--white); border-color: var(--red); }
 
     .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -91,7 +91,7 @@
     .product-title { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 6px; line-height: 1.3; height: 36px; overflow: hidden; }
     .product-info { font-size: 11px; color: var(--gray-dark); margin-bottom: 10px; line-height: 1.4; flex-grow: 1; height: 30px; overflow: hidden; }
     .product-actions { display: flex; flex-wrap: wrap; gap: 5px; }
-    .btn-video, .btn-review { flex: 1; background: #f0f0f0; color: #444; border: none; padding: 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s; min-width: 70px; }
+    .btn-video, .btn-review { flex: 1; background: #f0f0f0; color: #444; border: none; padding: 8px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; }
     .btn-order { width: 100%; background: var(--red); color: white; border: none; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 5px; }
 
     /* --- MODALS --- */
@@ -107,9 +107,9 @@
     /* --- ORDER FORM --- */
     .order-form-group { margin-bottom: 15px; }
     .order-form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; color: #444; }
-    .order-form-group input, .order-form-group select, .order-form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; }
+    .order-form-group input, .order-form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 14px; }
     .address-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .order-submit-btn { width: 100%; background: var(--red); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+    .order-submit-btn { width: 100%; background: var(--red); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 16px; font-weight: 800; cursor: pointer; }
     
     .deposit-box { background: #fff5f5; border: 1px dashed var(--red); padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
     .deposit-box h4 { color: var(--red); font-size: 14px; margin-bottom: 10px; }
@@ -125,7 +125,7 @@
   <!-- HEADER -->
   <nav>
     <a href="#" class="nav-left">
-      <img src="fb_logo.webp" alt="Logo" />
+      <img src="S__26664984.jpg" alt="Logo" />
       <div class="nav-logo-text">
         <span>Four Motorbikes</span>
         <span>ชลบุรี</span>
@@ -145,7 +145,7 @@
       </div>
     </div>
     <div class="hero-main-img">
-      <img src="https://down-th.img.susercontent.com/file/th-11134207-81ztq-mjfveoa5rbic95.webp" alt="Main Hero Image" />
+      <img src="474242832_1129368892085317_7217698560018563068_n.jpg" alt="Main Hero Image" />
     </div>
   </section>
 
@@ -175,7 +175,7 @@
   <!-- CONTACT -->
   <section id="contact" style="background: #f9f9f9; text-align: center; padding-bottom: 100px;">
     <h3 style="margin-bottom: 15px;">ติดต่อสอบถามเพิ่มเติม</h3>
-    <p style="color: #666; font-size: 14px;">โทร: 092-2563918 / 092-2563892</p>
+    <p style="color: #666; font-size: 14px;">โทร: 092-2563892</p>
     <div style="margin-top: 20px; border-radius: 15px; overflow: hidden; width: 90%; margin-left: auto; margin-right: auto;">
       <img src="fb_cover.webp" style="width: 100%; display: block;" alt="Cover" />
     </div>
@@ -185,7 +185,7 @@
   <div class="floating-btns">
     <a href="https://line.me/ti/p/PWUPzNlcjF" class="float-btn line"><i class="fab fa-line"></i></a>
     <a href="https://m.me/fourmotorbikes2" class="float-btn messenger"><i class="fab fa-facebook-messenger"></i></a>
-    <a href="tel:0922563918" class="float-btn phone"><i class="fas fa-phone-alt"></i></a>
+    <a href="tel:0922563892" class="float-btn phone"><i class="fas fa-phone-alt"></i></a>
   </div>
 
   <!-- VIDEO MODAL -->
@@ -264,13 +264,14 @@
     let currentCategory = "ทั้งหมด";
     
     // Simplified address data
-    const provinces = ["ชลบุรี", "กรุงเทพมหานคร", "ระยอง", "ฉะเชิงเทรา", "อื่นๆ (ระบุในที่อยู่)"];
+    const provinces = ["ชลบุรี", "กรุงเทพมหานคร", "ระยอง", "ฉะเชิงเทรา", "สมุทรปราการ", "อื่นๆ"];
     const districts = {
       "ชลบุรี": ["เมืองชลบุรี", "ศรีราชา", "บางละมุง", "พานทอง", "บ้านบึง", "พนักนิคม", "สัตหีบ", "บ่อทอง", "เกาะจันทร์", "หนองใหญ่"],
-      "กรุงเทพมหานคร": ["บางนา", "ห้วยขวาง", "ลาดพร้าว", "ประเวศ", "อื่นๆ"],
-      "ระยอง": ["เมืองระยอง", "ปลวกแดง", "บ้านค่าย", "นิคมพัฒนา", "อื่นๆ"],
-      "ฉะเชิงเทรา": ["เมืองฉะเชิงเทรา", "บางปะกง", "บ้านโพธิ์", "อื่นๆ"],
-      "อื่นๆ (ระบุในที่อยู่)": ["ระบุในที่อยู่"]
+      "กรุงเทพมหานคร": ["บางนา", "ห้วยขวาง", "ลาดพร้าว", "ประเวศ", "ลาดกระบัง", "อื่นๆ"],
+      "ระยอง": ["เมืองระยอง", "ปลวกแดง", "บ้านค่าย", "นิคมพัฒนา", "บ้านฉาง", "อื่นๆ"],
+      "ฉะเชิงเทรา": ["เมืองฉะเชิงเทรา", "บางปะกง", "บ้านโพธิ์", "พนมสารคาม", "อื่นๆ"],
+      "สมุทรปราการ": ["เมืองสมุทรปราการ", "บางพลี", "บางบ่อ", "พระประแดง", "อื่นๆ"],
+      "อื่นๆ": ["ระบุในที่อยู่"]
     };
 
     document.addEventListener("DOMContentLoaded", function() {
@@ -408,7 +409,7 @@
           <div class="order-form-group"><label>ปีรถ *</label><select id="orderYear" required><option value="">-- เลือกปี --</option>${Array.from({length: 24}, (_, i) => 2003 + i).map(y => `<option>${y}</option>`).join('')}</select></div>
           <div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option>${colors.map(c => `<option>${c}</option>`).join('')}</select></div>`;
       } else if (p.type === '2fold') {
-        opts.innerHTML = `<div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option><option>บลอน</option><option>ดำ</option></select></div>`;
+        opts.innerHTML = `<div class="order-form-group"><label>สี *</label><select id="orderColor" required><option value="">-- เลือกสี --</option><option>ดำ</option><option>บลอน</option></select></div>`;
       } else if (p.type === 'footstep') {
         const sizes = p.options.match(/sizes:([^;]+)/)?.[1].split('|') || [];
         opts.innerHTML = `<div class="order-form-group"><label>ขนาด *</label><select id="orderSize" required><option value="">-- เลือกขนาด --</option>${sizes.map(s => `<option value="${s.split(':')[1]}">${s.split(':')[0]}</option>`).join('')}</select></div>`;

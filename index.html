@@ -107,12 +107,34 @@
     .section-title .accent { color: var(--red); }
     .section-desc { font-size: 14px; color: var(--gray-dark); text-align: center; margin-bottom: 30px; }
 
+    /* --- REVIEW CAROUSEL SECTION (TikTok Style 9:16) --- */
+    .review-section { background: #f8f9fa; padding: 30px 5%; }
+    @media (max-width: 768px) { .review-section { padding: 20px 4%; } }
+    .review-stars { color: #f5a623; font-size: 22px; letter-spacing: 2px; text-align: center; margin-bottom: 6px; }
+    .review-carousel-wrap { position: relative; max-width: 100%; margin: 0 auto; height: 500px; overflow: hidden; }
+    @media (min-width: 768px) { .review-carousel-wrap { height: 600px; } }
+    @media (min-width: 1024px) { .review-carousel-wrap { max-width: 350px; margin: 0 auto; height: 700px; } }
+    .review-carousel-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0; height: 100%; width: 100%; }
+    .review-carousel-track::-webkit-scrollbar { display: none; }
+    .review-card { flex: 0 0 100%; scroll-snap-align: start; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s; display: flex; flex-direction: column; height: 100%; }
+    .review-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+    .review-card img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; flex: 1; }
+    .review-card iframe { width: 100%; height: 100%; border: none; border-radius: 12px 12px 0 0; flex: 1; }
+    .review-card .review-caption { padding: 10px 12px; font-size: 13px; color: #555; text-align: center; background: #fff; flex-shrink: 0; max-height: 60px; overflow: hidden; }
+    .review-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; }
+    .review-nav:hover { background: rgba(0,0,0,0.7); }
+    .review-nav.prev { left: 10px; }
+    .review-nav.next { right: 10px; }
+    @media (max-width: 768px) { .review-nav { display: none; } }
+
     /* --- PRODUCT GRID (ขยายรูปและตัวหนังสือ) --- */
-    .tabs-container { margin-bottom: 30px; padding: 15px 10px; background: #fff; border-radius: 12px; }
-    .tabs-list { display: flex; gap: 10px; list-style: none; justify-content: center; flex-wrap: wrap; }
-    .tab-btn { padding: 14px 26px; border-radius: 10px; font-size: 18px; font-weight: 800; cursor: pointer; font-family: inherit; border: 2px solid #222; color: #222; background: #fff; transition: all 0.2s; letter-spacing: 0.5px; }
+    .tabs-container { margin-bottom: 20px; padding: 10px 8px; background: #fff; border-radius: 12px; }
+    .tabs-list { display: flex; gap: 8px; list-style: none; justify-content: center; flex-wrap: wrap; }
+    @media (min-width: 768px) { .tabs-container { margin-bottom: 30px; padding: 15px 10px; } .tabs-list { gap: 10px; } }
+    .tab-btn { padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; border: 1.5px solid #222; color: #222; background: #fff; transition: all 0.2s; letter-spacing: 0.3px; }
     .tab-btn:hover { background: #f5f5f5; transform: translateY(-1px); }
-    .tab-btn.active { background: #222; color: #fff; border-color: #222; box-shadow: 0 4px 12px rgba(0,0,0,0.25); transform: scale(1.05); }
+    .tab-btn.active { background: #222; color: #fff; border-color: #222; box-shadow: 0 3px 10px rgba(0,0,0,0.2); transform: scale(1.03); }
+    @media (min-width: 768px) { .tab-btn { padding: 12px 22px; font-size: 16px; border-radius: 10px; } }
 
     .products-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
     @media (min-width: 600px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -267,6 +289,23 @@
           <li><button class="tab-btn" data-category="แรมป์ขึ้นล้อรถยนต์">แรมป์ขึ้นล้อรถยนต์</button></li>
           <li><button class="tab-btn" data-category="ฝาท่อ">ฝาท่อ</button></li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEW SECTION -->
+  <section class="review-section" id="reviews">
+    <div class="section-inner">
+      <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <h2 class="section-title">รีวิวจาก<span class="accent">ลูกค้าที่ใช้จริง</span></h2>
+      <p class="section-desc">ภาพและวิดีโอจากลูกค้าที่ซื้อไปและใช้งานจริง</p>
+      <div class="review-carousel-wrap">
+        <button class="review-nav prev" onclick="scrollReviewCarousel(-1)">&#10094;</button>
+        <div class="review-carousel-track" id="reviewCarouselTrack">
+          <!-- จะถูกเติมโดย JS จากชีต -->
+          <div style="text-align:center; padding:40px; color:#999; width:100%;">กำลังโหลดรีวิว...</div>
+        </div>
+        <button class="review-nav next" onclick="scrollReviewCarousel(1)">&#10095;</button>
       </div>
     </div>
   </section>
@@ -630,34 +669,110 @@
         allProducts = fallbackProducts;
       }
       renderProducts();
+      await loadHeroSlides();
       initHeroCarousel();
+      loadReviewsFromSheet();
+    }
+
+    // ===== REVIEW CAROUSEL (ดึงจากชีต tab "reviews" หรือคอลัมน์ Q+ ในชีตเดิม) =====
+    const REVIEW_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv&gid=0';
+
+    async function loadReviewsFromSheet() {
+      const track = document.getElementById('reviewCarouselTrack');
+      try {
+        // ดึงจากชีตเดิม คอลัมน์ Q (index 16) = review_media_url, R (index 17) = review_caption
+        // เริ่มอ่านจากแถวที่ 2 (ข้ามแถว header)
+        const resp = await fetch(REVIEW_SHEET_URL);
+        if (!resp.ok) throw new Error('Fetch failed');
+        const text = await resp.text();
+        const gen = csvGenerator(text);
+        const header = gen.next().value; // skip header
+        const reviews = [];
+        let rowNum = 2;
+        for (const row of gen) {
+          const mediaUrl = (row[16] || '').trim();
+          const caption = (row[17] || '').trim();
+          if (mediaUrl) reviews.push({ url: mediaUrl, caption, rowNum });
+          rowNum++;
+        }
+        if (reviews.length === 0) {
+          track.innerHTML = '<div style="text-align:center; padding:40px; color:#999; width:100%;"><i class="fas fa-images" style="font-size:36px; margin-bottom:10px; display:block;"></i>ยังไม่มีรีวิว — เพิ่มลิงก์รูป/วิดีโอในชีตคอลัมน์ Q (เริ่มจาก Q2) ได้เลย</div>';
+          return;
+        }
+        track.innerHTML = reviews.map(r => {
+          const isVideo = r.url.includes('youtube') || r.url.includes('youtu.be') || r.url.includes('tiktok');
+          if (isVideo) {
+            // แปลง YouTube URL เป็น embed พร้อม Autoplay + Muted + Loop
+            let embedUrl = r.url;
+            const ytMatch = r.url.match(/(?:youtube\.com\/(?:shorts\/|watch\?v=)|youtu\.be\/)([\w-]+)/);
+            if (ytMatch) {
+              const videoId = ytMatch[1];
+              embedUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId;
+            }
+            return `<div class="review-card"><iframe src="${embedUrl}" style="width:100%;height:260px;border:none;border-radius:12px 12px 0 0;" allow="autoplay" allowfullscreen></iframe>${r.caption ? '<div class="review-caption">' + r.caption + '</div>' : ''}</div>`;
+          } else {
+            return `<div class="review-card"><img src="${r.url}" alt="${r.caption || 'รีวิวลูกค้า'}" onclick="window.open(this.src,'_blank')" />${r.caption ? '<div class="review-caption">' + r.caption + '</div>' : ''}</div>`;
+          }
+        }).join('');
+      } catch(err) {
+        console.warn('Failed to load reviews:', err);
+        track.innerHTML = '<div style="text-align:center; padding:40px; color:#999; width:100%;"><i class="fas fa-images" style="font-size:36px; margin-bottom:10px; display:block;"></i>ยังไม่มีรีวิว — เพิ่มลิงก์รูป/วิดีโอในชีตคอลัมน์ Q (เริ่มจาก Q2) ได้เลย</div>';
+      }
+    }
+
+    function scrollReviewCarousel(dir) {
+      const track = document.getElementById('reviewCarouselTrack');
+      const scrollAmount = 280;
+      track.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' });
     }
 
     // ===== HERO CAROUSEL =====
     let heroIndex = 0;
     let heroTimer = null;
+    let heroSlides = [];
+
+    async function loadHeroSlides() {
+      try {
+        const resp = await fetch(SHEET_CSV_URL);
+        if (!resp.ok) throw new Error('Fetch failed');
+        const text = await resp.text();
+        const gen = csvGenerator(text);
+        gen.next();
+        heroSlides = [];
+        for (const row of gen) {
+          const slideUrl = (row[13] || '').trim();
+          if (slideUrl) heroSlides.push(slideUrl);
+        }
+        console.log('Loaded ' + heroSlides.length + ' hero slides from column N');
+      } catch(err) {
+        console.warn('Failed to load hero slides:', err);
+      }
+    }
 
     function initHeroCarousel() {
       const carousel = document.getElementById('heroCarousel');
       const dots = document.getElementById('heroDots');
-      // ดึงรูปจากคอลัมน์ slide_img ก่อน (ผู้ใช้เลือกเองในชีต)
-      const slideImgs = [];
-      const seenSlide = new Set();
-      for (const p of allProducts) {
-        if (p.slideImg && !seenSlide.has(p.slideImg)) {
-          seenSlide.add(p.slideImg);
-          slideImgs.push({ src: p.slideImg, name: p.name });
-        }
-      }
-      // ถ้ามี slide_img ใช้เลย, ถ้าไม่มี fallback ใช้รูปสินค้า (ไม่ซ้ำ, สูงสุด 8 รูป)
-      let imgs = slideImgs;
-      if (imgs.length === 0) {
-        const seen = new Set();
+      let imgs = [];
+      if (heroSlides.length > 0) {
+        imgs = heroSlides.map(src => ({ src, name: 'Hero Slide' }));
+      } else {
+        const slideImgs = [];
+        const seenSlide = new Set();
         for (const p of allProducts) {
-          if (p.img && !seen.has(p.img)) {
-            seen.add(p.img);
-            imgs.push({ src: p.img, name: p.name });
-            if (imgs.length >= 8) break;
+          if (p.slideImg && !seenSlide.has(p.slideImg)) {
+            seenSlide.add(p.slideImg);
+            slideImgs.push({ src: p.slideImg, name: p.name });
+          }
+        }
+        imgs = slideImgs;
+        if (imgs.length === 0) {
+          const seen = new Set();
+          for (const p of allProducts) {
+            if (p.img && !seen.has(p.img)) {
+              seen.add(p.img);
+              imgs.push({ src: p.img, name: p.name });
+              if (imgs.length >= 8) break;
+            }
           }
         }
       }

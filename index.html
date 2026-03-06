@@ -44,7 +44,7 @@
     .nav-cta { background: var(--red); color: var(--white); padding: 10px 24px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 700; transition: 0.3s; }
     .nav-cta:hover { background: var(--red-dk); }
 
-    section { padding: 80px 5%; }
+    section { padding: 60px 5%; }
     .section-inner { max-width: 1200px; margin: 0 auto; }
     .section-title { font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--dark); margin-bottom: 15px; text-align: center; }
     .section-title .accent { color: var(--red); }
@@ -81,6 +81,12 @@
     .btn-video { flex: 1; background: #f8f9fa; color: #333; border: 1px solid #ddd; padding: 8px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: 0.3s; }
     .btn-video:hover { background: #eee; }
     .btn-video i { color: var(--red); }
+    
+    .btn-review { flex: 1; background: #f0f0f0; color: #333; border: 1px solid #ddd; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-review:hover { background: #e8e8e8; border-color: #bbb; }
+    .btn-review i { color: #666; }
+    .btn-order { flex: 1; background: var(--red); color: var(--white); border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+    .btn-order:hover { background: var(--red-dk); }
 
     .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
     .modal.active { display: flex; }
@@ -88,6 +94,55 @@
     .modal-close { position: absolute; top: -40px; right: 0; color: white; font-size: 30px; cursor: pointer; }
     .video-container { width: 100%; aspect-ratio: 16/9; }
     .video-container iframe { width: 100%; height: 100%; }
+    
+    #orderModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+    #orderModal.active { display: flex; }
+    .order-modal-content { background: var(--white); border-radius: 12px; padding: 30px; max-width: 500px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); position: relative; }
+    .order-modal-close { position: absolute; top: 15px; right: 15px; font-size: 28px; cursor: pointer; color: #999; border: none; background: none; }
+    .order-modal-close:hover { color: var(--dark); }
+    .order-form-title { font-size: 22px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .order-form-subtitle { font-size: 13px; color: var(--gray-dark); margin-bottom: 25px; }
+    .order-form-group { margin-bottom: 18px; }
+    .order-form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+    .order-form-group input, .order-form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: 'Sarabun', sans-serif; font-size: 13px; transition: 0.3s; }
+    .order-form-group input:focus, .order-form-group textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1); }
+    .order-form-group textarea { resize: vertical; min-height: 80px; }
+    .address-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .address-row.full { grid-template-columns: 1fr; }
+    .order-form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: 'Sarabun', sans-serif; font-size: 13px; transition: 0.3s; }
+    .order-form-group select:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1); }
+    
+    .review-form-section { background: var(--white); padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-top: 50px; }
+    .review-form-title { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+    .review-form-subtitle { font-size: 13px; color: var(--gray-dark); margin-bottom: 25px; }
+    .review-form-group { margin-bottom: 18px; }
+    .review-form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+    .review-form-group input, .review-form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: 'Sarabun', sans-serif; font-size: 13px; transition: 0.3s; }
+    .review-form-group input:focus, .review-form-group textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1); }
+    .review-form-group textarea { resize: vertical; min-height: 100px; }
+    .star-rating { display: flex; gap: 8px; font-size: 30px; }
+    .star-rating .star { cursor: pointer; color: #ddd; transition: 0.2s; }
+    .star-rating .star:hover, .star-rating .star.active { color: #ffc107; }
+    .review-submit-btn { width: 100%; background: var(--red); color: var(--white); padding: 12px; border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+    .review-submit-btn:hover { background: var(--red-dk); }
+    .review-submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .order-form-group .product-info-display { background: var(--gray-light); padding: 12px; border-radius: 6px; font-size: 13px; color: var(--dark); border-left: 3px solid var(--red); }
+    .order-submit-btn { width: 100%; background: var(--red); color: var(--white); padding: 12px; border: none; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+    .order-submit-btn:hover { background: var(--red-dk); }
+    .order-submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+    #reviewModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+    #reviewModal.active { display: flex; }
+    .review-modal-content { position: relative; max-width: 800px; width: 100%; }
+    .review-modal-close { position: absolute; top: -40px; right: 0; font-size: 40px; cursor: pointer; color: white; border: none; background: none; }
+    .review-modal-close:hover { color: #ccc; }
+    .review-image-container { position: relative; background: #000; border-radius: 8px; overflow: hidden; }
+    .review-image-container img { width: 100%; height: auto; display: block; max-height: 70vh; object-fit: contain; }
+    .review-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.3); color: white; border: none; padding: 15px 20px; font-size: 24px; cursor: pointer; transition: 0.3s; z-index: 10; }
+    .review-nav:hover { background: rgba(255,255,255,0.5); }
+    .review-nav.prev { left: 10px; }
+    .review-nav.next { right: 10px; }
+    .review-counter { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; }
 
     #contact { background: var(--white); }
     .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
@@ -120,16 +175,58 @@
       .contact-container { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
-      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
       .nav-links { gap: 15px; font-size: 11px; }
-      section { padding: 50px 5%; }
+      section { padding: 20px 5%; }
+      .section-title { margin-bottom: 5px; font-size: 24px; }
+      .section-desc { margin-bottom: 15px; font-size: 13px; }
+      .product-body { padding: 10px; }
+      .product-img { height: 250px; background: #fff; }
+      .product-img img { object-fit: contain; }
+      .contact-container { gap: 20px; }
+      .contact-form { padding: 15px; }
     }
     @media (max-width: 480px) {
-      .products-grid { grid-template-columns: 1fr; }
-      nav { padding: 0 3%; }
-      .nav-logo img { width: 35px; height: 35px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      nav { padding: 0 2%; height: 50px; }
+      .nav-logo img { width: 30px; height: 30px; }
       .nav-logo-text span:first-child { font-size: 13px; }
-      .nav-links { display: none; }
+      .nav-logo-text span:last-child { font-size: 9px; }
+      .nav-cta { padding: 8px 16px; font-size: 11px; }
+      section { padding: 12px 3%; }
+      .section-title { margin-bottom: 8px; font-size: 22px; }
+      .section-desc { margin-bottom: 12px; font-size: 12px; }
+      .product-card { margin-bottom: 0; border-radius: 6px; }
+      .product-body { padding: 10px; }
+      .product-img { height: 280px; aspect-ratio: auto; background: #f9f9f9; }
+      .product-img img { object-fit: contain; }
+      .product-title { font-size: 15px; margin-bottom: 6px; font-weight: 800; }
+      .product-info { font-size: 13px; margin-bottom: 10px; color: #555; line-height: 1.5; }
+      .product-actions { gap: 6px; margin-top: 8px; flex-direction: column; }
+      .btn-video { padding: 8px 12px; font-size: 12px; height: auto; border-radius: 4px; width: 100%; }
+      .btn-review { padding: 8px 12px; font-size: 12px; height: auto; border-radius: 4px; width: 100%; }
+      .btn-order { padding: 10px 12px; font-size: 13px; height: auto; border-radius: 4px; width: 100%; }
+      .tabs-list { gap: 6px; margin-bottom: 12px; }
+      .tab-btn { padding: 10px 14px; font-size: 12px; border-radius: 4px; }
+      .hero-grid { gap: 12px; }
+      .hero-title { font-size: 26px; margin-bottom: 10px; }
+      .hero-desc { font-size: 13px; margin-bottom: 15px; }
+      .hero-btns { gap: 8px; }
+      .btn-primary { padding: 10px 20px; font-size: 12px; }
+      .hero-img { height: 300px; }
+      .contact-info h2 { font-size: 20px; margin-bottom: 10px; }
+      .contact-info p { margin-bottom: 12px; font-size: 12px; }
+      .contact-item { gap: 10px; margin-bottom: 10px; font-size: 12px; }
+      .contact-form { padding: 15px; }
+      .form-group { margin-bottom: 12px; }
+      .form-group label { margin-bottom: 4px; font-size: 11px; }
+      .form-group input, .form-group select, .form-group textarea { padding: 8px; font-size: 12px; }
+      .submit-btn { padding: 10px; font-size: 12px; }
+      div[style*="grid"][style*="repeat(auto-fit"] { gap: 10px !important; margin-top: 15px !important; }
+      div[style*="padding: 30px"] { padding: 15px !important; }
+      .floating-btns { bottom: 15px; right: 15px; gap: 8px; }
+      .float-btn { width: 50px; height: 50px; font-size: 20px; }
+      .address-row { grid-template-columns: 1fr; gap: 0; }
     }
   </style>
 </head>
@@ -189,6 +286,13 @@
       <div id="products-container" class="products-grid">
         <div class="loading"><div class="spinner"></div><p>กำลังโหลดสินค้า...</p></div>
       </div>
+    </div>
+  </section>
+
+  <section id="products-header" style="background: #fff; padding: 40px 5%; border-top: 3px solid #e74c3c;">
+    <div class="section-inner">
+      <h2 class="section-title" style="font-size: 32px; margin-bottom: 0;">สินค้า<span class="accent">ทั้งหมด</span></h2>
+      <p style="text-align: center; color: #666; margin-top: 8px; font-size: 14px;">ดูรายการสินค้าที่มีให้เลือกสรรด้านบน</p>
     </div>
   </section>
 
@@ -279,6 +383,175 @@
     <a href="tel:0922563918" class="float-btn phone-btn"><i class="fas fa-phone"></i></a>
   </div>
 
+  <div id="reviewSubmitModal">
+    <div class="order-modal-content">
+      <button class="order-modal-close" onclick="closeReviewSubmitModal()">&times;</button>
+      <h2 class="order-form-title">📝 ส่งรีวิว</h2>
+      <p class="order-form-subtitle">แบ่งปันประสบการณ์การใช้สินค้าของคุณ</p>
+      <form id="reviewSubmitForm" onsubmit="submitReview(event)">
+        <div class="order-form-group">
+          <label>สินค้า</label>
+          <div class="product-info-display" id="reviewProductDisplay">--</div>
+        </div>
+        <div class="order-form-group">
+          <label>ชื่อของคุณ *</label>
+          <input type="text" id="reviewSubmitName" placeholder="เช่น สมชาย ใจดี" required />
+        </div>
+        <div class="order-form-group">
+          <label>อาชีพ/ธุรกิจ</label>
+          <input type="text" id="reviewSubmitOccupation" placeholder="เช่น ผู้ประกอบการขนส่ง" />
+        </div>
+        <div class="order-form-group">
+          <label>คะแนนดาว *</label>
+          <div class="star-rating" id="reviewStarRating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <input type="hidden" id="reviewSubmitRating" value="0" required />
+        </div>
+        <div class="order-form-group">
+          <label>ข้อความรีวิว *</label>
+          <textarea id="reviewSubmitText" placeholder="บอกให้เรารู้ว่าคุณคิดอย่างไรกับสินค้า..." required></textarea>
+        </div>
+        <div class="order-form-group">
+          <label>อัปโหลดรูปภาพ (ไม่บังคับ)</label>
+          <input type="file" id="reviewSubmitImage" accept="image/*" />
+          <small style="color: #666; display: block; margin-top: 4px;">ขนาดไม่เกิน 5 MB</small>
+        </div>
+        <button type="submit" class="order-submit-btn">ส่งรีวิว</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="reviewModal">
+    <div class="review-modal-content">
+      <button class="review-modal-close" onclick="closeReviewModal()">&times;</button>
+      <div class="review-image-container">
+        <img id="reviewImage" src="" alt="Review" />
+        <button class="review-nav prev" onclick="prevReviewImage()" style="display:none;" id="prevBtn">&lt;</button>
+        <button class="review-nav next" onclick="nextReviewImage()" style="display:none;" id="nextBtn">&gt;</button>
+        <div class="review-counter" id="reviewCounter" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="orderModal">
+    <div class="order-modal-content">
+      <button class="order-modal-close" onclick="closeOrderModal()">&times;</button>
+      <h2 class="order-form-title">สั่งซื้อสินค้า</h2>
+      <p class="order-form-subtitle">กรุณากรอกข้อมูลของคุณเพื่อส่งคำสั่งซื้อ</p>
+      <form id="orderForm" onsubmit="submitOrder(event)">
+        <div class="order-form-group">
+          <label>สินค้าที่เลือก</label>
+          <div class="product-info-display" id="selectedProductDisplay">--</div>
+        </div>
+        <div class="order-form-group">
+          <label>ชื่อ-นามสกุล *</label>
+          <input type="text" id="orderName" placeholder="เช่น สมชาย ใจดี" required />
+        </div>
+        <div class="order-form-group">
+          <label>เบอร์โทรศัพท์ *</label>
+          <input type="tel" id="orderPhone" placeholder="0xx-xxx-xxxx" pattern="[0-9\\-]{9,}" required />
+        </div>
+        <div id="productOptionsContainer"></div>
+        <div id="depositWarning"></div>
+        <div class="order-form-group address-row full">
+          <label>บ้านเลขที่ / หมู่ / ซอย / ถนน *</label>
+          <input type="text" id="orderHouseNumber" placeholder="เช่น 123 หมู่ 4 ซอยเมนธรรม ถนนสุขุมวิท" required />
+        </div>
+        <div class="address-row">
+          <div class="order-form-group">
+            <label>ตำบล / แขวง *</label>
+            <input type="text" id="orderSubdistrict" placeholder="เช่น บ้านฉาง" required />
+          </div>
+          <div class="order-form-group">
+            <label>อำเภอ / เขต *</label>
+            <input type="text" id="orderDistrict" placeholder="เช่น บ้านฉาง" required />
+          </div>
+        </div>
+        <div class="address-row">
+          <div class="order-form-group">
+            <label>จังหวัด *</label>
+            <select id="orderProvince" required>
+              <option value="">-- เลือกจังหวัด --</option>
+              <option value="กรุงเทพมหานคร">กรุงเทพมหานคร</option>
+              <option value="สมุทรปราการ">สมุทรปราการ</option>
+              <option value="นนทบุรี">นนทบุรี</option>
+              <option value="ปทุมธานี">ปทุมธานี</option>
+              <option value="พระนครศรีอยุธยา">พระนครศรีอยุธยา</option>
+              <option value="อ่างทอง">อ่างทอง</option>
+              <option value="ลพบุรี">ลพบุรี</option>
+              <option value="สิงห์บุรี">สิงห์บุรี</option>
+              <option value="ชัยนาท">ชัยนาท</option>
+              <option value="สระบุรี">สระบุรี</option>
+              <option value="ชลบุรี">ชลบุรี</option>
+              <option value="ระยอง">ระยอง</option>
+              <option value="จันทบุรี">จันทบุรี</option>
+              <option value="ตราด">ตราด</option>
+              <option value="ฉะเชิงเทรา">ฉะเชิงเทรา</option>
+              <option value="ปราจีนบุรี">ปราจีนบุรี</option>
+              <option value="นครนายก">นครนายก</option>
+              <option value="สระแก้ว">สระแก้ว</option>
+              <option value="นครราชสีมา">นครราชสีมา</option>
+              <option value="บุรีรัมย์">บุรีรัมย์</option>
+              <option value="สุรินทร์">สุรินทร์</option>
+              <option value="ศรีสะเกษ">ศรีสะเกษ</option>
+              <option value="อำนาจเจริญ">อำนาจเจริญ</option>
+              <option value="บึงกาฬ">บึงกาฬ
+              <option value="หนองบัวลำภู">หนองบัวลำภู</option>
+              <option value="ขอนแก่น">ขอนแก่น</option>
+              <option value="อุดรธานี">อุดรธานี</option>
+              <option value="เลย">เลย</option>
+              <option value="หนองคาย">หนองคาย</option>
+              <option value="มหาสารคาม">มหาสารคาม</option>
+              <option value="ร้อยเอ็ด">ร้อยเอ็ด</option>
+              <option value="กาฬสินธุ์">กาฬสินธุ์</option>
+              <option value="สกลนคร">สกลนคร</option>
+              <option value="นครพนม">นครพนม</option>
+              <option value="มุกดาหาร">มุกดาหาร</option>
+              <option value="เชียงใหม่">เชียงใหม่</option>
+              <option value="ลำพูน">ลำพูน</option>
+              <option value="ลำปาง">ลำปาง</option>
+              <option value="อุตรดิตถ์">อุตรดิตถ์</option>
+              <option value="แพร่">แพร่</option>
+              <option value="น่าน">น่าน</option>
+              <option value="พะเยา">พะเยา</option>
+              <option value="เชียงราย">เชียงราย</option>
+              <option value="พิษณุโลก">พิษณุโลก</option>
+              <option value="เพชรบูรณ์">เพชรบูรณ์</option>
+              <option value="สุโขทัย">สุโขทัย</option>
+              <option value="ตาก">ตาก</option>
+              <option value="กำแพงเพชร">กำแพงเพชร</option>
+              <option value="ราชบุรี">ราชบุรี</option>
+              <option value="เพชรบুรี">เพชรบุรี</option>
+              <option value="ประจวบคีรีขันธ์">ประจวบคีรีขันธ์</option>
+              <option value="ชุมพร">ชุมพร</option>
+              <option value="สุราษฎร์ธานี">สุราษฎร์ธานี</option>
+              <option value="นครศรีธรรมราช">นครศรีธรรมราช</option>
+              <option value="กระบี่">กระบี่</option>
+              <option value="พังงา">พังงา</option>
+              <option value="ภูเก็ต">ภูเก็ต</option>
+              <option value="สตูล">สตูล</option>
+              <option value="สงขลา">สงขลา</option>
+              <option value="สตูล">สตูล</option>
+              <option value="ยะลา">ยะลา</option>
+              <option value="ปัตตานี">ปัตตานี</option>
+              <option value="นราธิวาส">นราธิวาส</option>
+            </select>
+          </div>
+          <div class="order-form-group">
+            <label>รหัสไปรษณีย์ *</label>
+            <input type="text" id="orderPostalCode" placeholder="12345" pattern="[0-9]{5}" maxlength="5" required />
+          </div>
+        </div>
+        <button type="submit" class="order-submit-btn">ยืนยันการสั่งซื้อ</button>
+      </form>
+    </div>
+  </div>
+
   <div id="videoModal" class="modal">
     <div class="modal-content">
       <span class="modal-close" onclick="closeVideoModal()">&times;</span>
@@ -292,7 +565,8 @@
 
     async function loadProducts() {
       try {
-        const response = await fetch("products.csv");
+        const googleSheetsUrl = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv';
+        const response = await fetch(googleSheetsUrl);
         const csvText = await response.text();
         const lines = csvText.trim().split('\n');
         
@@ -306,7 +580,10 @@
               info: row[2] || '',
               image: row[3] || '',
               category: row[4] || '',
-              videoLink: row[5] || ''
+              videoLink: row[5] || '',
+              reviewImages: row[6] || '',
+              type: row[7] || 'other',
+              options: row[8] || ''
             });
           }
         }
@@ -355,6 +632,7 @@
 
       container.innerHTML = filtered.map(p => {
         const hasVideo = p.videoLink && (p.videoLink.includes('youtube.com') || p.videoLink.includes('youtu.be') || p.videoLink.includes('shorts/'));
+        const hasReviews = p.reviewImages && p.reviewImages.trim().length > 0;
         return `
           <div class="product-card">
             <div class="product-img">
@@ -366,6 +644,9 @@
               <p class="product-info">${p.info}</p>
               <div class="product-actions">
                 ${hasVideo ? `<button class="btn-video" onclick="playVideo('${p.videoLink}')"><i class="fas fa-play"></i> ดูวิดีโอ</button>` : ''}
+                ${hasReviews ? `<button class="btn-review" onclick="openReviewModal('${p.name.replace(/'/g, "\\'")}')"><i class="fas fa-images"></i> รูปรีวิว</button>` : ''}
+                <button class="btn-review" onclick="openReviewSubmitModal('${p.name.replace(/'/g, "\\'")}')"><i class="fas fa-pen"></i> ส่งรีวิว</button>
+                <button class="btn-order" onclick="openOrderModal('${p.name.replace(/'/g, "\\'")}')"><i class="fas fa-shopping-cart"></i> สั่งซื้อ</button>
               </div>
             </div>
           </div>
@@ -405,6 +686,291 @@
       document.getElementById('videoModal').classList.remove('active');
       document.getElementById('videoContainer').innerHTML = '';
     }
+    function openOrderModal(productName) {
+      document.getElementById('selectedProductDisplay').textContent = productName;
+      document.getElementById('orderModal').classList.add('active');
+      document.getElementById('orderForm').reset();
+      
+      // Find product and show options
+      const product = allProducts.find(p => p.name === productName);
+      if (product) {
+        renderProductOptions(product);
+      }
+    }
+    
+    function renderProductOptions(product) {
+      const optionsContainer = document.getElementById('productOptionsContainer');
+      if (!optionsContainer) return;
+      
+      optionsContainer.innerHTML = '';
+      const productType = product.type || 'other';
+      const optionsStr = product.options || '';
+      
+      if (productType === '3fold') {
+        // 3-fold ladder with car model, year, and color
+        optionsContainer.innerHTML = `
+          <div class="order-form-group">
+            <label>รุ่นรถยนต์ *</label>
+            <select id="orderCarModel" required>
+              <option>-- เลือกรุ่นรถ --</option>
+              <option>Tiger</option>
+              <option>Isuzu</option>
+              <option>Toyota</option>
+              <option>Ford</option>
+              <option>Mitsubishi</option>
+              <option>Nissan</option>
+              <option>Mazda</option>
+              <option>Chevrolet</option>
+              <option>Mg</option>
+              <option>Riddara</option>
+            </select>
+          </div>
+          <div class="order-form-group">
+            <label>ปีรถ *</label>
+            <select id="orderCarYear" required>
+              <option>-- เลือกปี --</option>
+            </select>
+          </div>
+          <div class="order-form-group">
+            <label>สี *</label>
+            <select id="orderColor" required>
+              <option>-- เลือกสี --</option>
+              <option>ดำ</option>
+              <option>บลอน</option>
+              <option>แดง</option>
+              <option>เขียว</option>
+              <option>เหลือง</option>
+              <option>ฟ้า</option>
+              <option>ส้ม</option>
+            </select>
+          </div>
+        `;
+        
+        // Populate years
+        const yearSelect = document.getElementById('orderCarYear');
+        for (let year = 2003; year <= 2026; year++) {
+          const option = document.createElement('option');
+          option.value = year;
+          option.textContent = year;
+          yearSelect.appendChild(option);
+        }
+      } else if (productType === '2fold') {
+        // 2-fold ladder with color only
+        optionsContainer.innerHTML = `
+          <div class="order-form-group">
+            <label>สี *</label>
+            <select id="orderColor" required>
+              <option>-- เลือกสี --</option>
+              <option>บลอน</option>
+              <option>ดำ</option>
+            </select>
+          </div>
+        `;
+      } else if (productType === 'footstep') {
+        // Footstep ladder with width, length, height options
+        const widthMatch = optionsStr.match(/width:(\d+)/);
+        const width = widthMatch ? widthMatch[1] : '35';
+        const sizesMatch = optionsStr.match(/sizes:([^;]+)/);
+        const sizes = sizesMatch ? sizesMatch[1].split('|') : [];
+        
+        let sizeOptions = '<option>-- เลือกขนาด --</option>';
+        sizes.forEach(size => {
+          const parts = size.split(':');
+          if (parts.length === 2) {
+            sizeOptions += `<option value="${parts[1]}">${parts[0]}</option>`;
+          }
+        });
+        
+        optionsContainer.innerHTML = `
+          <div class="order-form-group">
+            <label>ขนาด (กว้าง*ยาว*สูง) *</label>
+            <select id="orderSize" onchange="updatePrice()" required>
+              ${sizeOptions}
+            </select>
+          </div>
+        `;
+        
+        // Check if color option exists
+        if (optionsStr.includes('color:')) {
+          const colorMatch = optionsStr.match(/color:([^;]+)/);
+          if (colorMatch) {
+            const colors = colorMatch[1].split('-');
+            let colorOptions = '<option>-- เลือกสี --</option>';
+            colors.forEach(color => {
+              colorOptions += `<option>${color}</option>`;
+            });
+            optionsContainer.innerHTML += `
+              <div class="order-form-group">
+                <label>สี *</label>
+                <select id="orderColor" required>
+                  ${colorOptions}
+                </select>
+              </div>
+            `;
+          }
+        }
+      }
+      
+      // Check if deposit is required
+      const priceStr = product.price.toString().replace(/[^0-9]/g, '');
+      const price = parseInt(priceStr) || 0;
+      if (price >= 4000) {
+        const depositContainer = document.getElementById('depositWarning');
+        if (depositContainer) {
+          depositContainer.innerHTML = '<div style="background: #ffe6e6; border-left: 4px solid #e74c3c; padding: 12px; margin: 15px 0; border-radius: 4px; color: #c0392b; font-weight: 600;">⚠️ สินค้านี้ต้องชำระมัดจำ 500 บาท</div>';
+        }
+      } else {
+        const depositContainer = document.getElementById('depositWarning');
+        if (depositContainer) {
+          depositContainer.innerHTML = '';
+        }
+      }
+    }
+    
+    function updatePrice() {
+      // This function can be used to update price dynamically
+      const sizeSelect = document.getElementById('orderSize');
+      if (sizeSelect && sizeSelect.value) {
+        console.log('Selected price:', sizeSelect.value);
+      }
+    }
+
+    function closeOrderModal() {
+      document.getElementById('orderModal').classList.remove('active');
+    }
+
+    function submitOrder(event) {
+      event.preventDefault();
+      
+      const productName = document.getElementById('selectedProductDisplay').textContent;
+      const name = document.getElementById('orderName').value;
+      const phone = document.getElementById('orderPhone').value;
+      const houseNumber = document.getElementById('orderHouseNumber').value;
+      const subdistrict = document.getElementById('orderSubdistrict').value;
+      const district = document.getElementById('orderDistrict').value;
+      const province = document.getElementById('orderProvince').value;
+      const postalCode = document.getElementById('orderPostalCode').value;
+      
+      const carModel = document.getElementById('orderCarModel')?.value || '';
+      const carYear = document.getElementById('orderCarYear')?.value || '';
+      const color = document.getElementById('orderColor')?.value || '';
+      const size = document.getElementById('orderSize')?.value || '';
+      
+      // Construct full address
+      const fullAddress = `${houseNumber} ตำบล${subdistrict} อำเภอ${district} จังหวัด${province} ${postalCode}`;
+      
+      const submitBtn = document.querySelector('.order-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'กำลังส่งข้อมูล...';
+      
+      const product = allProducts.find(p => p.name === productName);
+      const priceStr = product?.price.toString().replace(/[^0-9]/g, '') || '0';
+      const price = parseInt(priceStr) || 0;
+      const needsDeposit = price >= 4000 ? true : false;
+      const depositAmount = needsDeposit ? 500 : 0;
+      
+      const webhookData = {
+        type: 'order',
+        product: productName,
+        carModel: carModel,
+        carYear: carYear,
+        color: color,
+        size: size,
+        name: name,
+        phone: phone,
+        houseNumber: houseNumber,
+        subdistrict: subdistrict,
+        district: district,
+        province: province,
+        postalCode: postalCode,
+        fullAddress: fullAddress,
+        price: price,
+        needsDeposit: needsDeposit,
+        depositAmount: depositAmount,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Send to Make.com webhook
+      fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(webhookData)
+      })
+      .then(response => {
+        if (response.ok) {
+          alert('ขอบคุณสำหรับการสั่งซื้อ! เราจะติดต่อกลับโดยเร็วที่สุดครับ');
+          closeOrderModal();
+          document.getElementById('orderForm').reset();
+        } else {
+          throw new Error('Webhook failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ยืนยันการสั่งซื้อ';
+      });
+    }
+
+    let currentReviewImages = [];
+    let currentReviewIndex = 0;
+
+    function openReviewModal(productName) {
+      const product = allProducts.find(p => p.name === productName);
+      if (!product || !product.reviewImages) return;
+      
+      currentReviewImages = product.reviewImages.split(',').map(img => img.trim()).filter(img => img);
+      if (currentReviewImages.length === 0) return;
+      
+      currentReviewIndex = 0;
+      displayReviewImage();
+      document.getElementById('reviewModal').classList.add('active');
+    }
+
+    function closeReviewModal() {
+      document.getElementById('reviewModal').classList.remove('active');
+      currentReviewImages = [];
+      currentReviewIndex = 0;
+    }
+
+    function displayReviewImage() {
+      if (currentReviewImages.length === 0) return;
+      
+      const img = document.getElementById('reviewImage');
+      img.src = currentReviewImages[currentReviewIndex];
+      
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const counter = document.getElementById('reviewCounter');
+      
+      if (currentReviewImages.length > 1) {
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+        counter.style.display = 'block';
+        counter.textContent = (currentReviewIndex + 1) + ' / ' + currentReviewImages.length;
+      } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        counter.style.display = 'none';
+      }
+    }
+
+    function nextReviewImage() {
+      if (currentReviewImages.length === 0) return;
+      currentReviewIndex = (currentReviewIndex + 1) % currentReviewImages.length;
+      displayReviewImage();
+    }
+
+    function prevReviewImage() {
+      if (currentReviewImages.length === 0) return;
+      currentReviewIndex = (currentReviewIndex - 1 + currentReviewImages.length) % currentReviewImages.length;
+      displayReviewImage();
+    }
 
     function handleSubmit(event) {
       event.preventDefault();
@@ -412,17 +978,116 @@
       event.target.reset();
     }
 
-    // V30: Don't wait for loadProducts - show placeholder products immediately
+    function openReviewSubmitModal(productName) {
+      document.getElementById('reviewProductDisplay').textContent = productName;
+      document.getElementById('reviewSubmitForm').reset();
+      document.getElementById('reviewSubmitRating').value = '0';
+      document.querySelectorAll('#reviewStarRating .star').forEach(star => star.classList.remove('active'));
+      document.getElementById('reviewSubmitModal').classList.add('active');
+    }
+
+    function closeReviewSubmitModal() {
+      document.getElementById('reviewSubmitModal').classList.remove('active');
+    }
+
+    function submitReview(event) {
+      event.preventDefault();
+      
+      const productName = document.getElementById('reviewProductDisplay').textContent;
+      const name = document.getElementById('reviewSubmitName').value;
+      const occupation = document.getElementById('reviewSubmitOccupation').value || 'ไม่ระบุ';
+      const rating = document.getElementById('reviewSubmitRating').value;
+      const text = document.getElementById('reviewSubmitText').value;
+      const imageFile = document.getElementById('reviewSubmitImage').files[0];
+      
+      if (rating === '0') {
+        alert('กรุณาเลือกคะแนนดาวครับ');
+        return;
+      }
+      
+      const submitBtn = event.target.querySelector('.order-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'กำลังส่งรีวิว...';
+      
+      // If there's an image, convert to base64
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          sendReviewToWebhook(productName, name, occupation, rating, text, e.target.result);
+        };
+        reader.readAsDataURL(imageFile);
+      } else {
+        sendReviewToWebhook(productName, name, occupation, rating, text, null);
+      }
+      
+      function sendReviewToWebhook(product, reviewName, reviewOccupation, reviewRating, reviewText, imageBase64) {
+        const webhookData = {
+          type: 'review',
+          product: product,
+          name: reviewName,
+          occupation: reviewOccupation,
+          rating: parseInt(reviewRating),
+          text: reviewText,
+          image: imageBase64,
+          timestamp: new Date().toISOString()
+        };
+        
+        fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(webhookData)
+        })
+        .then(response => {
+          if (response.ok) {
+            alert('ขอบคุณสำหรับรีวิว! เราจะนำรีวิวของคุณมาแสดงบนเว็บไซต์ครับ');
+            closeReviewSubmitModal();
+            document.getElementById('reviewSubmitForm').reset();
+          } else {
+            throw new Error('Webhook failed');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'ส่งรีวิว';
+        });
+      }
+    }
+
+    // Star rating selection
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize with empty state, but don't block rendering
-      setTimeout(() => {
-        try {
-          loadProducts();
-        } catch (e) {
-          console.error('Error loading products:', e);
-        }
-      }, 100);
+      loadProducts();
+      
+      // Add star rating click handlers
+      const stars = document.querySelectorAll('#reviewStarRating .star');
+      stars.forEach(star => {
+        star.addEventListener('click', function() {
+          const value = this.dataset.value;
+          document.getElementById('reviewSubmitRating').value = value;
+          stars.forEach(s => s.classList.remove('active'));
+          for (let i = 0; i < value; i++) {
+            stars[i].classList.add('active');
+          }
+        });
+      });
     });
+
+    // Close modals when clicking outside
+    window.onclick = function(event) {
+      const videoModal = document.getElementById('videoModal');
+      const reviewSubmitModal = document.getElementById('reviewSubmitModal');
+      if (event.target === videoModal) {
+        videoModal.classList.remove('active');
+      }
+      if (event.target === reviewSubmitModal) {
+        reviewSubmitModal.classList.remove('active');
+      }
+    };
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', function() {
@@ -432,13 +1097,6 @@
         renderProducts();
       });
     });
-
-    window.onclick = function(event) {
-      const modal = document.getElementById('videoModal');
-      if (event.target === modal) {
-        modal.classList.remove('active');
-      }
-    }
   </script>
 </body>
 </html>

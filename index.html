@@ -203,6 +203,35 @@
     .slip-preview .slip-name { font-size: 13px; color: #666; margin-top: 5px; }
     .slip-remove { background: var(--red); color: white; border: none; padding: 5px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; margin-top: 5px; font-family: inherit; }
 
+    /* --- PAYMENT TYPE TOGGLE --- */
+    .payment-type-toggle { display: flex; gap: 0; margin-bottom: 15px; border-radius: 8px; overflow: hidden; border: 2px solid var(--red); }
+    .payment-type-btn { flex: 1; padding: 12px; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.3s; font-family: inherit; border: none; background: #fff; color: var(--red); }
+    .payment-type-btn.active { background: var(--red); color: #fff; }
+    .payment-type-btn:hover:not(.active) { background: #fff5f5; }
+
+    /* --- CHECK ORDER --- */
+    .check-order-result { margin-top: 15px; }
+    .order-result-card { background: #f8f9fa; border: 1px solid #eee; border-radius: 10px; padding: 15px; margin-bottom: 12px; }
+    .order-result-card h4 { color: var(--red); font-size: 16px; margin-bottom: 8px; }
+    .order-result-card p { font-size: 14px; color: #555; margin-bottom: 4px; }
+    .order-result-card .order-status { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; }
+
+    /* --- PACKING VIDEOS SECTION --- */
+    .packing-section { background: #fff; padding: 30px 5%; }
+    @media (max-width: 768px) { .packing-section { padding: 20px 4%; } }
+    .packing-carousel-wrap { position: relative; max-width: 100%; margin: 0 auto; height: 500px; overflow: hidden; }
+    @media (min-width: 768px) { .packing-carousel-wrap { height: 600px; } }
+    @media (min-width: 1024px) { .packing-carousel-wrap { max-width: 350px; margin: 0 auto; height: 700px; } }
+    .packing-carousel-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0; height: 100%; width: 100%; }
+    .packing-carousel-track::-webkit-scrollbar { display: none; }
+    .packing-card { flex: 0 0 100%; scroll-snap-align: start; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display: flex; flex-direction: column; height: 100%; }
+    .packing-card iframe { width: 100%; height: 100%; border: none; border-radius: 12px; flex: 1; }
+    .packing-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; }
+    .packing-nav:hover { background: rgba(0,0,0,0.7); }
+    .packing-nav.prev { left: 10px; }
+    .packing-nav.next { right: 10px; }
+    @media (max-width: 768px) { .packing-nav { display: flex; width: 30px; height: 30px; font-size: 14px; } }
+
     .loading { grid-column: 1 / -1; text-align: center; padding: 50px; }
     .spinner { width: 30px; height: 30px; border: 3px solid #f3f3f3; border-top: 3px solid var(--red); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -236,7 +265,10 @@
       <a href="#products" class="nav-link">สินค้า</a>
       <a href="#contact" class="nav-link">ติดต่อ</a>
     </div>
-    <a href="#products" class="nav-btn-order">สั่งซื้อเลย</a>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <a href="#products" class="nav-btn-order">สั่งซื้อเลย</a>
+      <a href="javascript:void(0)" onclick="openCheckOrder()" class="nav-btn-order" style="background:#1877f2;font-size:13px;padding:10px 15px;">ตรวจสอบคำสั่งซื้อ</a>
+    </div>
   </nav>
 
   <!-- HERO SECTION -->
@@ -308,6 +340,21 @@
           <div style="text-align:center; padding:40px; color:#999; width:100%;">กำลังโหลดรีวิว...</div>
         </div>
         <button class="review-nav next" onclick="scrollReviewCarousel(1)">&#10095;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKING VIDEOS SECTION -->
+  <section class="packing-section" id="packing" style="display:none;">
+    <div class="section-inner">
+      <h2 class="section-title"><i class="fas fa-box" style="color:var(--red);margin-right:8px;"></i>วิดีโอ<span class="accent">แพคส่งของ</span></h2>
+      <p class="section-desc">ดูขั้นตอนการแพคและจัดส่งสินค้าของเรา</p>
+      <div class="packing-carousel-wrap">
+        <button class="packing-nav prev" onclick="scrollPackingCarousel(-1)">&#10094;</button>
+        <div class="packing-carousel-track" id="packingCarouselTrack">
+          <div style="text-align:center; padding:40px; color:#999; width:100%;"><i class="fas fa-box" style="font-size:36px; margin-bottom:10px; display:block;"></i>กำลังโหลดวิดีโอ...</div>
+        </div>
+        <button class="packing-nav next" onclick="scrollPackingCarousel(1)">&#10095;</button>
       </div>
     </div>
   </section>
@@ -436,6 +483,26 @@
     </div>
   </div>
 
+  <!-- CHECK ORDER MODAL -->
+  <div id="checkOrderModal" class="modal">
+    <div class="modal-content" style="max-width:500px;">
+      <button class="modal-close" onclick="closeCheckOrderModal()">&times;</button>
+      <div class="modal-header">
+        <h3 style="font-size:18px;"><i class="fas fa-search" style="color:var(--red);margin-right:8px;"></i>ตรวจสอบคำสั่งซื้อ</h3>
+      </div>
+      <div class="modal-body">
+        <div class="order-form-group">
+          <label>กรอกเบอร์โทรที่ใช้สั่งซื้อ</label>
+          <div style="display:flex;gap:8px;">
+            <input type="tel" id="checkOrderPhone" placeholder="0XX-XXX-XXXX" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')" style="flex:1;padding:12px;border:1px solid #ddd;border-radius:6px;font-size:16px;font-family:inherit;" />
+            <button onclick="searchOrder()" style="background:var(--red);color:#fff;border:none;padding:12px 20px;border-radius:6px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;"><i class="fas fa-search"></i> ค้นหา</button>
+          </div>
+        </div>
+        <div id="checkOrderResult" class="check-order-result"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ORDER MODAL -->
   <div id="orderModal" class="modal">
     <div class="modal-content">
@@ -461,19 +528,31 @@
             <textarea id="orderAddress" placeholder="บ้านเลขที่, หมู่บ้าน/ซอย, ถนน, ตำบล, อำเภอ, จังหวัด, รหัสไปรษณีย์" rows="4" style="min-height: 100px;" required></textarea>
           </div>
           
-          <div class="order-form-group">
+          <!-- PAYMENT TYPE SELECT (สินค้ามีมัดจำ) -->
+          <div id="paymentTypeArea" class="order-form-group" style="display:none;">
             <label>ช่องทางการชำระเงิน *</label>
-            <select id="orderPayment" required onchange="updatePaymentDisplay()" style="font-family:inherit;">
+            <select id="depositPaymentSelect" style="font-family:inherit;" onchange="onDepositPaymentChange()">
+              <option value="มัดจำ">มัดจำ</option>
+              <option value="โอนเงิน">โอนเต็มจำนวน</option>
+              <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง (COD)</option>
+            </select>
+          </div>
+          <input type="hidden" id="orderPayment" value="มัดจำ" />
+
+          <!-- ช่องทางชำระเงินสำหรับสินค้าไม่มีมัดจำ -->
+          <div id="codPaymentArea" class="order-form-group" style="display:none;">
+            <label>ช่องทางการชำระเงิน *</label>
+            <select id="codPaymentSelect" style="font-family:inherit;" onchange="updateCodPayment()">
               <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง (COD)</option>
               <option value="โอนเงิน">โอนเงินเต็มจำนวน</option>
             </select>
           </div>
 
-          <!-- มัดจำอัตโนมัติ (เด้งเองเมื่อสินค้ามีมัดจำ) -->
+          <!-- มัดจำ QR (จาก Sheet O) -->
           <div id="autoDepositArea" class="deposit-box" style="display: none;">
             <h4 style="color: #ff9800; font-size: 16px;">⚠️ สินค้านี้ต้องมัดจำก่อนจัดส่ง</h4>
             <div class="deposit-amount" id="autoDepositAmount" style="color: #ff9800;"></div>
-            <img src="S__22544394.jpg" alt="PromptPay QR Code" class="qr-img" />
+            <img id="depositQrImg" src="S__22544394.jpg" alt="QR Code มัดจำ" class="qr-img" />
             <p style="font-size: 13px; color: #666; margin-top: 10px;">ชื่อบัญชี: นายปัญญา ทองนพคุณ</p>
             <p style="font-size: 12px; color: #999; margin-top: 5px;">โอนมัดจำแล้วแนบสลิปด้านล่าง</p>
           </div>
@@ -490,10 +569,11 @@
             </div>
           </div>
 
+          <!-- โอนเต็มจำนวน QR (จาก Sheet S) -->
           <div id="depositArea" class="deposit-box" style="display: none;">
-            <h4 id="depositTitle">โปรดโอนเงินตามจำนวนด้านล่าง</h4>
+            <h4 id="depositTitle">โอนเงินเต็มจำนวน</h4>
             <div class="deposit-amount" id="depositAmountText"></div>
-            <img src="S__22544394.jpg" alt="PromptPay QR Code" class="qr-img" />
+            <img id="fullPayQrImg" src="S__22544394.jpg" alt="QR Code โอนเต็ม" class="qr-img" />
             <p style="font-size: 13px; color: #666; margin-top: 10px;">ชื่อบัญชี: นายปัญญา ทองนพคุณ</p>
           </div>
           
@@ -594,6 +674,9 @@
         const reviewGroup = (row[6] || '').trim();
         const rawType = (row[7] || '').trim();
         const deposit = parseInt(row[15] || '0') || 0;
+        const qrDeposit = (row[14] || '').trim(); // Column O: QR มัดจำ
+        const qrFull = (row[18] || '').trim(); // Column S: QR โอนเต็มจำนวน
+        const packingVideo = (row[19] || '').trim(); // Column T: วิดีโอแพคของ
 
         // Parse review images (columns I-M = index 8-12)
         const reviewImages = [];
@@ -646,7 +729,8 @@
           name, price, desc, img, category, video,
           review: reviewGroup, type, options, deposit,
           reviewImages, slideImg, models, yearStart, yearEnd,
-          colors: type === '3fold' ? colors : colors2fold
+          colors: type === '3fold' ? colors : colors2fold,
+          qrDeposit, qrFull, packingVideo
         });
       }
       return products;
@@ -674,6 +758,7 @@
       await loadHeroSlides();
       initHeroCarousel();
       loadReviewsFromSheet();
+      loadPackingVideos();
     }
 
     // ===== REVIEW CAROUSEL (ดึงจากชีตเดิม คอลัมน์ Q+) =====
@@ -743,6 +828,9 @@
       // Review swipe (track already scrollable, but add extra nav)
       const reviewEl = document.getElementById('reviewCarouselTrack');
       if (reviewEl) addSwipe(reviewEl, () => scrollReviewCarousel(1), () => scrollReviewCarousel(-1));
+      // Packing swipe
+      const packingEl = document.getElementById('packingCarouselTrack');
+      if (packingEl) addSwipe(packingEl, () => scrollPackingCarousel(1), () => scrollPackingCarousel(-1));
     });
 
     // ===== HERO CAROUSEL =====
@@ -972,17 +1060,36 @@
       }
 
       // ตั้งค่าช่องทางชำระเงิน
-      const paymentSelect = document.getElementById('orderPayment');
-      paymentSelect.value = 'เก็บเงินปลายทาง';
-      
-      // แสดงมัดจำอัตโนมัติถ้าสินค้ามีมัดจำ
       if (p.deposit > 0) {
-        document.getElementById('autoDepositArea').style.display = 'block';
-        document.getElementById('autoDepositAmount').textContent = '฿' + p.deposit.toLocaleString();
-        document.getElementById('autoSlipArea').style.display = 'block';
+        // สินค้ามีมัดจำ - แสดง toggle มัดจำ/โอนเต็ม
+        document.getElementById('paymentTypeArea').style.display = 'block';
+        document.getElementById('codPaymentArea').style.display = 'none';
+        // ตั้ง QR จาก Sheet
+        const depositQrImg = document.getElementById('depositQrImg');
+        const fullPayQrImg = document.getElementById('fullPayQrImg');
+        if (p.qrDeposit) depositQrImg.src = p.qrDeposit;
+        else depositQrImg.src = 'S__22544394.jpg';
+        if (p.qrFull) fullPayQrImg.src = p.qrFull;
+        else fullPayQrImg.src = 'S__22544394.jpg';
+        // เริ่มต้นที่มัดจำ
+        document.getElementById('depositPaymentSelect').value = 'มัดจำ';
+        onDepositPaymentChange();
       } else {
+        // สินค้าไม่มีมัดจำ - แสดง dropdown ปกติ
+        document.getElementById('paymentTypeArea').style.display = 'none';
+        document.getElementById('codPaymentArea').style.display = 'block';
+        document.getElementById('codPaymentSelect').value = 'เก็บเงินปลายทาง';
+        document.getElementById('orderPayment').value = 'เก็บเงินปลายทาง';
+        // ซ่อนทุกอย่าง
         document.getElementById('autoDepositArea').style.display = 'none';
         document.getElementById('autoSlipArea').style.display = 'none';
+        document.getElementById('depositArea').style.display = 'none';
+        document.getElementById('slipUploadArea').style.display = 'none';
+        // ตั้ง QR สำหรับโอนเต็ม
+        const fullPayQrImg = document.getElementById('fullPayQrImg');
+        if (p.qrFull) fullPayQrImg.src = p.qrFull;
+        else fullPayQrImg.src = 'S__22544394.jpg';
+        updateCodPayment();
       }
       
       // รีเซ็ตสลิป
@@ -994,26 +1101,67 @@
       // รีเซ็ต phone error
       document.getElementById('phoneError').style.display = 'none';
       
-      updatePaymentDisplay();
       document.getElementById('orderModal').classList.add('active');
     }
     function closeOrderModal() { document.getElementById('orderModal').classList.remove('active'); }
 
-    // ===== PAYMENT DISPLAY =====
-    function updatePaymentDisplay() {
-      const payment = document.getElementById('orderPayment').value;
-      const depositArea = document.getElementById('depositArea');
-      const slipArea = document.getElementById('slipUploadArea');
-      
-      if (payment === 'โอนเงิน') {
-        depositArea.style.display = 'block';
+    // ===== PAYMENT SELECT (สำหรับสินค้ามีมัดจำ) =====
+    function onDepositPaymentChange() {
+      const val = document.getElementById('depositPaymentSelect').value;
+      document.getElementById('orderPayment').value = val;
+      if (val === 'มัดจำ') {
+        // แสดงมัดจำ QR + slip
+        document.getElementById('autoDepositArea').style.display = 'block';
+        document.getElementById('autoDepositAmount').textContent = currentOrderProduct ? '฿' + currentOrderProduct.deposit.toLocaleString() : '';
+        document.getElementById('autoSlipArea').style.display = 'block';
+        // ซ่อนโอนเต็ม
+        document.getElementById('depositArea').style.display = 'none';
+        document.getElementById('slipUploadArea').style.display = 'none';
+      } else if (val === 'โอนเงิน') {
+        // ซ่อนมัดจำ
+        document.getElementById('autoDepositArea').style.display = 'none';
+        document.getElementById('autoSlipArea').style.display = 'none';
+        // แสดงโอนเต็ม QR + slip
+        document.getElementById('depositArea').style.display = 'block';
         document.getElementById('depositTitle').textContent = 'โอนเงินเต็มจำนวน';
-        document.getElementById('depositAmountText').textContent = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
-        slipArea.style.display = 'block';
-      } else {
-        depositArea.style.display = 'none';
-        slipArea.style.display = 'none';
+        const priceText = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
+        document.getElementById('depositAmountText').textContent = priceText;
+        document.getElementById('slipUploadArea').style.display = 'block';
+      } else if (val === 'เก็บเงินปลายทาง') {
+        // ซ่อนทั้งมัดจำและโอนเต็ม
+        document.getElementById('autoDepositArea').style.display = 'none';
+        document.getElementById('autoSlipArea').style.display = 'none';
+        document.getElementById('depositArea').style.display = 'none';
+        document.getElementById('slipUploadArea').style.display = 'none';
       }
+    }
+    // backward compat
+    function setPaymentType(type) {
+      const sel = document.getElementById('depositPaymentSelect');
+      if (type === 'deposit') sel.value = 'มัดจำ';
+      else if (type === 'full') sel.value = 'โอนเงิน';
+      else if (type === 'cod') sel.value = 'เก็บเงินปลายทาง';
+      onDepositPaymentChange();
+    }
+
+    // ===== COD PAYMENT (สำหรับสินค้าไม่มีมัดจำ) =====
+    function updateCodPayment() {
+      const val = document.getElementById('codPaymentSelect').value;
+      document.getElementById('orderPayment').value = val;
+      if (val === 'โอนเงิน') {
+        document.getElementById('depositArea').style.display = 'block';
+        document.getElementById('depositTitle').textContent = 'โอนเงินเต็มจำนวน';
+        const priceText = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
+        document.getElementById('depositAmountText').textContent = priceText;
+        document.getElementById('slipUploadArea').style.display = 'block';
+      } else {
+        document.getElementById('depositArea').style.display = 'none';
+        document.getElementById('slipUploadArea').style.display = 'none';
+      }
+    }
+
+    function updatePaymentDisplay() {
+      // เก็บไว้เพื่อ compatibility
     }
 
     // ===== AUTO SLIP (มัดจำ) =====
@@ -1093,15 +1241,13 @@
         }
       }
 
-      // Validate slip มัดจำ (ถ้าสินค้ามีมัดจำ)
+      // Validate slip ตาม payment type
       const autoSlipFile = document.getElementById('autoSlipFile')?.files[0];
-      if (currentOrderProduct && currentOrderProduct.deposit > 0 && !autoSlipFile) {
+      const slipFile = document.getElementById('slipFile')?.files[0];
+      if (payment === 'มัดจำ' && !autoSlipFile) {
         alert('กรุณาแนบสลิปมัดจำก่อนยืนยันการสั่งซื้อ');
         return;
       }
-
-      // Validate slip โอนเงินเต็มจำนวน
-      const slipFile = document.getElementById('slipFile').files[0];
       if (payment === 'โอนเงิน' && !slipFile) {
         alert('กรุณาแนบสลิปโอนเงินก่อนยืนยันการสั่งซื้อ');
         return;
@@ -1176,12 +1322,33 @@
     }
 
     function sendOrder(data, btn) {
-      fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
+      // ส่งไป Make.com webhook (เด้ง Line) เหมือนเดิม
+      const webhookPromise = fetch('https://hook.us2.make.com/cmq8fx9h2195j6pbuly9j8vs2jy86sra', {
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify(data)
-      })
-      .then(res => { 
+      }).catch(err => console.warn('Webhook error:', err));
+
+      // บันทึกลง Google Sheet tab "orders" ผ่าน Apps Script
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_bVtheOHXXzBACEzTk0s_0RvE-S_OMS3dCBieleiebrzv06VmCXVaxMgW2ZQxOuLYhw/exec';
+      const sheetData = {
+        action: 'add_order',
+        date: data.time,
+        name: data.name,
+        phone: data.phone,
+        product: data.product,
+        options: [data.color, data.model, data.year, data.size, data.footstep_height].filter(Boolean).join(', '),
+        address: data.address,
+        payment: data.payment,
+        status: 'รอดำเนินการ'
+      };
+      const sheetPromise = fetch(APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(sheetData)), {
+        method: 'GET',
+        mode: 'no-cors'
+      }).catch(err => console.warn('Sheet save error:', err));
+
+      Promise.all([webhookPromise, sheetPromise])
+      .then(() => { 
         alert('สั่งซื้อสำเร็จ! เราจะติดต่อกลับเพื่อยืนยันออเดอร์ครับ'); 
         closeOrderModal();
         document.getElementById('orderForm').reset();
@@ -1193,6 +1360,111 @@
       .finally(() => { btn.disabled = false; btn.textContent = 'ยืนยันการสั่งซื้อ'; });
     }
 
+    // ===== CHECK ORDER =====
+    function openCheckOrder() {
+      document.getElementById('checkOrderResult').innerHTML = '';
+      document.getElementById('checkOrderPhone').value = '';
+      document.getElementById('checkOrderModal').classList.add('active');
+    }
+    function closeCheckOrderModal() {
+      document.getElementById('checkOrderModal').classList.remove('active');
+    }
+    async function searchOrder() {
+      const phone = document.getElementById('checkOrderPhone').value.trim();
+      if (!/^\d{10}$/.test(phone)) {
+        document.getElementById('checkOrderResult').innerHTML = '<p style="color:var(--red);text-align:center;padding:20px;">กรุณากรอกเบอร์โทรให้ครบ 10 หลัก</p>';
+        return;
+      }
+      document.getElementById('checkOrderResult').innerHTML = '<div style="text-align:center;padding:20px;"><div class="spinner"></div><p>กำลังค้นหา...</p></div>';
+      try {
+        // ดึงข้อมูลจาก Google Sheet tab "orders"
+        const ORDERS_CSV_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/gviz/tq?tqx=out:csv&sheet=orders';
+        const resp = await fetch(ORDERS_CSV_URL);
+        if (!resp.ok) throw new Error('Fetch failed');
+        const text = await resp.text();
+        const gen = csvGenerator(text);
+        const header = gen.next().value; // skip header
+        const orders = [];
+        for (const row of gen) {
+          const rowPhone = (row[2] || '').trim().replace(/[^0-9]/g, '');
+          if (rowPhone === phone) {
+            orders.push({
+              date: row[0] || '-',
+              name: row[1] || '-',
+              product: row[3] || 'สินค้า',
+              options: row[4] || '-',
+              address: row[5] || '-',
+              payment: row[6] || '-',
+              status: row[7] || 'รอดำเนินการ'
+            });
+          }
+        }
+        if (orders.length > 0) {
+          document.getElementById('checkOrderResult').innerHTML = orders.map(o => {
+            let statusColor = '#e8f5e9'; let statusTextColor = '#2e7d32';
+            if (o.status.includes('จัดส่ง')) { statusColor = '#e3f2fd'; statusTextColor = '#1565c0'; }
+            else if (o.status.includes('สำเร็จ')) { statusColor = '#e8f5e9'; statusTextColor = '#2e7d32'; }
+            else if (o.status.includes('ยกเลิก')) { statusColor = '#fce4ec'; statusTextColor = '#c62828'; }
+            return `
+            <div class="order-result-card">
+              <h4><i class="fas fa-box"></i> ${o.product}</h4>
+              <p><strong>ชื่อ:</strong> ${o.name}</p>
+              <p><strong>ตัวเลือก:</strong> ${o.options}</p>
+              <p><strong>ช่องทางชำระ:</strong> ${o.payment}</p>
+              <p><strong>วันที่สั่ง:</strong> ${o.date}</p>
+              <span class="order-status" style="background:${statusColor};color:${statusTextColor};">${o.status}</span>
+            </div>
+          `}).join('');
+        } else {
+          document.getElementById('checkOrderResult').innerHTML = '<div style="text-align:center;padding:30px;color:#999;"><i class="fas fa-search" style="font-size:36px;display:block;margin-bottom:10px;"></i><p>ไม่พบคำสั่งซื้อจากเบอร์นี้</p><p style="font-size:13px;">หากเพิ่งสั่งซื้อ กรุณารอสักครู่</p></div>';
+        }
+      } catch(err) {
+        console.error('Search order error:', err);
+        document.getElementById('checkOrderResult').innerHTML = '<div style="text-align:center;padding:30px;color:#999;"><i class="fas fa-search" style="font-size:36px;display:block;margin-bottom:10px;"></i><p>ไม่พบคำสั่งซื้อจากเบอร์นี้</p><p style="font-size:13px;">หากเพิ่งสั่งซื้อ กรุณารอสักครู่</p></div>';
+      }
+    }
+
+    // ===== PACKING VIDEOS (คอลัมน์ T) =====
+    async function loadPackingVideos() {
+      const track = document.getElementById('packingCarouselTrack');
+      const section = document.getElementById('packing');
+      try {
+        const resp = await fetch(SHEET_CSV_URL);
+        if (!resp.ok) throw new Error('Fetch failed');
+        const text = await resp.text();
+        const gen = csvGenerator(text);
+        gen.next(); // skip header
+        const videos = [];
+        for (const row of gen) {
+          const url = (row[19] || '').trim();
+          if (url) videos.push(url);
+        }
+        if (videos.length === 0) {
+          section.style.display = 'none';
+          return;
+        }
+        section.style.display = 'block';
+        track.innerHTML = videos.map(url => {
+          let embedUrl = url;
+          const ytMatch = url.match(/(?:youtube\.com\/(?:shorts\/|watch\?v=)|youtu\.be\/)([\w-]+)/);
+          if (ytMatch) {
+            const videoId = ytMatch[1];
+            embedUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId;
+          }
+          return `<div class="packing-card"><iframe src="${embedUrl}" allow="autoplay" allowfullscreen></iframe></div>`;
+        }).join('');
+      } catch(err) {
+        console.warn('Failed to load packing videos:', err);
+        section.style.display = 'none';
+      }
+    }
+
+    function scrollPackingCarousel(dir) {
+      const track = document.getElementById('packingCarouselTrack');
+      const cardWidth = track.querySelector('.packing-card')?.offsetWidth || 280;
+      track.scrollBy({ left: dir * (cardWidth + 12), behavior: 'smooth' });
+    }
+
     // ===== CLOSE MODALS ON BACKDROP CLICK =====
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('modal') && e.target.classList.contains('active')) {
@@ -1202,6 +1474,11 @@
           document.getElementById('videoContainer').innerHTML = '';
         }
       }
+    });
+
+    // Close check order modal on backdrop
+    document.getElementById('checkOrderModal')?.addEventListener('click', function(e) {
+      if (e.target === this) closeCheckOrderModal();
     });
   </script>
 </body>

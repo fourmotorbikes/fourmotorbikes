@@ -1335,8 +1335,13 @@
         payment: data.payment,
         status: 'รอดำเนินการ'
       };
-      const sheetPromise = fetch(APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(sheetData)))
-    .catch(err => console.warn('Sheet save error:', err));
+     const sheetPromise = new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve('Sheet saved');
+        img.onerror = () => resolve('Sheet saved (img)');
+        img.src = APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(sheetData));
+        setTimeout(resolve, 5000);
+      });
 
       Promise.all([webhookPromise, sheetPromise])
       .then(() => { 

@@ -1391,7 +1391,7 @@
         model: document.getElementById('orderModel')?.value || '',
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
-        size: document.getElementById('orderSize')?.value || '',
+        size: (document.getElementById('orderSize')?.value || '') + (document.getElementById('orderFootstepHeight')?.value ? ' | ความสูงฟุตบาท: ' + document.getElementById('orderFootstepHeight').value + ' ซม.' : ''),
         footstep_height: document.getElementById('orderFootstepHeight')?.value ? document.getElementById('orderFootstepHeight').value + ' ซม.' : '',
         time: new Date().toLocaleString('th-TH'),
         deposit_slip_url: '',

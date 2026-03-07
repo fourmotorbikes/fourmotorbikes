@@ -1335,10 +1335,8 @@
         payment: data.payment,
         status: 'รอดำเนินการ'
       };
-      const sheetPromise = fetch(APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(sheetData)), {
-        method: 'GET',
-        mode: 'no-cors'
-      }).catch(err => console.warn('Sheet save error:', err));
+      const sheetPromise = fetch(APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(sheetData)))
+    .catch(err => console.warn('Sheet save error:', err));
 
       Promise.all([webhookPromise, sheetPromise])
       .then(() => { 

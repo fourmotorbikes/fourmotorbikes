@@ -620,8 +620,10 @@
     // ===== ดึงข้อมูลสินค้าจาก Google Sheets อัตโนมัติ =====
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv';
     const CAR_REVIEW_CSV_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent('รูปรีวิวรุ่นรถยนต์');
+    const FOOTSTEP_SHIPPING_CSV_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent('ค่าส่งฟุตบาท');
     let allProducts = [];
     let carReviewData = {};
+    let footstepShippingData = {};
 
     async function loadCarReviewData() {
       try {
@@ -641,6 +643,20 @@
       } catch(e) { console.warn('Car review load error:', e); }
     }
     loadCarReviewData();
+
+    async function loadFootstepShippingData() {
+      try {
+        const resp = await fetch(FOOTSTEP_SHIPPING_CSV_URL);
+        const text = await resp.text();
+        const rows = text.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()));
+        for (let i = 1; i < rows.length; i++) {
+          const key = (rows[i][0] || '').trim();
+          const cost = (rows[i][1] || '').trim();
+          if (key && cost) footstepShippingData[key] = Number(cost);
+        }
+      } catch(e) { console.warn('Footstep shipping load error:', e); }
+    }
+    loadFootstepShippingData();
 
     // Fallback data (ใช้กรณี fetch ล้มเหลว)
     const fallbackProducts = [
@@ -1180,13 +1196,15 @@
       } else if (p.type === 'footstep' && p.options) {
         const sizes = p.options.split('|');
         if (sizes.length > 0 && sizes[0] !== '') {
-          opts.innerHTML = `<div class="order-form-group"><label>ขนาด *</label><select id="orderSize" required style="font-family:inherit;"><option value="">-- เลือกขนาด --</option>${sizes.map(s => {
+          opts.innerHTML = `<div class="order-form-group"><label>สี *</label><select id="orderColor" required style="font-family:inherit;"><option value="">-- เลือกสี --</option><option value="ดำ">ดำ</option><option value="บลอน">บลอน</option></select></div>
+          <div class="order-form-group"><label>ขนาด *</label><select id="orderSize" required style="font-family:inherit;" onchange="updateFootstepShipping()"><option value="">-- เลือกขนาด --</option>${sizes.map(s => {
             const parts = s.split(':');
             const label = parts[0];
             const price = parts[1] ? ' - ฿' + Number(parts[1]).toLocaleString() : '';
             return `<option value="${s}">${label}${price}</option>`;
           }).join('')}</select></div>
-          <div class="order-form-group"><label>ความสูงฟุตบาท (ซม.) *</label><input type="number" id="orderFootstepHeight" min="1" max="100" required placeholder="กรุณาวัดความสูงฟุตบาทแล้วกรอกเป็น ซม." style="font-family:inherit; width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:16px;"><p style="color:#e74c3c; font-size:13px; margin-top:4px;">* กรุณาวัดความสูงฟุตบาทจริงก่อนสั่งซื้อ</p></div>`;
+          <div class="order-form-group"><label>ความสูงฟุตบาท (ซม.) *</label><input type="number" id="orderFootstepHeight" min="1" max="100" required placeholder="กรุณาวัดความสูงฟุตบาทแล้วกรอกเป็น ซม." style="font-family:inherit; width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:16px;"><p style="color:#e74c3c; font-size:13px; margin-top:4px;">* กรุณาวัดความสูงฟุตบาทจริงก่อนสั่งซื้อ</p></div>
+          <div id="footstepShippingInfo" style="background:#fff3cd; border:1px solid #ffc107; border-radius:8px; padding:12px; margin-top:8px; display:none;"><p style="margin:0; font-size:15px; color:#856404; font-weight:600;"></p></div>`;
         }
       }
 
@@ -1195,13 +1213,11 @@
         // สินค้ามีมัดจำ - แสดง toggle มัดจำ/โอนเต็ม
         document.getElementById('paymentTypeArea').style.display = 'block';
         document.getElementById('codPaymentArea').style.display = 'none';
-        // ตั้ง QR จาก Sheet
+        // ใช้ QR เดิมไม่ระบุยอด ทุกสินค้า
         const depositQrImg = document.getElementById('depositQrImg');
         const fullPayQrImg = document.getElementById('fullPayQrImg');
-        if (p.qrDeposit) depositQrImg.src = p.qrDeposit;
-        else depositQrImg.src = 'S__22544394.jpg';
-        if (p.qrFull) fullPayQrImg.src = p.qrFull;
-        else fullPayQrImg.src = 'S__22544394.jpg';
+        depositQrImg.src = 'S__22544394.jpg';
+        fullPayQrImg.src = 'S__22544394.jpg';
         // เริ่มต้นที่มัดจำ
         document.getElementById('depositPaymentSelect').value = 'มัดจำ+เก็บปลายทาง';
         onDepositPaymentChange();
@@ -1216,10 +1232,9 @@
         document.getElementById('autoSlipArea').style.display = 'none';
         document.getElementById('depositArea').style.display = 'none';
         document.getElementById('slipUploadArea').style.display = 'none';
-        // ตั้ง QR สำหรับโอนเต็ม
+        // ใช้ QR เดิมไม่ระบุยอด
         const fullPayQrImg = document.getElementById('fullPayQrImg');
-        if (p.qrFull) fullPayQrImg.src = p.qrFull;
-        else fullPayQrImg.src = 'S__22544394.jpg';
+        fullPayQrImg.src = 'S__22544394.jpg';
         updateCodPayment();
       }
       
@@ -1234,6 +1249,45 @@
       
       document.getElementById('orderModal').classList.add('active');
     }
+    function updateFootstepShipping() {
+      const sizeEl = document.getElementById('orderSize');
+      const infoEl = document.getElementById('footstepShippingInfo');
+      if (!sizeEl || !infoEl) return;
+      const val = sizeEl.value;
+      if (!val) { infoEl.style.display = 'none'; return; }
+      // ดึง กว้าง*ยาว จากค่าที่เลือก เช่น "110*120*(สูง1-20ซม.):4450" → "110*120"
+      const match = val.match(/^(\d+\*\d+)/);
+      // ดึงราคาสินค้าจาก option เช่น ":4450"
+      const priceMatch = val.match(/:(\d+)$/);
+      const productPrice = priceMatch ? Number(priceMatch[1]) : 0;
+      if (match) {
+        const key = match[1];
+        const cost = footstepShippingData[key];
+        let html = '';
+        if (cost !== undefined) {
+          const total = productPrice + cost;
+          const deposit = currentOrderProduct ? currentOrderProduct.deposit : 0;
+          const remaining = total - deposit;
+          html += '<p style="margin:0 0 6px 0; font-size:15px; color:#856404; font-weight:600;">\uD83D\uDCE6 ราคาสินค้า: \u0E3F' + productPrice.toLocaleString() + '</p>';
+          html += '<p style="margin:0 0 6px 0; font-size:15px; color:#856404; font-weight:600;">\uD83D\uDE9A ค่าจัดส่ง: \u0E3F' + cost.toLocaleString() + '</p>';
+          html += '<p style="margin:0 0 6px 0; font-size:17px; color:#d63031; font-weight:700;">\uD83D\uDCB0 รวมทั้งหมด: \u0E3F' + total.toLocaleString() + '</p>';
+          if (deposit > 0) {
+            html += '<hr style="border:none; border-top:1px dashed #ffc107; margin:8px 0;">';
+            html += '<p style="margin:0 0 4px 0; font-size:14px; color:#856404;">มัดจำ: \u0E3F' + deposit.toLocaleString() + '</p>';
+            html += '<p style="margin:0; font-size:16px; color:#e17055; font-weight:700;">\uD83D\uDE9B เหลือเก็บปลายทาง: \u0E3F' + remaining.toLocaleString() + '</p>';
+          }
+          infoEl.innerHTML = html;
+          infoEl.style.display = 'block';
+        } else {
+          html += '<p style="margin:0; font-size:15px; color:#856404; font-weight:600;">\uD83D\uDE9A ค่าจัดส่ง: กรุณาสอบถาม</p>';
+          infoEl.innerHTML = html;
+          infoEl.style.display = 'block';
+        }
+      } else {
+        infoEl.style.display = 'none';
+      }
+    }
+
     function closeOrderModal() { document.getElementById('orderModal').classList.remove('active'); }
 
     // ===== PAYMENT SELECT (สำหรับสินค้ามีมัดจำ) =====
@@ -1391,7 +1445,17 @@
         model: document.getElementById('orderModel')?.value || '',
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
-        size: (document.getElementById('orderSize')?.value || '') + (document.getElementById('orderFootstepHeight')?.value ? ' | ความสูงฟุตบาท: ' + document.getElementById('orderFootstepHeight').value + ' ซม.' : ''),
+        size: (function() {
+          let s = document.getElementById('orderSize')?.value || '';
+          if (document.getElementById('orderFootstepHeight')?.value) s += ' | ความสูงฟุตบาท: ' + document.getElementById('orderFootstepHeight').value + ' ซม.';
+          // เพิ่มค่าส่ง
+          const sizeVal = document.getElementById('orderSize')?.value || '';
+          const sizeMatch = sizeVal.match(/^(\d+\*\d+)/);
+          if (sizeMatch && footstepShippingData[sizeMatch[1]] !== undefined) {
+            s += ' | ค่าส่ง: ' + footstepShippingData[sizeMatch[1]] + ' บาท';
+          }
+          return s;
+        })(),
         footstep_height: document.getElementById('orderFootstepHeight')?.value ? document.getElementById('orderFootstepHeight').value + ' ซม.' : '',
         time: new Date().toLocaleString('th-TH'),
         deposit_slip_url: '',

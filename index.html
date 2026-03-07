@@ -156,6 +156,21 @@
     .product-actions { display: flex; flex-wrap: wrap; gap: 6px; }
     .btn-video, .btn-review { flex: 1; background: #f0f0f0; color: #444; border: none; padding: 10px; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer; min-width: 70px; font-family: inherit; }
     .btn-video:hover, .btn-review:hover { background: #e0e0e0; }
+
+    /* --- VIDEO CAROUSEL --- */
+    .video-carousel { position: relative; width: 100%; }
+    .video-carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 0; scrollbar-width: none; -ms-overflow-style: none; }
+    .video-carousel-track::-webkit-scrollbar { display: none; }
+    .video-carousel-item { flex: 0 0 100%; scroll-snap-align: start; width: 100%; aspect-ratio: 9/16; max-height: 70vh; }
+    .video-carousel-item iframe { width: 100%; height: 100%; border: none; }
+    .video-carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.85); border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; color: #333; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    .video-carousel-nav:hover { background: #fff; }
+    .video-carousel-nav.prev { left: 8px; }
+    .video-carousel-nav.next { right: 8px; }
+    .video-dots { display: flex; justify-content: center; gap: 8px; padding: 10px 0; }
+    .video-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.4); border: none; cursor: pointer; transition: 0.3s; }
+    .video-dot.active { background: #fff; transform: scale(1.2); }
+    .video-counter { text-align: center; color: #fff; font-size: 14px; padding: 5px 0; font-weight: 600; }
     .btn-order { width: 100%; background: var(--red); color: white; border: none; padding: 14px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 6px; font-family: inherit; transition: background 0.2s; }
     .btn-order:hover { background: var(--red-dk); }
 
@@ -173,6 +188,10 @@
     @media (max-width: 480px) { .review-images-grid img { height: 220px; } }
     .review-placeholder { text-align: center; padding: 40px 20px; color: #999; }
     .review-placeholder i { font-size: 48px; margin-bottom: 15px; display: block; color: #ddd; }
+    .car-model-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+    .car-model-btn { padding: 8px 16px; border: 2px solid #ddd; border-radius: 20px; background: #fff; cursor: pointer; font-size: 14px; font-weight: 600; font-family: inherit; transition: all 0.2s; }
+    .car-model-btn:hover { border-color: #c0392b; color: #c0392b; }
+    .car-model-btn.active { background: #c0392b; color: #fff; border-color: #c0392b; }
 
     /* --- ORDER FORM --- */
     .order-form-group { margin-bottom: 15px; }
@@ -464,9 +483,11 @@
 
   <!-- VIDEO MODAL -->
   <div id="videoModal" class="modal">
-    <div class="modal-content" style="background: #000; max-width: 800px;">
-      <button class="modal-close" onclick="closeVideoModal()" style="color: white;">&times;</button>
-      <div id="videoContainer" style="width: 100%; aspect-ratio: 16/9;"></div>
+    <div class="modal-content" style="background: #000; max-width: 480px; border-radius: 16px; padding: 0;">
+      <button class="modal-close" onclick="closeVideoModal()" style="color: white; z-index: 20;">&times;</button>
+      <div id="videoCounter" style="text-align:center;color:#fff;font-size:14px;font-weight:600;padding:8px 0 4px;"></div>
+      <div id="videoContainer" style="width:100%;overflow-y:auto;max-height:75vh;scroll-snap-type:y mandatory;"></div>
+      <div id="videoDots" style="display:flex;justify-content:center;gap:8px;padding:8px 0;"></div>
     </div>
   </div>
   
@@ -478,6 +499,7 @@
         <h3 id="reviewTitle" style="font-size: 18px;">ดูรีวิวสินค้า</h3>
       </div>
       <div class="modal-body">
+        <div id="carModelButtons" class="car-model-buttons" style="display:none;"></div>
         <div id="reviewImagesGrid" class="review-images-grid"></div>
       </div>
     </div>
@@ -597,7 +619,28 @@
   <script>
     // ===== ดึงข้อมูลสินค้าจาก Google Sheets อัตโนมัติ =====
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/export?format=csv';
+    const CAR_REVIEW_CSV_URL = 'https://docs.google.com/spreadsheets/d/1BrKX217D2vjLGUrKoEjoPrUTkyFVXTvkhm00eiKsLcA/gviz/tq?tqx=out:csv&sheet=' + encodeURIComponent('รูปรีวิวรุ่นรถยนต์');
     let allProducts = [];
+    let carReviewData = {};
+
+    async function loadCarReviewData() {
+      try {
+        const resp = await fetch(CAR_REVIEW_CSV_URL);
+        const text = await resp.text();
+        const rows = text.split('\n').map(r => r.split(',').map(c => c.replace(/^"|"$/g, '').trim()));
+        for (let i = 1; i < rows.length; i++) {
+          const carName = (rows[i][0] || '').trim();
+          if (!carName) continue;
+          const imgs = [];
+          for (let j = 1; j <= 10; j++) {
+            const url = (rows[i][j] || '').trim();
+            if (url) imgs.push(url);
+          }
+          carReviewData[carName] = imgs;
+        }
+      } catch(e) { console.warn('Car review load error:', e); }
+    }
+    loadCarReviewData();
 
     // Fallback data (ใช้กรณี fetch ล้มเหลว)
     const fallbackProducts = [
@@ -669,7 +712,15 @@
         const desc = (row[2] || '').trim();
         const img = (row[3] || '').trim();
         const category = (row[4] || '').trim();
-        const video = (row[5] || '').trim();
+        // รวมวิดีโอทั้งหมด: Col F (index 5) + Col AA-AI (index 26-34)
+        const videos = [];
+        const vid1 = (row[5] || '').trim();
+        if (vid1) videos.push(vid1);
+        for (let vi = 26; vi <= 34; vi++) {
+          const v = (row[vi] || '').trim();
+          if (v) videos.push(v);
+        }
+        const video = videos[0] || ''; // ใช้ตัวแรกสำหรับ backward compat
         const reviewGroup = (row[6] || '').trim();
         const rawType = (row[7] || '').trim();
         const deposit = parseInt(row[15] || '0') || 0;
@@ -725,7 +776,7 @@
         const slideImg = (row[13] || '').trim();
 
         products.push({
-          name, price, desc, img, category, video,
+          name, price, desc, img, category, video, videos,
           review: reviewGroup, type, options, deposit,
           reviewImages, slideImg, models, yearStart, yearEnd,
           colors: type === '3fold' ? colors : colors2fold,
@@ -978,7 +1029,7 @@
             <h3 class="product-title">${p.name}</h3>
             <p class="product-info">${p.desc}</p>
             <div class="product-actions">
-              ${p.video ? `<button class="btn-video" onclick="playVideo('${p.video}')"><i class="fas fa-play"></i> วิดีโอ</button>` : ''}
+              ${p.videos && p.videos.length > 0 ? `<button class="btn-video" onclick="openVideos('${safeName}')"><i class="fas fa-play"></i> วิดีโอ${p.videos.length > 1 ? ' (' + p.videos.length + ')' : ''}</button>` : ''}
               <button class="btn-review" onclick="openReview('${safeName}')"><i class="fas fa-images"></i> รีวิว</button>
               <button class="btn-order" onclick="openOrder('${safeName}')">สั่งซื้อ</button>
             </div>
@@ -988,15 +1039,47 @@
     }
 
     // ===== VIDEO =====
-    function playVideo(url) {
-      let embed = url;
-      if (url.includes('youtu.be/')) embed = 'https://www.youtube.com/embed/' + url.split('youtu.be/')[1].split('?')[0];
-      else if (url.includes('shorts/')) embed = 'https://www.youtube.com/embed/' + url.split('shorts/')[1].split('?')[0];
-      else if (url.includes('v=')) embed = 'https://www.youtube.com/embed/' + url.split('v=')[1].split('&')[0];
-      document.getElementById('videoContainer').innerHTML = `<iframe src="${embed}?autoplay=1" width="100%" height="100%" frameborder="0" allow="autoplay" allowfullscreen></iframe>`;
+    function toEmbed(url) {
+      if (url.includes('youtu.be/')) return 'https://www.youtube.com/embed/' + url.split('youtu.be/')[1].split('?')[0];
+      if (url.includes('shorts/')) return 'https://www.youtube.com/embed/' + url.split('shorts/')[1].split('?')[0];
+      if (url.includes('v=')) return 'https://www.youtube.com/embed/' + url.split('v=')[1].split('&')[0];
+      return url;
+    }
+
+    let currentVideoIndex = 0;
+    let currentVideoList = [];
+
+    function openVideos(name) {
+      const p = allProducts.find(x => x.name === name);
+      if (!p || !p.videos || p.videos.length === 0) return;
+      currentVideoList = p.videos;
+      currentVideoIndex = 0;
+      showVideoAt(0);
       document.getElementById('videoModal').classList.add('active');
     }
-    function closeVideoModal() { document.getElementById('videoModal').classList.remove('active'); document.getElementById('videoContainer').innerHTML = ''; }
+
+    function showVideoAt(idx) {
+      currentVideoIndex = idx;
+      const total = currentVideoList.length;
+      const embed = toEmbed(currentVideoList[idx]);
+      const container = document.getElementById('videoContainer');
+      container.innerHTML = `<div style="width:100%;aspect-ratio:9/16;max-height:70vh;"><iframe src="${embed}?autoplay=1&mute=1" width="100%" height="100%" frameborder="0" allow="autoplay" allowfullscreen></iframe></div>`;
+      // counter
+      document.getElementById('videoCounter').textContent = total > 1 ? ('วิดีโอ ' + (idx+1) + ' / ' + total) : '';
+      // dots
+      const dotsEl = document.getElementById('videoDots');
+      if (total > 1) {
+        dotsEl.innerHTML = currentVideoList.map((_, i) => 
+          `<span onclick="showVideoAt(${i})" style="width:10px;height:10px;border-radius:50%;background:${i===idx?'#fff':'rgba(255,255,255,0.4)'};cursor:pointer;transition:0.3s;"></span>`
+        ).join('');
+      } else {
+        dotsEl.innerHTML = '';
+      }
+    }
+
+    // เลื่อนวิดีโอด้วย swipe หรือกด dot
+    function playVideo(url) { currentVideoList = [url]; currentVideoIndex = 0; showVideoAt(0); document.getElementById('videoModal').classList.add('active'); }
+    function closeVideoModal() { document.getElementById('videoModal').classList.remove('active'); document.getElementById('videoContainer').innerHTML = ''; document.getElementById('videoDots').innerHTML = ''; document.getElementById('videoCounter').textContent = ''; currentVideoList = []; }
 
     // ===== REVIEW (ดึงรูปจาก Google Sheets อัตโนมัติ) =====
     function openReview(name) {
@@ -1004,22 +1087,56 @@
       if (!p) return;
       document.getElementById('reviewTitle').textContent = 'รีวิว: ' + name;
       const grid = document.getElementById('reviewImagesGrid');
+      const btnContainer = document.getElementById('carModelButtons');
       
-      // ดึงรูปรีวิวจาก product.reviewImages (จากชีต)
-      const imgs = p.reviewImages || [];
-      if (imgs.length > 0) {
-        grid.innerHTML = imgs.map(url => `<img src="${url}" alt="รีวิว ${name}" onclick="window.open('${url}', '_blank')" onerror="this.style.display='none'">`).join('');
-      } else {
+      // ถ้าเป็นสินค้า 3fold ให้แสดงปุ่มเลือกรุ่นรถ
+      if (p.type === '3fold' && Object.keys(carReviewData).length > 0) {
+        btnContainer.style.display = 'flex';
+        btnContainer.innerHTML = Object.keys(carReviewData).map(car => 
+          `<button class="car-model-btn" onclick="showCarReview('${car.replace(/'/g, "\\'")}','${name.replace(/'/g, "\\'")}')">${car}</button>`
+        ).join('');
         grid.innerHTML = `
           <div class="review-placeholder">
-            <i class="fas fa-camera"></i>
-            <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">ยังไม่มีรูปรีวิว</p>
-            <p style="font-size: 14px;">รูปรีวิวจะถูกเพิ่มเร็วๆ นี้</p>
+            <i class="fas fa-car"></i>
+            <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">เลือกรุ่นรถเพื่อดูรีวิว</p>
           </div>`;
+      } else {
+        btnContainer.style.display = 'none';
+        btnContainer.innerHTML = '';
+        const imgs = p.reviewImages || [];
+        if (imgs.length > 0) {
+          grid.innerHTML = imgs.map(url => `<img src="${url}" alt="รีวิว ${name}" onclick="window.open('${url}', '_blank')" onerror="this.style.display='none'">`).join('');
+        } else {
+          grid.innerHTML = `
+            <div class="review-placeholder">
+              <i class="fas fa-camera"></i>
+              <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">ยังไม่มีรูปรีวิว</p>
+              <p style="font-size: 14px;">รูปรีวิวจะถูกเพิ่มเร็วๆ นี้</p>
+            </div>`;
+        }
       }
       
       document.getElementById('reviewModal').classList.add('active');
     }
+    
+    function showCarReview(carName, productName) {
+      const grid = document.getElementById('reviewImagesGrid');
+      document.querySelectorAll('.car-model-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === carName);
+      });
+      const imgs = carReviewData[carName] || [];
+      if (imgs.length > 0) {
+        grid.innerHTML = imgs.map(url => `<img src="${url}" alt="รีวิว ${productName} - ${carName}" onclick="window.open('${url}', '_blank')" onerror="this.style.display='none'">`).join('');
+      } else {
+        grid.innerHTML = `
+          <div class="review-placeholder">
+            <i class="fas fa-camera"></i>
+            <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">ยังไม่มีรูปรีวิวสำหรับ ${carName}</p>
+            <p style="font-size: 14px;">รูปรีวิวจะถูกเพิ่มเร็วๆ นี้</p>
+          </div>`;
+      }
+    }
+    
     function closeReviewModal() { document.getElementById('reviewModal').classList.remove('active'); }
 
     // ===== ORDER =====

@@ -1387,7 +1387,9 @@
         const orders = [];
         for (const row of gen) {
           const rowPhone = (row[2] || '').trim().replace(/[^0-9]/g, '');
-          if (rowPhone === phone) {
+          // เปรียบเทียบโดยตัด 0 นำหน้าออกทั้งสองฝั่ง (Sheet อาจตัด 0 ออก)
+          const normalizePhone = (p) => p.replace(/^0+/, '');
+          if (normalizePhone(rowPhone) === normalizePhone(phone)) {
             orders.push({
               date: row[0] || '-',
               name: row[1] || '-',

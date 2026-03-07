@@ -1513,7 +1513,18 @@
         phone: phone,
         address: address,
         payment: payment,
-        deposit_amount: depositAmt,
+        deposit_amount: (function() {
+          let d = '📦 ราคาสินค้า: ฿' + productPrice.toLocaleString();
+          if (shippingCost > 0) d += '\n🚚 ค่าจัดส่ง: ฿' + shippingCost.toLocaleString();
+          d += '\n💰 รวมทั้งหมด: ฿' + totalPrice.toLocaleString();
+          if (payment === 'มัดจำ') {
+            d += '\n💳 มัดจำ: ฿' + depositAmt.toLocaleString();
+            d += '\n🚛 เหลือเก็บปลายทาง: ฿' + codAmount.toLocaleString();
+          } else if (payment === 'โอนเงิน') {
+            d += '\n💰 ยอดโอนทั้งหมด: ฿' + totalPrice.toLocaleString();
+          }
+          return d;
+        })(),
         product_price: productPrice,
         shipping_cost: shippingCost,
         total_price: totalPrice,

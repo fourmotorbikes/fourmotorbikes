@@ -1323,7 +1323,7 @@
       }).catch(err => console.warn('Webhook error:', err));
 
       // บันทึกลง Google Sheet tab "orders" ผ่าน Apps Script
-      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4TXdGHxDokF5SgSSCZXZmAOyeir7JEPwMBOEK4sbpDZ6dA9AOz3Lgzxrl8XQG3lvQ9g/exec';
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdmXU-C82Yh3edHiXSlrj4_ivN1HUhv3RCrg1PDYkvwievU6DEQYbHozsyFMQpJz0fcg/exec';
       const sheetData = {
         action: 'add_order',
         date: data.time,

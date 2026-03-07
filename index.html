@@ -303,7 +303,8 @@
       </div>
       <div class="hero-img-box">
         <div class="hero-carousel" id="heroCarousel">
-          <!-- วิดีโอจะถูกโหลดจาก Google Sheet อัตโนมัติ -->
+          <!-- รูปแรกฝังไว้ใน HTML โหลดทันที ไม่ต้องรอ Sheet -->
+          <img src="https://i.postimg.cc/X7jm4nSD/474242832-1129368892085317-7217698560018563068-n.jpg" alt="Four Motorbikes" class="hero-slide active" />
         </div>
         <button class="hero-nav prev" onclick="heroSlide(-1)"><i class="fas fa-chevron-left"></i></button>
         <button class="hero-nav next" onclick="heroSlide(1)"><i class="fas fa-chevron-right"></i></button>
@@ -908,52 +909,62 @@
     function initHeroCarousel() {
       const carousel = document.getElementById('heroCarousel');
       const dots = document.getElementById('heroDots');
-      let slides = [];
+      // รูปแรกฝังไว้ใน HTML แล้ว เพิ่มเฉพาะวิดีโอจาก Sheet ต่อท้าย
+      const defaultImgSrc = 'https://i.postimg.cc/X7jm4nSD/474242832-1129368892085317-7217698560018563068-n.jpg';
+      let extraSlides = [];
       if (heroSlides.length > 0) {
-        slides = heroSlides.map(src => {
-          const isVideo = src.includes('youtube') || src.includes('youtu.be') || src.includes('shorts');
-          return { src, name: 'Hero Slide', isVideo };
-        });
+        extraSlides = heroSlides
+          .filter(src => src !== defaultImgSrc) // ข้ามรูปแรกที่ฝังไว้แล้ว
+          .map(src => {
+            const isVideo = src.includes('youtube') || src.includes('youtu.be') || src.includes('shorts');
+            return { src, name: 'Hero Slide', isVideo };
+          });
       } else {
         const slideImgs = [];
         const seenSlide = new Set();
+        seenSlide.add(defaultImgSrc);
         for (const p of allProducts) {
           if (p.slideImg && !seenSlide.has(p.slideImg)) {
             seenSlide.add(p.slideImg);
             slideImgs.push({ src: p.slideImg, name: p.name, isVideo: false });
           }
         }
-        slides = slideImgs;
-        if (slides.length === 0) {
+        extraSlides = slideImgs;
+        if (extraSlides.length === 0) {
           const seen = new Set();
           for (const p of allProducts) {
             if (p.img && !seen.has(p.img)) {
               seen.add(p.img);
-              slides.push({ src: p.img, name: p.name, isVideo: false });
-              if (slides.length >= 8) break;
+              extraSlides.push({ src: p.img, name: p.name, isVideo: false });
+              if (extraSlides.length >= 8) break;
             }
           }
         }
       }
-      if (slides.length === 0) return;
-      // สร้าง slide elements (รองรับทั้ง img และ iframe YouTube)
-      carousel.innerHTML = slides.map((sl, i) => {
-        if (sl.isVideo) {
-          let embedUrl = sl.src;
-          const ytMatch = sl.src.match(/(?:youtube\.com\/(?:shorts\/|watch\?v=)|youtu\.be\/)([\w-]+)/);
-          if (ytMatch) {
-            const videoId = ytMatch[1];
-            embedUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId;
+      // เพิ่ม slides ต่อท้ายรูปแรก (ไม่ทับ innerHTML เพื่อเก็บรูปแรกไว้)
+      if (extraSlides.length > 0) {
+        const extraHTML = extraSlides.map(sl => {
+          if (sl.isVideo) {
+            let embedUrl = sl.src;
+            const ytMatch = sl.src.match(/(?:youtube\.com\/(?:shorts\/|watch\?v=)|youtu\.be\/)([\w-]+)/);
+            if (ytMatch) {
+              const videoId = ytMatch[1];
+              embedUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&mute=1&loop=1&playlist=' + videoId;
+            }
+            return `<iframe data-src="${embedUrl}" class="hero-slide" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+          } else {
+            return `<img src="${sl.src}" alt="${sl.name}" class="hero-slide" loading="lazy" />`;
           }
-          return `<iframe src="${embedUrl}" class="hero-slide ${i === 0 ? 'active' : ''}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-        } else {
-          return `<img src="${sl.src}" alt="${sl.name}" class="hero-slide ${i === 0 ? 'active' : ''}" />`;
-        }
-      }).join('');
-      // สร้าง dots
-      dots.innerHTML = slides.map((_, i) =>
-        `<span class="${i === 0 ? 'active' : ''}" onclick="heroGoTo(${i})"></span>`
-      ).join('');
+        }).join('');
+        carousel.insertAdjacentHTML('beforeend', extraHTML);
+      }
+      // สร้าง dots (รวมรูปแรก + extra)
+      const totalSlides = document.querySelectorAll('#heroCarousel .hero-slide').length;
+      if (totalSlides > 0) {
+        dots.innerHTML = Array.from({length: totalSlides}, (_, i) =>
+          `<span class="${i === 0 ? 'active' : ''}" onclick="heroGoTo(${i})"></span>`
+        ).join('');
+      }
       heroIndex = 0;
       startHeroTimer();
     }
@@ -965,7 +976,12 @@
       allSlides.forEach(sl => sl.classList.remove('active'));
       dots.forEach(d => d.classList.remove('active'));
       heroIndex = ((idx % allSlides.length) + allSlides.length) % allSlides.length;
-      allSlides[heroIndex].classList.add('active');
+      const activeSlide = allSlides[heroIndex];
+      activeSlide.classList.add('active');
+      // Lazy load: ถ้าเป็น iframe ที่ยังไม่โหลด ให้ใส่ src ตอนนี้
+      if (activeSlide.tagName === 'IFRAME' && !activeSlide.getAttribute('src') && activeSlide.dataset.src) {
+        activeSlide.src = activeSlide.dataset.src;
+      }
       if (dots[heroIndex]) dots[heroIndex].classList.add('active');
       startHeroTimer();
     }

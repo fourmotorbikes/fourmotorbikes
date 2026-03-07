@@ -267,7 +267,7 @@
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
       <a href="#products" class="nav-btn-order">สั่งซื้อเลย</a>
-      <a href="javascript:void(0)" onclick="openCheckOrder()" class="nav-btn-order" style="background:#1877f2;font-size:13px;padding:10px 15px;">ตรวจสอบคำสั่งซื้อ</a>
+      <a href="javascript:void(0)" onclick="openCheckOrder()" class="nav-btn-order" style="background:#f5c518;color:#333;font-size:13px;padding:10px 15px;font-weight:700;">ตรวจสอบคำสั่งซื้อ</a>
     </div>
   </nav>
 
@@ -532,9 +532,8 @@
           <div id="paymentTypeArea" class="order-form-group" style="display:none;">
             <label>ช่องทางการชำระเงิน *</label>
             <select id="depositPaymentSelect" style="font-family:inherit;" onchange="onDepositPaymentChange()">
-              <option value="มัดจำ">มัดจำ</option>
+              <option value="มัดจำ+เก็บปลายทาง">มัดจำ + เก็บเงินปลายทาง</option>
               <option value="โอนเงิน">โอนเต็มจำนวน</option>
-              <option value="เก็บเงินปลายทาง">เก็บเงินปลายทาง (COD)</option>
             </select>
           </div>
           <input type="hidden" id="orderPayment" value="มัดจำ" />
@@ -1072,7 +1071,7 @@
         if (p.qrFull) fullPayQrImg.src = p.qrFull;
         else fullPayQrImg.src = 'S__22544394.jpg';
         // เริ่มต้นที่มัดจำ
-        document.getElementById('depositPaymentSelect').value = 'มัดจำ';
+        document.getElementById('depositPaymentSelect').value = 'มัดจำ+เก็บปลายทาง';
         onDepositPaymentChange();
       } else {
         // สินค้าไม่มีมัดจำ - แสดง dropdown ปกติ
@@ -1109,8 +1108,8 @@
     function onDepositPaymentChange() {
       const val = document.getElementById('depositPaymentSelect').value;
       document.getElementById('orderPayment').value = val;
-      if (val === 'มัดจำ') {
-        // แสดงมัดจำ QR + slip
+      if (val === 'มัดจำ+เก็บปลายทาง') {
+        // แสดงมัดจำ QR + slip (ยอดที่เหลือเก็บปลายทาง)
         document.getElementById('autoDepositArea').style.display = 'block';
         document.getElementById('autoDepositAmount').textContent = currentOrderProduct ? '฿' + currentOrderProduct.deposit.toLocaleString() : '';
         document.getElementById('autoSlipArea').style.display = 'block';
@@ -1127,20 +1126,14 @@
         const priceText = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
         document.getElementById('depositAmountText').textContent = priceText;
         document.getElementById('slipUploadArea').style.display = 'block';
-      } else if (val === 'เก็บเงินปลายทาง') {
-        // ซ่อนทั้งมัดจำและโอนเต็ม
-        document.getElementById('autoDepositArea').style.display = 'none';
-        document.getElementById('autoSlipArea').style.display = 'none';
-        document.getElementById('depositArea').style.display = 'none';
-        document.getElementById('slipUploadArea').style.display = 'none';
+      // ลบตัวเลือก COD ออกแล้ว (deprecated)
       }
     }
     // backward compat
     function setPaymentType(type) {
       const sel = document.getElementById('depositPaymentSelect');
-      if (type === 'deposit') sel.value = 'มัดจำ';
+      if (type === 'deposit') sel.value = 'มัดจำ+เก็บปลายทาง';
       else if (type === 'full') sel.value = 'โอนเงิน';
-      else if (type === 'cod') sel.value = 'เก็บเงินปลายทาง';
       onDepositPaymentChange();
     }
 
@@ -1397,16 +1390,26 @@
               options: row[4] || '-',
               address: row[5] || '-',
               payment: row[6] || '-',
-              status: row[7] || 'รอดำเนินการ'
+              status: row[8] || ''
             });
           }
         }
         if (orders.length > 0) {
           document.getElementById('checkOrderResult').innerHTML = orders.map(o => {
-            let statusColor = '#e8f5e9'; let statusTextColor = '#2e7d32';
-            if (o.status.includes('จัดส่ง')) { statusColor = '#e3f2fd'; statusTextColor = '#1565c0'; }
-            else if (o.status.includes('สำเร็จ')) { statusColor = '#e8f5e9'; statusTextColor = '#2e7d32'; }
-            else if (o.status.includes('ยกเลิก')) { statusColor = '#fce4ec'; statusTextColor = '#c62828'; }
+            // ตรวจสอบ checkbox: TRUE = จัดส่งแล้ว, FALSE/ว่าง = ร้านค้าได้รับคำสั่งซื้อแล้ว
+            const rawStatus = (o.status || '').toString().trim().toUpperCase();
+            if (rawStatus === 'TRUE' || rawStatus === 'จัดส่งแล้ว') {
+              o.status = 'จัดส่งแล้ว';
+            } else {
+              o.status = 'ร้านค้าได้รับคำสั่งซื้อแล้ว';
+            }
+            let statusColor = '#fff3e0'; let statusTextColor = '#e65100'; let statusIcon = 'fa-clock';
+            if (o.status === 'จัดส่งแล้ว') { statusColor = '#e8f5e9'; statusTextColor = '#2e7d32'; statusIcon = 'fa-truck'; }
+            const lineMsg = encodeURIComponent(`สอบถามเลขพัสดุ\nชื่อ: ${o.name}\nสินค้า: ${o.product}\nตัวเลือก: ${o.options}\nวันที่สั่ง: ${o.date}`);
+            const trackBtn = o.status.includes('จัดส่ง') ? `
+              <a href="https://line.me/R/oaMessage/@fourmotorbikes/?${lineMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:10px 20px;background:#06c755;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;">
+                <i class="fab fa-line"></i> ติดตามพัสดุ / สอบถามเลขพัสดุ
+              </a>` : '';
             return `
             <div class="order-result-card">
               <h4><i class="fas fa-box"></i> ${o.product}</h4>
@@ -1414,7 +1417,10 @@
               <p><strong>ตัวเลือก:</strong> ${o.options}</p>
               <p><strong>ช่องทางชำระ:</strong> ${o.payment}</p>
               <p><strong>วันที่สั่ง:</strong> ${o.date}</p>
-              <span class="order-status" style="background:${statusColor};color:${statusTextColor};">${o.status}</span>
+              <div style="margin-top:8px;">
+                <span class="order-status" style="background:${statusColor};color:${statusTextColor};"><i class="fas ${statusIcon}"></i> ${o.status || 'ร้านค้าได้รับคำสั่งซื้อแล้ว'}</span>
+              </div>
+              ${trackBtn}
             </div>
           `}).join('');
         } else {

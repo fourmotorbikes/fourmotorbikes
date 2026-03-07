@@ -569,10 +569,18 @@
             </select>
           </div>
 
-          <!-- มัดจำ QR (จาก Sheet O) -->
+          <!-- มัดจำ QR -->
           <div id="autoDepositArea" class="deposit-box" style="display: none;">
-            <h4 style="color: #ff9800; font-size: 16px;">⚠️ สินค้านี้ต้องมัดจำก่อนจัดส่ง</h4>
-            <div class="deposit-amount" id="autoDepositAmount" style="color: #ff9800;"></div>
+            <div id="depositPriceSummary" style="background:linear-gradient(135deg,#fff8e1,#fff3cd); border:2px solid #ff9800; border-radius:12px; padding:16px; margin-bottom:16px; text-align:left;">
+              <div style="font-size:16px; font-weight:700; color:#e65100; margin-bottom:10px; text-align:center;">รายละเอียดยอดชำระ</div>
+              <div style="display:flex; justify-content:space-between; font-size:15px; color:#333; margin-bottom:6px;"><span>📦 ราคาสินค้า</span><span id="sumProductPrice" style="font-weight:600;"></span></div>
+              <div id="sumShippingRow" style="display:flex; justify-content:space-between; font-size:15px; color:#333; margin-bottom:6px;"><span>🚚 ค่าจัดส่ง</span><span id="sumShippingCost" style="font-weight:600;"></span></div>
+              <div style="border-top:2px dashed #ff9800; margin:10px 0;"></div>
+              <div style="display:flex; justify-content:space-between; font-size:17px; color:#e65100; font-weight:700; margin-bottom:6px;"><span>💰 รวมทั้งหมด</span><span id="sumTotal"></span></div>
+              <div style="border-top:2px dashed #ff9800; margin:10px 0;"></div>
+              <div style="display:flex; justify-content:space-between; font-size:16px; color:#ff9800; font-weight:700; margin-bottom:6px;"><span>💳 ยอดโอนมัดจำ</span><span id="sumDeposit"></span></div>
+              <div style="display:flex; justify-content:space-between; font-size:18px; color:#d32f2f; font-weight:800; background:#ffebee; padding:8px 12px; border-radius:8px;"><span>🚛 เหลือเก็บปลายทาง</span><span id="sumCodRemain"></span></div>
+            </div>
             <img id="depositQrImg" src="S__22544394.jpg" alt="QR Code มัดจำ" class="qr-img" />
             <p style="font-size: 13px; color: #666; margin-top: 10px;">ชื่อบัญชี: นายปัญญา ทองนพคุณ</p>
             <p style="font-size: 12px; color: #999; margin-top: 5px;">โอนมัดจำแล้วแนบสลิปด้านล่าง</p>
@@ -590,10 +598,15 @@
             </div>
           </div>
 
-          <!-- โอนเต็มจำนวน QR (จาก Sheet S) -->
+          <!-- โอนเต็มจำนวน QR -->
           <div id="depositArea" class="deposit-box" style="display: none;">
-            <h4 id="depositTitle">โอนเงินเต็มจำนวน</h4>
-            <div class="deposit-amount" id="depositAmountText"></div>
+            <div id="fullPayPriceSummary" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9); border:2px solid #4caf50; border-radius:12px; padding:16px; margin-bottom:16px; text-align:left;">
+              <div style="font-size:16px; font-weight:700; color:#2e7d32; margin-bottom:10px; text-align:center;">รายละเอียดยอดชำระ</div>
+              <div style="display:flex; justify-content:space-between; font-size:15px; color:#333; margin-bottom:6px;"><span>📦 ราคาสินค้า</span><span id="fullSumProductPrice" style="font-weight:600;"></span></div>
+              <div id="fullSumShippingRow" style="display:flex; justify-content:space-between; font-size:15px; color:#333; margin-bottom:6px;"><span>🚚 ค่าจัดส่ง</span><span id="fullSumShippingCost" style="font-weight:600;"></span></div>
+              <div style="border-top:2px dashed #4caf50; margin:10px 0;"></div>
+              <div style="display:flex; justify-content:space-between; font-size:18px; color:#2e7d32; font-weight:800; background:#e8f5e9; padding:8px 12px; border-radius:8px;"><span>💰 ยอดโอนทั้งหมด</span><span id="fullSumTotal"></span></div>
+            </div>
             <img id="fullPayQrImg" src="S__22544394.jpg" alt="QR Code โอนเต็ม" class="qr-img" />
             <p style="font-size: 13px; color: #666; margin-top: 10px;">ชื่อบัญชี: นายปัญญา ทองนพคุณ</p>
           </div>
@@ -1286,33 +1299,77 @@
       } else {
         infoEl.style.display = 'none';
       }
+      updatePriceSummary();
     }
 
     function closeOrderModal() { document.getElementById('orderModal').classList.remove('active'); }
 
     // ===== PAYMENT SELECT (สำหรับสินค้ามีมัดจำ) =====
+    function getOrderPriceAndShipping() {
+      const p = currentOrderProduct;
+      if (!p) return { productPrice: 0, shipping: 0, deposit: 0 };
+      let productPrice = 0;
+      let shipping = 0;
+      const deposit = p.deposit || 0;
+      // ดึงราคาสินค้า
+      if (p.type === 'footstep' && document.getElementById('orderSize')) {
+        const sizeVal = document.getElementById('orderSize').value;
+        const priceMatch = sizeVal.match(/:(\d+)$/);
+        if (priceMatch) productPrice = Number(priceMatch[1]);
+        // ดึงค่าส่งจาก footstepShippingData
+        const sizeMatch = sizeVal.match(/^(\d+\*\d+)/);
+        if (sizeMatch && footstepShippingData[sizeMatch[1]] !== undefined) {
+          shipping = footstepShippingData[sizeMatch[1]];
+        }
+      } else {
+        const priceNum = Number(String(p.price).replace(/[^0-9]/g, ''));
+        if (!isNaN(priceNum)) productPrice = priceNum;
+      }
+      return { productPrice, shipping, deposit };
+    }
+
+    function updatePriceSummary() {
+      const { productPrice, shipping, deposit } = getOrderPriceAndShipping();
+      const total = productPrice + shipping;
+      const remaining = total - deposit;
+      // อัพเดตกล่องมัดจำ
+      const sp = document.getElementById('sumProductPrice');
+      const sc = document.getElementById('sumShippingCost');
+      const sr = document.getElementById('sumShippingRow');
+      const st = document.getElementById('sumTotal');
+      const sd = document.getElementById('sumDeposit');
+      const scr = document.getElementById('sumCodRemain');
+      if (sp) sp.textContent = productPrice > 0 ? '฿' + productPrice.toLocaleString() : '-';
+      if (sc) sc.textContent = shipping > 0 ? '฿' + shipping.toLocaleString() : '-';
+      if (sr) sr.style.display = shipping > 0 ? 'flex' : 'none';
+      if (st) st.textContent = total > 0 ? '฿' + total.toLocaleString() : '-';
+      if (sd) sd.textContent = deposit > 0 ? '฿' + deposit.toLocaleString() : '-';
+      if (scr) scr.textContent = remaining > 0 ? '฿' + remaining.toLocaleString() : '-';
+      // อัพเดตกล่องโอนเต็ม
+      const fp = document.getElementById('fullSumProductPrice');
+      const fsc = document.getElementById('fullSumShippingCost');
+      const fsr = document.getElementById('fullSumShippingRow');
+      const ft = document.getElementById('fullSumTotal');
+      if (fp) fp.textContent = productPrice > 0 ? '฿' + productPrice.toLocaleString() : '-';
+      if (fsc) fsc.textContent = shipping > 0 ? '฿' + shipping.toLocaleString() : '-';
+      if (fsr) fsr.style.display = shipping > 0 ? 'flex' : 'none';
+      if (ft) ft.textContent = total > 0 ? '฿' + total.toLocaleString() : '-';
+    }
+
     function onDepositPaymentChange() {
       const val = document.getElementById('depositPaymentSelect').value;
       document.getElementById('orderPayment').value = val;
+      updatePriceSummary();
       if (val === 'มัดจำ+เก็บปลายทาง') {
-        // แสดงมัดจำ QR + slip (ยอดที่เหลือเก็บปลายทาง)
         document.getElementById('autoDepositArea').style.display = 'block';
-        document.getElementById('autoDepositAmount').textContent = currentOrderProduct ? '฿' + currentOrderProduct.deposit.toLocaleString() : '';
         document.getElementById('autoSlipArea').style.display = 'block';
-        // ซ่อนโอนเต็ม
         document.getElementById('depositArea').style.display = 'none';
         document.getElementById('slipUploadArea').style.display = 'none';
       } else if (val === 'โอนเงิน') {
-        // ซ่อนมัดจำ
         document.getElementById('autoDepositArea').style.display = 'none';
         document.getElementById('autoSlipArea').style.display = 'none';
-        // แสดงโอนเต็ม QR + slip
         document.getElementById('depositArea').style.display = 'block';
-        document.getElementById('depositTitle').textContent = 'โอนเงินเต็มจำนวน';
-        const priceText = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
-        document.getElementById('depositAmountText').textContent = priceText;
         document.getElementById('slipUploadArea').style.display = 'block';
-      // ลบตัวเลือก COD ออกแล้ว (deprecated)
       }
     }
     // backward compat
@@ -1327,11 +1384,9 @@
     function updateCodPayment() {
       const val = document.getElementById('codPaymentSelect').value;
       document.getElementById('orderPayment').value = val;
+      updatePriceSummary();
       if (val === 'โอนเงิน') {
         document.getElementById('depositArea').style.display = 'block';
-        document.getElementById('depositTitle').textContent = 'โอนเงินเต็มจำนวน';
-        const priceText = currentOrderProduct ? (currentOrderProduct.price.includes('เริ่มต้น') ? 'ตามขนาดที่เลือก' : '฿' + Number(currentOrderProduct.price).toLocaleString()) : '';
-        document.getElementById('depositAmountText').textContent = priceText;
         document.getElementById('slipUploadArea').style.display = 'block';
       } else {
         document.getElementById('depositArea').style.display = 'none';

@@ -1490,25 +1490,40 @@
       btn.disabled = true; 
       btn.textContent = 'กำลังส่ง...';
       
+      // คำนวณยอดเงินสำหรับส่งไป LINE
+      const productPrice = (function() {
+        const sizeVal = document.getElementById('orderSize')?.value || '';
+        const priceMatch = sizeVal.match(/:(\d+)$/);
+        if (priceMatch) return parseInt(priceMatch[1]);
+        return currentOrderProduct ? currentOrderProduct.price : 0;
+      })();
+      const shippingCost = (function() {
+        const sizeVal = document.getElementById('orderSize')?.value || '';
+        const sizeMatch = sizeVal.match(/^(\d+\*\d+)/);
+        if (sizeMatch && footstepShippingData[sizeMatch[1]] !== undefined) return parseInt(footstepShippingData[sizeMatch[1]]);
+        return 0;
+      })();
+      const totalPrice = productPrice + shippingCost;
+      const depositAmt = currentOrderProduct ? currentOrderProduct.deposit : 0;
+      const codAmount = totalPrice - depositAmt;
+
       const data = {
         product: document.getElementById('orderProductName').textContent,
         name: document.getElementById('orderName').value,
         phone: phone,
         address: address,
         payment: payment,
-        deposit_amount: currentOrderProduct ? currentOrderProduct.deposit : 0,
+        deposit_amount: depositAmt,
+        product_price: productPrice,
+        shipping_cost: shippingCost,
+        total_price: totalPrice,
+        cod_amount: payment === 'มัดจำ' ? codAmount : 0,
         model: document.getElementById('orderModel')?.value || '',
         year: document.getElementById('orderYear')?.value || '',
         color: document.getElementById('orderColor')?.value || '',
         size: (function() {
           let s = document.getElementById('orderSize')?.value || '';
           if (document.getElementById('orderFootstepHeight')?.value) s += ' | ความสูงฟุตบาท: ' + document.getElementById('orderFootstepHeight').value + ' ซม.';
-          // เพิ่มค่าส่ง
-          const sizeVal = document.getElementById('orderSize')?.value || '';
-          const sizeMatch = sizeVal.match(/^(\d+\*\d+)/);
-          if (sizeMatch && footstepShippingData[sizeMatch[1]] !== undefined) {
-            s += ' | ค่าส่ง: ' + footstepShippingData[sizeMatch[1]] + ' บาท';
-          }
           return s;
         })(),
         footstep_height: document.getElementById('orderFootstepHeight')?.value ? document.getElementById('orderFootstepHeight').value + ' ซม.' : '',
@@ -1584,6 +1599,11 @@
         options: [data.color, data.model, data.year, data.size, data.footstep_height].filter(Boolean).join(', '),
         address: data.address,
         payment: data.payment,
+        product_price: data.product_price,
+        shipping_cost: data.shipping_cost,
+        total_price: data.total_price,
+        deposit_amount: data.deposit_amount,
+        cod_amount: data.cod_amount,
         status: 'รอดำเนินการ'
       };
      const sheetPromise = new Promise((resolve) => {
@@ -1644,6 +1664,11 @@
               options: row[4] || '-',
               address: row[5] || '-',
               payment: row[6] || '-',
+              product_price: row[9] || '',
+              shipping_cost: row[10] || '',
+              total_price: row[11] || '',
+              deposit_amount: row[12] || '',
+              cod_amount: row[13] || '',
               status: row[8] || ''
             });
           }
@@ -1664,6 +1689,24 @@
               <a href="https://line.me/R/oaMessage/@009armum/?${lineMsg}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:10px 20px;background:#06c755;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:14px;">
                 <i class="fab fa-line"></i> ติดตามพัสดุ / สอบถามเลขพัสดุ
               </a>` : '';
+            // สร้างกล่องรายละเอียดยอดเงิน
+            let priceSummaryHtml = '';
+            if (o.total_price) {
+              priceSummaryHtml = `
+              <div style="background:#f8f9fa;border:2px solid #e0e0e0;border-radius:10px;padding:12px;margin-top:10px;">
+                <p style="margin:4px 0;"><strong>📦 ราคาสินค้า:</strong> ฿${Number(o.product_price || 0).toLocaleString()}</p>
+                ${o.shipping_cost && Number(o.shipping_cost) > 0 ? `<p style="margin:4px 0;"><strong>🚚 ค่าจัดส่ง:</strong> ฿${Number(o.shipping_cost).toLocaleString()}</p>` : ''}
+                <hr style="border:none;border-top:1px dashed #ccc;margin:8px 0;">
+                <p style="margin:4px 0;font-size:16px;"><strong>💰 รวมทั้งหมด: ฿${Number(o.total_price).toLocaleString()}</strong></p>
+                ${o.payment === 'มัดจำ' && o.deposit_amount ? `
+                  <p style="margin:4px 0;"><strong>💳 มัดจำ:</strong> ฿${Number(o.deposit_amount).toLocaleString()}</p>
+                  <p style="margin:4px 0;font-size:16px;color:#e65100;"><strong>🚛 เหลือเก็บปลายทาง: ฿${Number(o.cod_amount).toLocaleString()}</strong></p>
+                ` : ''}
+                ${o.payment === 'โอนเงิน' ? `
+                  <p style="margin:4px 0;font-size:16px;color:#2e7d32;"><strong>💰 ยอดโอนทั้งหมด: ฿${Number(o.total_price).toLocaleString()}</strong></p>
+                ` : ''}
+              </div>`;
+            }
             return `
             <div class="order-result-card">
               <h4><i class="fas fa-box"></i> ${o.product}</h4>
@@ -1671,6 +1714,7 @@
               <p><strong>ตัวเลือก:</strong> ${o.options}</p>
               <p><strong>ช่องทางชำระ:</strong> ${o.payment}</p>
               <p><strong>วันที่สั่ง:</strong> ${o.date}</p>
+              ${priceSummaryHtml}
               <div style="margin-top:8px;">
                 <span class="order-status" style="background:${statusColor};color:${statusTextColor};"><i class="fas ${statusIcon}"></i> ${o.status || 'ร้านค้าได้รับคำสั่งซื้อแล้ว'}</span>
               </div>

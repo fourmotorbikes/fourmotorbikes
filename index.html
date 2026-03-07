@@ -183,9 +183,8 @@
     .modal-body { padding: 20px; overflow-y: auto; flex-grow: 1; }
     
     /* --- REVIEW IMAGES --- */
-    .review-images-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-    .review-images-grid img { width: 100%; height: auto; object-fit: contain; border-radius: 8px; cursor: pointer; display: block; max-height: 500px; }
-    @media (max-width: 480px) { .review-images-grid img { height: 220px; } }
+    .review-images-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .review-images-grid img { width: 100%; height: auto; object-fit: contain; border-radius: 8px; cursor: pointer; display: block; max-height: 80vh; }
     .review-placeholder { text-align: center; padding: 40px 20px; color: #999; }
     .review-placeholder i { font-size: 48px; margin-bottom: 15px; display: block; color: #ddd; }
     .car-model-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
@@ -1089,8 +1088,8 @@
       const grid = document.getElementById('reviewImagesGrid');
       const btnContainer = document.getElementById('carModelButtons');
       
-      // ถ้าเป็นสินค้า 3fold ให้แสดงปุ่มเลือกรุ่นรถ
-      if (p.type === '3fold' && Object.keys(carReviewData).length > 0) {
+      // ถ้าเป็นสินค้า "3พับ" (ชื่อตรงตัว) ให้แสดงปุ่มเลือกรุ่นรถ
+      if (p.name === '3พับ' && Object.keys(carReviewData).length > 0) {
         btnContainer.style.display = 'flex';
         btnContainer.innerHTML = Object.keys(carReviewData).map(car => 
           `<button class="car-model-btn" onclick="showCarReview('${car.replace(/'/g, "\\'")}','${name.replace(/'/g, "\\'")}')">${car}</button>`
